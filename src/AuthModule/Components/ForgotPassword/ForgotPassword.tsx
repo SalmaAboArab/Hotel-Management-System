@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -14,13 +14,14 @@ import forgotImage from "../../../assets/forgetpass.png";
 import { baseUrl } from "../../../Constants/Components/Urls";
 import { toast } from "react-toastify";
 import styles from "./ForgotPassword.module.css";
+import { emailValidation } from "../Validators/Validators";
 
 export default function ForgotPassword() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { register, handleSubmit ,formState:{errors} } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  async function callForgotPassApi(data: object) {
+  async function callForgotPassApi(data: { email: string }) {
     try {
       setIsLoading(true);
       const response = await axios.post(
@@ -30,14 +31,13 @@ export default function ForgotPassword() {
       toast.success(response.data.message);
       navigate("/Authentication/reset-password");
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.message || "There's a mistake.");
     } finally {
       setIsLoading(false);
     }
   }
 
-  const onSubmit = (data: object) => {
+  const onSubmit = (data: { email: string }) => {
     callForgotPassApi(data);
   };
 
@@ -46,7 +46,7 @@ export default function ForgotPassword() {
       maxWidth={"xl"}
       sx={{
         marginY: 0,
-        paddingY: 1,
+        paddingY: 3,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -64,12 +64,12 @@ export default function ForgotPassword() {
       >
           
         <Grid item xs={12} sm={8} md={5}>
-        <Typography fontWeight={600} variant="h5" sx={{ color: "#3252df" }}>
+        <Link to={"/"} className="logo"  style={{ "color" : "#3252df" ,"fontSize":"1.5rem" ,"textDecoration":"none" ,"fontWeight":600}}>
             Stay
             <Typography component="span" variant="h5" sx={{ color: "#152c5b" }}>
               cation.
             </Typography>
-          </Typography>
+          </Link>
           <Box
            
             sx={{
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
               <Typography variant="body1">
                 If you already have an account register <br /> You can{" "}
                 <Link
-                  to={"/"}
+                  to={"/Authentication"}
                   style={{
                     color: "#eb5148",
                     textDecoration: "none",
@@ -111,25 +111,24 @@ export default function ForgotPassword() {
                 flexDirection: "column",
               }}
             >
-              <label
-                style={{
-                  fontSize: "1.3rem",
-                  fontWeight: 500,
-                  opacity: 0.8,
-                }}
-                htmlFor="filled-basic"
-              >
-                Email
-              </label>
-              <TextField
-                sx={{ marginTop: 1, marginBottom: 5, bgcolor: "#f5f6f8" }}
-                type="email"
-                id="filled-basic"
-                placeholder="Please type here ..."
-                {...register("email" , { required: true })}
-              />
+                    <Box sx={{ display: "flex", flexDirection: "column" ,height:100 }}>
+                <label htmlFor="email" style={{ fontSize: "1.3rem", fontWeight: 500, opacity: 0.8 }}>Email</label>
+                <TextField
+                  sx={{ marginTop: 1, marginBottom: 1, bgcolor: "#f5f6f8" }}
+                  type="email"
+                  id="email"
+                  placeholder="Please type here ..."
+                  {...register("email", emailValidation)}
+                />
+                {errors.email && (
+                  <Typography variant="body2" sx={{ color: "red" }}>
+                    {errors.email.message}
+                  </Typography>
+                )}
+              </Box>
+              
 
-              <Button   type="submit" variant="contained" >
+              <Button disabled={isLoading} sx={{paddingY:2,marginTop:5}}   type="submit" variant="contained" >
                 {isLoading ? (
                   <span className={styles.loader}></span>
                 ) : (
