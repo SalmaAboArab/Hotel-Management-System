@@ -19,6 +19,7 @@ import RoomsList from './AdminModule/Components/Rooms/Components/RoomsList/Rooms
 import RoomsForm from './AdminModule/Components/Rooms/Components/RoomsForm/RoomsForm'
 import UsersList from './AdminModule/Components/UsersList/UsersList'
 import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
+import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
   const routers = createBrowserRouter([
@@ -66,6 +67,7 @@ function App() {
   ])
   return (
     <>
+      <CssBaseline />
     <RouterProvider router={routers} />
     </>
   )

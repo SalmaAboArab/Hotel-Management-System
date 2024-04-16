@@ -1,14 +1,15 @@
-import { Button, Dialog, DialogContent,  Stack, TextField, Typography } from '@mui/material'
+import { Button, Dialog, DialogContent,  Grid,  IconButton,  Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { baseUrl } from '../../../Constants/Components/Urls';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export default function ChangePassword({handleClose}) {
+export default function ChangePassword({handleClose:any}) {
   
     const [open, setOpen] = useState(false);
     
@@ -45,13 +46,15 @@ try {
   return (
     <div>
       <div className='text-center'>
-        <h2>Change Password</h2>
+      <Typography variant="h4" component="h2">
+  Change Password
+</Typography>
       </div>
          
           <form  onSubmit={handleSubmit(submitData)}>
       <Stack spacing={2} margin={2}>
 
-      <div className='d-flex form-outline  position-relative'>
+      <Grid sx={{position:'relative'}}>
    <TextField
    sx={{width:"100%"}}
    type={!showPasswordOldPassword ? "text" : "password"}
@@ -62,24 +65,24 @@ try {
         name="oldPassword"
         required
       />
-                <ListItemIcon
+                <IconButton disableRipple
                 onClick={togglePasswordVisibilityOldPassword}
                   sx={{
                     color:"blue",
                     position:"absolute",
                     minWidth: 0,
                     right:0,
-                    paddingTop:2,
+                    padding:2,
                     mr: open ? 2 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
                    {showPasswordOldPassword ?<RemoveRedEyeIcon/> :<VisibilityOffIcon/>}
-                </ListItemIcon>
+                </IconButton>
                 
-   </div>
+   </Grid>
    
-   <div className='d-flex form-outline  position-relative'>
+   <Grid sx={{position:'relative'}}>
    <TextField
    sx={{width:"100%"}}
    type={!showPasswordNewPassword ? "text" : "password"}
@@ -90,24 +93,25 @@ try {
         name="newPassword"
         required
       />
-                <ListItemIcon
+         <IconButton disableRipple
                 onClick={togglePasswordVisibilityNewPassword}
                   sx={{
                     color:"blue",
                     position:"absolute",
                     minWidth: 0,
                     right:0,
-                    paddingTop:2,
+                    padding:2,
                     mr: open ? 2 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
                    {showPasswordNewPassword ?<RemoveRedEyeIcon/> :<VisibilityOffIcon/>}
-                </ListItemIcon>
-   </div>
+              
+                </IconButton>
+   </Grid>
 
 
-<div className='d-flex form-outline  position-relative'>
+   <Grid sx={{position:'relative'}}>
 <TextField
  sx={{width:"100%"}}
       variant="filled"
@@ -119,21 +123,21 @@ try {
         required
         name="confirmPassword"
       />
-       <ListItemIcon
+       <IconButton disableRipple
                 onClick={togglePasswordVisibilityConfirmPassword}
                   sx={{
                     color:"blue",
                     position:"absolute",
                     minWidth: 0,
                     right:0,
-                    paddingTop:2,
+                    padding:2,
                     mr: open ? 2 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
                    {showPasswordConfirmPassword ?<RemoveRedEyeIcon/> :<VisibilityOffIcon/>}
-                </ListItemIcon>
-</div>
+                </IconButton>
+</Grid>
 
       <Button type="submit" variant="contained" color="primary">
         Submit

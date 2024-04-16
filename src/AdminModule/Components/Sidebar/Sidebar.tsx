@@ -7,7 +7,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import List from '@mui/material/List';
 import AssignmentReturnIcon from '@mui/icons-material/AssignmentReturn';
-import CssBaseline from '@mui/material/CssBaseline';
+
 import Divider from '@mui/material/Divider';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import IconButton from '@mui/material/IconButton';
@@ -23,9 +23,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from '../../../AuthModule/Components/ChangePassword/ChangePassword';
-import { Link } from 'react-router-dom';
 
-import { InsertLink } from '@mui/icons-material';
 const drawerWidth = 210;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -58,8 +56,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
-
-
 
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -104,7 +100,7 @@ export default function Sidebar() {
 
   
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+    
       <Drawer variant="permanent" open={open} >
         <DrawerHeader>
       
@@ -149,7 +145,7 @@ export default function Sidebar() {
               > 
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -172,7 +168,7 @@ export default function Sidebar() {
               >
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -194,7 +190,7 @@ export default function Sidebar() {
               >
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -217,7 +213,7 @@ export default function Sidebar() {
               >
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -240,7 +236,7 @@ export default function Sidebar() {
               >
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -265,7 +261,7 @@ export default function Sidebar() {
    
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
@@ -283,7 +279,7 @@ export default function Sidebar() {
               <ListItemButton
               onClick={()=>{navigateTo("/")}}
                 sx={{
-                  color:"white",
+                  color:"#FFFFFF",
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
@@ -291,7 +287,7 @@ export default function Sidebar() {
               >
                 <ListItemIcon
                   sx={{
-                    color:"white",
+                    color:"#FFFFFF",
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
