@@ -30,6 +30,7 @@ import {
   userNameValidation,
 } from "../Validators/Validators";
 import axios from "axios";
+import avatar from '../../../assets/avatar2.jpg'
 
 
 
@@ -48,7 +49,7 @@ const VisuallyHiddenInput = styled('input')({
 export default function Register() {
   // const defaultTheme = createTheme();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const {
     register,
@@ -57,6 +58,8 @@ export default function Register() {
     watch,
   } = useForm();
   const confirmPassword = watch("password");
+
+  const [userImage,setUserImage]=useState(avatar);
 
   type RegisterData = {
     userName: string;
@@ -82,7 +85,7 @@ export default function Register() {
     return formData;
   }
   async function handleRegister(data: RegisterData) {
-    // console.log(data);
+    console.log(data);
     let registerDataForm= appendRegisterFormData(data);
 
     try {
@@ -183,6 +186,32 @@ export default function Register() {
                 sx={{ mt: 1 }}
                 onSubmit={handleSubmit(handleRegister)}
               >
+                <Box
+                sx={{ display: "flex", flexDirection:'column', alignItems: "center" }}
+                >
+                  <Box sx={{width:'100px',height:'100px'}}><img src={userImage} alt="" style={{width:'100%'}} /></Box>
+                <Button
+                
+                  component="label"
+                  role={undefined}
+                  variant="outlined"
+                  tabIndex={-1}
+                  // startIcon={<CloudUploadIcon />}
+                  sx={{mb:2}}
+                >
+                  Upload image
+                  <VisuallyHiddenInput type="file" 
+                  {...register("profileImage", { required: "Image is required" })}
+                  onChange={(e)=>setUserImage(URL.createObjectURL(e?.target?.files[0]))}
+                  />
+                </Button>
+                {errors.profileImage && (
+                    <Typography variant="body2" sx={{ color: "red" }}>
+                      {errors?.profileImage?.message}
+                    </Typography>
+                  )}
+                </Box>
+
                 <Box>
                   <Typography sx={{ mt: 1 }}>User Name</Typography>
                   <TextField
@@ -303,7 +332,7 @@ export default function Register() {
                     required
                     fullWidth
                     // label="Password"
-                    type="confirmPassword"
+                    type="password"
                     id="confirmPassword"
                     autoComplete="current-password"
                     {...register("confirmPassword", {
@@ -355,29 +384,7 @@ export default function Register() {
                   )}
                 </FormControl>
 
-                <Box
-                sx={{ display: "flex", flexDirection:'column', alignItems: "center" }}
-                >
-                <Button
                 
-                  component="label"
-                  role={undefined}
-                  variant="outlined"
-                  tabIndex={-1}
-                  // startIcon={<CloudUploadIcon />}
-                  
-                >
-                  Upload image
-                  <VisuallyHiddenInput type="file" 
-                  {...register("profileImage", { required: "Image is required" })}
-                  />
-                </Button>
-                {errors.profileImage && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors?.profileImage?.message}
-                    </Typography>
-                  )}
-                </Box>
 
                 <Button
                   type="submit"
