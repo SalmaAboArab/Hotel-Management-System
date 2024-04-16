@@ -21,6 +21,7 @@ import UsersList from './AdminModule/Components/UsersList/UsersList'
 import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
 
 function App() {
+  //let {loginData}:any=useContext(AuthContext);
   const routers = createBrowserRouter([
     {
       path:"/",
@@ -39,6 +40,7 @@ function App() {
       children:
       [
         {index:true,element:<Login/>},
+        {path:"login",element:<Login/>},
         {path:"register",element:<Register/>},
         {path:"forgot-password",element:<ForgotPassword/>},
         {path:"reset-password",element:<ResetPassword/>}
@@ -47,11 +49,19 @@ function App() {
     },
     {
       path:'Admin',
-      element:<AdminLayout/>,
+      element:(
+       
+          <AdminLayout />
+       
+      ),
+      
+      
+      
       errorElement:<NotFound/>,
       children:
       [
         {index:true,element:<AdminHome/>},
+        {path:'adminHome',element:<AdminHome/>},
         {path:'users',element:<UsersList/>},
         {path:'ads',element:<AdsList/>},
         {path:'ads/ads-form',element:<AdsForm/>},

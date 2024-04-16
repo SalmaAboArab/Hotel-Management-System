@@ -10,6 +10,8 @@ export default function LandingPage() {
       <button className='btn btn-success my-2' onClick={()=>navigate('/Authentication/register')}>Register</button><br/>
       <button className='btn btn-warning mb-2' onClick={()=>navigate('/Authentication/forgot-password')}>ForgotPassword</button><br/>
       <button className='btn btn-danger mb-1' onClick={()=>navigate('/Admin')}>AdminDashboard</button>
+      <br />
+      <button className='btn btn-danger mb-1' onClick={()=>navigate('/Admin/facilities')}>Facilities CRUD</button>
     </div>
     </>
   )
