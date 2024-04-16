@@ -32,6 +32,8 @@ import {
 import axios from "axios";
 
 
+
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -58,20 +60,36 @@ export default function Register() {
 
   type RegisterData = {
     userName: string;
-    phoneNumber: number;
+    phoneNumber: string;
     country: string;
     email: string;
     password: string;
-    cPassword: string;
+    confirmPassword: string;
+    role:string;
+    profileImage:string;
   };
 
+  const appendRegisterFormData=(data:RegisterData)=>{
+    let formData=new FormData();
+    formData.append("userName",data.userName);
+    formData.append("phoneNumber",data.phoneNumber);
+    formData.append("country",data.country);
+    formData.append("email",data.email);
+    formData.append("password",data.password);
+    formData.append("confirmPassword",data.confirmPassword);
+    formData.append("role",data.role);
+    formData.append("profileImage",data.profileImage[0]);
+    return formData;
+  }
   async function handleRegister(data: RegisterData) {
     // console.log(data);
+    let registerDataForm= appendRegisterFormData(data);
 
     try {
-      const response = await axios.post(`${baseUrl}/admin/users`, data);
+      const response = await axios.post(`${baseUrl}/admin/users`, registerDataForm);
       // console.log(response);
       toast.success('Account Created Succefully');
+      navigate('/Authentication');
     } catch (error) {
       // console.log(error?.response?.data?.message);
       toast.error(error?.response?.data?.message||'Somthing went wrong!');
@@ -175,14 +193,13 @@ export default function Register() {
                     fullWidth
                     id="username"
                     // label="User Name"
-                    name="username"
                     autoComplete="username"
                     autoFocus
                     {...register("userName", userNameValidation)}
                   />
                   {errors.username && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.userName.message}
+                      {errors?.userName?.message}
                     </Typography>
                   )}
                 </Box>
@@ -203,14 +220,13 @@ export default function Register() {
                       fullWidth
                       id="phoneNumber"
                       // label="Email Address"
-                      name="phoneNumber"
                       autoComplete="phoneNumber"
                       autoFocus
                       {...register("phoneNumber", phoneNumberValidation)}
                     />
                     {errors.phoneNumber && (
                       <Typography variant="body2" sx={{ color: "red" }}>
-                        {errors.phoneNumber.message}
+                        {errors?.phoneNumber?.message}
                       </Typography>
                     )}
                   </Box>
@@ -224,14 +240,13 @@ export default function Register() {
                       fullWidth
                       id="country"
                       // label="Email Address"
-                      name="country"
                       autoComplete="country"
                       autoFocus
                       {...register("country", countryValidation)}
                     />
                     {errors.country && (
                       <Typography variant="body2" sx={{ color: "red" }}>
-                        {errors.country.message}
+                        {errors?.country?.message}
                       </Typography>
                     )}
                   </Box>
@@ -247,14 +262,13 @@ export default function Register() {
                     fullWidth
                     id="email"
                     // label="Email Address"
-                    name="email"
                     autoComplete="email"
                     autoFocus
                     {...register("email", emailValidation)}
                   />
                   {errors.email && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.email.message}
+                      {errors?.email?.message}
                     </Typography>
                   )}
                 </Box>
@@ -267,7 +281,6 @@ export default function Register() {
                     margin="normal"
                     required
                     fullWidth
-                    name="password"
                     // label="Password"
                     type="password"
                     id="password"
@@ -276,7 +289,7 @@ export default function Register() {
                   />
                   {errors.password && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.password.message}
+                      {errors?.password?.message}
                     </Typography>
                   )}
                 </Box>
@@ -289,7 +302,6 @@ export default function Register() {
                     margin="normal"
                     required
                     fullWidth
-                    name="confirmPassword"
                     // label="Password"
                     type="confirmPassword"
                     id="confirmPassword"
@@ -302,7 +314,7 @@ export default function Register() {
                   />
                   {errors.confirmPassword && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.confirmPassword.message}
+                      {errors?.confirmPassword?.message}
                     </Typography>
                   )}
                 </Box>
@@ -319,7 +331,7 @@ export default function Register() {
                   <RadioGroup
                     row
                     aria-labelledby="demo-form-control-label-placement"
-                    name="position"
+                    // name="position"
                     defaultValue="top"
                     {...register("role", { required: "Role is required" })}
                   >
@@ -338,7 +350,7 @@ export default function Register() {
                   </RadioGroup>
                   {errors.role && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.role.message}
+                      {errors?.role?.message}
                     </Typography>
                   )}
                 </FormControl>
@@ -353,14 +365,16 @@ export default function Register() {
                   variant="outlined"
                   tabIndex={-1}
                   // startIcon={<CloudUploadIcon />}
-                  {...register("profileImage", { required: "Image is required" })}
+                  
                 >
                   Upload image
-                  <VisuallyHiddenInput type="file" />
+                  <VisuallyHiddenInput type="file" 
+                  {...register("profileImage", { required: "Image is required" })}
+                  />
                 </Button>
                 {errors.profileImage && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors.profileImage.message}
+                      {errors?.profileImage?.message}
                     </Typography>
                   )}
                 </Box>
