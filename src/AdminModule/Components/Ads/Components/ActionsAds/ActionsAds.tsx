@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import * as React from "react";
 import { baseUrl } from "../../../../../Constants/Components/Urls";
+import AddAds from "./AddAds";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -44,10 +45,17 @@ const StyledMenu = styled((props: MenuProps) => (
     },
   },
 }));
-export default function ActionsAds({id}) {
-  
+type props={
+  allActions:string;
+  id:string;
+  openDeleteModal:Function;
+}
+export default function Actions({allActions,id,openDeleteModal}:props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [openAdd, setOpenAdd] = React.useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,7 +65,6 @@ export default function ActionsAds({id}) {
 
   async function deleteAds() {
     
-    console.log(id);
     
     try {
       const { data } = await axios.delete(`${baseUrl}/admin/ads/${id}`, {
@@ -71,14 +78,22 @@ export default function ActionsAds({id}) {
     } catch (error) {
       console.log(error);
     }
+    handleClose();
+
   }
-
-
+  
 
 
   return (
     <>
+    {allActions=='no'?
+      <Button  onClick={handleClose} disableRipple>
+      <Visibility sx={{color:'#203FC7', mx:1}}/>
+      View
+    </Button>
+    :  
       <Box>
+    
         <Button
           variant="text"
           aria-controls={open ? "demo-customized-menu" : undefined}
@@ -100,18 +115,26 @@ export default function ActionsAds({id}) {
             <Visibility />
             View
           </MenuItem>
-          <MenuItem  disableRipple>
-            <EditIcon />
-            Edit
-          </MenuItem>
+          <MenuItem onClick={handleOpenAdd} disableRipple>
+          <EditIcon />
+          Edit
+        </MenuItem>
           <MenuItem onClick={()=>{
+            localStorage.setItem('curruntItemId',id);
+            openDeleteModal();
             deleteAds()
-          }} disableRipple>
-            <Delete />
-            Delete
-          </MenuItem>
+            }} 
+            disableRipple>
+          <Delete/>
+          Delete
+        </MenuItem>          
         </StyledMenu>
       </Box>
+}
+
+
+<AddAds open={openAdd} handleClose={handleCloseAdd}    />
+
     </>
   );
 }

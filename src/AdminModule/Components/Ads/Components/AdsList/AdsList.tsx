@@ -6,20 +6,31 @@ import HeaderComponents from "../../../../../SharedModule/Components/HeaderCompo
 import Loading from "../../../../../SharedModule/Components/Loading/Loading";
 import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
+import DeleteModal from "../../../DeleteModal/DeleteModal";
 import AddAds from "../ActionsAds/AddAds";
 
 export default function AdsList() {
+  const [openAdd, setOpenAdd] = React.useState(false);
+  
   const [adsList, setAdsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const handleOpenModal = () => setOpenDeleteModal(true);
+  const handleCloseModal = () =>{
+    setOpenDeleteModal(false);
+    getAdsList();
+    localStorage.removeItem('curruntItemId');
+  }
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const headerTableArray = [
     "Room Name",
     "Price",
     "Discount",
     "Capacity",
     "Active",
-    "",
-  ];
+    "Actions"
+    ];
 
   const distract = [
     ".room.roomNumber",
@@ -46,12 +57,13 @@ export default function AdsList() {
 
   useEffect(() => {
     setIsLoading(true);
+  }, []);
+  useEffect(() => {
     getAdsList();
   }, [openAdd]);
 
-  const [openAdd, setOpenAdd] = React.useState(false);
-  const handleOpenAdd = () => setOpenAdd(true);
-  const handleCloseAdd = () => setOpenAdd(false);
+
+  
   return (
     <Box sx={{ padding: 2 }}>
     <AddAds open={openAdd} handleClose={handleCloseAdd}    />
@@ -60,15 +72,19 @@ export default function AdsList() {
         title={"ADS Table Details"}
         buttonName={"Add New Ads"}
         anyFunction={handleOpenAdd}
+        addOn={'yes'}
       />
 
       {isLoading ? (
         <Loading />
       ) : adsList.length !== 0 ? (
-        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} />
+        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenModal} actions={'yes'}/>
       ) : (
         <NoData />
       )}
+      {openDeleteModal?
+      <DeleteModal name={'ads'} closeModal={handleCloseModal}/>
+      :''}
     </Box>
   );
 }

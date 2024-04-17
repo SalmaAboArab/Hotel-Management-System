@@ -85,11 +85,11 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "95%", // Default width
   bgcolor: "background.paper",
   borderRadius: "10px",
   boxShadow: 24,
   p: 3,
+  width: "95%", // Default width
   "@media (min-width:400px)": {
     width: 400,
   },
@@ -141,17 +141,15 @@ export default function AddAds({ open, handleClose }) {
   async function addAds(values) {
     console.log(values);
     try {
-      const data = await axios.post(
-        `${baseUrl}/admin/ads`,
-          values,
-        {
-          headers: { Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
-          },
-        }
-      );
-      toast.success(data?.statusText)
+      const data = await axios.post(`${baseUrl}/admin/ads`, values, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
+        },
+      });
+      toast.success(data?.statusText);
     } catch (error) {
-      toast.error(error?.response.data.message||"There's a mistake.")
+      toast.error(error?.response.data.message || "There's a mistake.");
     }
     handleClose();
   }
@@ -164,7 +162,7 @@ export default function AddAds({ open, handleClose }) {
 
   function onSubmit(data) {
     const values = {
-      isActive:Boolean(data.isActive) ,
+      isActive: Boolean(data.isActive),
       discount: Number(data.discount),
       room: String(data.room),
     };
@@ -239,13 +237,14 @@ export default function AddAds({ open, handleClose }) {
                 <FormControl sx={{ width: "100%" }}>
                   <TextField
                     {...register("discount", { required: true })}
-                    sx={{ width: "100%" }}
+                    sx={{ width: "100%", "& input": { textAlign: "center" } }} // Apply textAlign to input element
                     id="outlined-basic"
                     label="Discount"
                     variant="outlined"
                     value={discount}
                     onChange={handleChangeDiscount}
                   />
+
                   {errors.discount && (
                     <FormHelperText sx={{ color: "error.main", pY: 1 }}>
                       This field is required
