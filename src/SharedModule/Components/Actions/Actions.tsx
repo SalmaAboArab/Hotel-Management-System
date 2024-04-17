@@ -42,7 +42,12 @@ const StyledMenu = styled((props: MenuProps) => (
     },
   },
 }));
-export default function Actions() {
+type props={
+  allActions:string;
+  id:string;
+  openDeleteModal:Function;
+}
+export default function Actions({allActions,id,openDeleteModal}:props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,7 +58,14 @@ export default function Actions() {
   };
   return (
     <>
+    {allActions=='no'?
+      <Button onClick={handleClose} disableRipple>
+      <Visibility sx={{color:'#203FC7', mx:1}}/>
+      View
+    </Button>
+    :  
       <Box>
+    
         <Button
           variant="text"
           aria-controls={open ? "demo-customized-menu" : undefined}
@@ -76,15 +88,21 @@ export default function Actions() {
             View
           </MenuItem>
           <MenuItem onClick={handleClose} disableRipple>
-            <EditIcon />
-            Edit
-          </MenuItem>
-          <MenuItem onClick={handleClose} disableRipple>
-            <Delete />
-            Delete
-          </MenuItem>
+          <EditIcon />
+          Edit
+        </MenuItem>
+          <MenuItem onClick={()=>{
+            localStorage.setItem('curruntItemId',id);
+            openDeleteModal();
+            handleClose();
+            }} 
+            disableRipple>
+          <Delete/>
+          Delete
+        </MenuItem>          
         </StyledMenu>
       </Box>
+}
     </>
   );
 }

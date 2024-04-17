@@ -1,7 +1,11 @@
 import { Box, Button, Typography, createTheme } from "@mui/material";
 
-export default function HeaderComponents({ title, buttonName }) {
-
+type props={
+    title:string;
+    buttonName:string;
+    addOn:string;
+}
+export default function HeaderComponents({ title, buttonName ,addOn }:props) {
     const theme = createTheme({
         button: {
             fontSize: 16,
@@ -11,7 +15,7 @@ export default function HeaderComponents({ title, buttonName }) {
 
     return (
         <>
-            <Box sx={{ textTransform: "capitalize", border: 2, padding: 2, borderRadius: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box sx={{ textTransform: "capitalize", padding: 2, my:4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
 
                 <Box>
@@ -24,11 +28,13 @@ export default function HeaderComponents({ title, buttonName }) {
                     </Typography>
                 </Box>
 
+               {addOn=='no'?'':
                 <Box>
 
-                    <Button type="submit" sx={{ paddingX: 3, textTransform: "capitalize", fontSize: theme.button.fontSize, fontWeight: theme.button.fontWeight  }} variant="contained">{buttonName}</Button>
-
+                <Button type="submit" sx={{ paddingX: 3, textTransform: "capitalize", fontSize: theme.button.fontSize, fontWeight: theme.button.fontWeight  }} variant="contained">{buttonName}</Button>
+                
                 </Box>
+               }
 
 
             </Box>
