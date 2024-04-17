@@ -1,10 +1,12 @@
-import { Table, TableContainer, TableRow } from "@mui/material";
+import { Button, Table, TableContainer, TableRow } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import { styled } from "@mui/material/styles";
-import Actions from "../Actions/Actions";
+import { useState } from "react";
+import ActionsAds from "../../../AdminModule/Components/Ads/Components/ActionsAds/ActionsAds";
+import EditAds from "../../../AdminModule/Components/Ads/Components/ActionsAds/AddAds";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -26,6 +28,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function Tables({ array, headerTableArray ,distract}) {
+  const [id, setId] = useState(null)
+
+
 
   return (
     <>
@@ -48,13 +53,18 @@ export default function Tables({ array, headerTableArray ,distract}) {
                   </StyledTableCell>
                 ))}
                 
-                <StyledTableCell sx={{ padding: 0, margin: 0 }} align="center">
-                  <Actions />
+                <StyledTableCell  sx={{ padding:0,width:"10px" }} align="center">
+                  <Button type="submit" sx={{padding:0}} onClick={()=>{                    
+                  setId(item?._id)
+                  }} >
+                  <ActionsAds  id={id} />
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
+        {/* <EditAds/> */}
       </TableContainer>
     </>
   );
