@@ -5,6 +5,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import { styled } from "@mui/material/styles";
 import Actions from "../Actions/Actions";
+import { useEffect, useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -24,9 +25,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-export default function Tables({ array, headerTableArray ,distract}) {
-
+type tableProps={
+  array:object[];
+  headerTableArray:string[];
+  distract:string[];
+  actions:string;
+  openDeleteModal:Function;
+}
+export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal}:tableProps) {
+const [allActions,setAllActions]=useState<string>('yes');
+useEffect(()=>{
+if(actions=='no') setAllActions('no');
+},[])
   return (
     <>
       <TableContainer sx={{ marginTop: 2 }} component={Paper}>
@@ -49,7 +59,7 @@ export default function Tables({ array, headerTableArray ,distract}) {
                 ))}
                 
                 <StyledTableCell sx={{ padding: 0, margin: 0 }} align="center">
-                  <Actions />
+                  <Actions allActions={allActions} id={item?._id} openDeleteModal={openDeleteModal}/>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

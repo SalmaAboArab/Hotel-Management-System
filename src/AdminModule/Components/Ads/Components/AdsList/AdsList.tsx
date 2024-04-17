@@ -1,15 +1,23 @@
 import { Box } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { baseUrl } from "../../../../../Constants/Components/Urls";
 import HeaderComponents from "../../../../../SharedModule/Components/HeaderComponents/HeaderComponents";
 import Loading from "../../../../../SharedModule/Components/Loading/Loading";
 import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
+import DeleteModal from "../../../DeleteModal/DeleteModal";
 
 export default function AdsList() {
   const [adsList, setAdsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const handleOpenModal = () => setOpenDeleteModal(true);
+  const handleCloseModal = () =>{
+    setOpenDeleteModal(false);
+    getAdsList();
+    localStorage.removeItem('curruntItemId');
+  }
 
   const headerTableArray = [
     "Room Name",
@@ -54,15 +62,19 @@ export default function AdsList() {
       <HeaderComponents
         title={"ADS Table Details"}
         buttonName={"Add New Ads"}
+        addOn={'yes'}
       />
 
       {isLoading ? (
         <Loading />
       ) : adsList.length !== 0 ? (
-        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} />
+        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenModal} actions={'yes'}/>
       ) : (
         <NoData />
       )}
+      {openDeleteModal?
+      <DeleteModal name={'ads'} closeModal={handleCloseModal}/>
+      :''}
     </Box>
   );
 }
