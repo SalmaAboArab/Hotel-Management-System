@@ -47,7 +47,7 @@ type props = {
   id: string;
   openDeleteModal: Function;
 };
-export default function Actions({ allActions, id, openDeleteModal }: props) {
+export default function Actions({ allActions, id, openDeleteModal} : props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   // const [openAdd, setOpenAdd] = React.useState(false);
