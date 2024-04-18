@@ -1,14 +1,17 @@
 import { Box } from "@mui/material";
 import axios from "axios";
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../../../../Constants/Components/Urls";
 import HeaderComponents from "../../../../../SharedModule/Components/HeaderComponents/HeaderComponents";
 import Loading from "../../../../../SharedModule/Components/Loading/Loading";
 import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
 import DeleteModal from "../../../DeleteModal/DeleteModal";
+import AddAds from "../ActionsAds/AddAds";
 
 export default function AdsList() {
+  const [openAdd, setOpenAdd] = React.useState(false);
+  
   const [adsList, setAdsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
@@ -18,15 +21,16 @@ export default function AdsList() {
     getAdsList();
     localStorage.removeItem('curruntItemId');
   }
-
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const headerTableArray = [
     "Room Name",
     "Price",
     "Discount",
     "Capacity",
     "Active",
-    "",
-  ];
+    "Actions"
+    ];
 
   const distract = [
     ".room.roomNumber",
@@ -40,8 +44,7 @@ export default function AdsList() {
     try {
       const { data } = await axios.get(`${baseUrl}/admin/ads`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFkODg3NDZlYmJiZWZiYzE5ZjgzNTIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzIxMTU0NywiZXhwIjoxNzE0NDIxMTQ3fQ.7MqD3AXL084Rdk-yMz64VGk_X2-zAo0x0qArnEnSJfo",
+          Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
         },
       });
 
@@ -54,14 +57,21 @@ export default function AdsList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getAdsList();
   }, []);
+  useEffect(() => {
+    getAdsList();
+  }, [openAdd]);
 
+
+  
   return (
     <Box sx={{ padding: 2 }}>
+    <AddAds open={openAdd} handleClose={handleCloseAdd}    />
+
       <HeaderComponents
         title={"ADS Table Details"}
         buttonName={"Add New Ads"}
+        anyFunction={handleOpenAdd}
         addOn={'yes'}
       />
 

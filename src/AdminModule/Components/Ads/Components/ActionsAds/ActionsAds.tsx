@@ -4,7 +4,10 @@ import { Box, Button, Menu } from "@mui/material";
 import { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 import * as React from "react";
+import { baseUrl } from "../../../../../Constants/Components/Urls";
+import AddAds from "./AddAds";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -50,16 +53,41 @@ type props={
 export default function Actions({allActions,id,openDeleteModal}:props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [openAdd, setOpenAdd] = React.useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  async function deleteAds() {
+    
+    
+    try {
+      const { data } = await axios.delete(`${baseUrl}/admin/ads/${id}`, {
+        headers: {
+          Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
+        },
+      });
+
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    handleClose();
+
+  }
+  
+
+
   return (
     <>
     {allActions=='no'?
-      <Button onClick={handleClose} disableRipple>
+      <Button  onClick={handleClose} disableRipple>
       <Visibility sx={{color:'#203FC7', mx:1}}/>
       View
     </Button>
@@ -87,14 +115,14 @@ export default function Actions({allActions,id,openDeleteModal}:props) {
             <Visibility />
             View
           </MenuItem>
-          <MenuItem onClick={handleClose} disableRipple>
+          <MenuItem onClick={handleOpenAdd} disableRipple>
           <EditIcon />
           Edit
         </MenuItem>
           <MenuItem onClick={()=>{
             localStorage.setItem('curruntItemId',id);
             openDeleteModal();
-            handleClose();
+            deleteAds()
             }} 
             disableRipple>
           <Delete/>
@@ -103,6 +131,10 @@ export default function Actions({allActions,id,openDeleteModal}:props) {
         </StyledMenu>
       </Box>
 }
+
+
+<AddAds open={openAdd} handleClose={handleCloseAdd}    />
+
     </>
   );
 }

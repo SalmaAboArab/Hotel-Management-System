@@ -1,11 +1,11 @@
-import { Table, TableContainer, TableRow } from "@mui/material";
+import { Button, Table, TableContainer, TableRow } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import { styled } from "@mui/material/styles";
-import Actions from "../Actions/Actions";
 import { useEffect, useState } from "react";
+import ActionsAds from "../../../AdminModule/Components/Ads/Components/ActionsAds/ActionsAds";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -25,14 +25,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-type tableProps={
-  array:object[];
-  headerTableArray:string[];
-  distract:string[];
-  actions:string;
-  openDeleteModal:Function;
-}
-export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal}:tableProps) {
+
+// export default function Tables({ array, headerTableArray ,distract}) {
+  
+  
+  
+  type tableProps={
+    array:object[];
+    headerTableArray:string[];
+    distract:string[];
+    actions:string;
+    openDeleteModal:Function;
+  }
+  export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal}:tableProps) {
+  const [id, setId] = useState(null)
 const [allActions,setAllActions]=useState<string>('yes');
 useEffect(()=>{
 if(actions=='no') setAllActions('no');
@@ -40,9 +46,9 @@ if(actions=='no') setAllActions('no');
   return (
     <>
       <TableContainer sx={{ marginTop: 2 }} component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="table">
+        <Table sx={{ minWidth: 700 ,}} aria-label="table">
           <TableHead>
-            <TableRow>
+            <TableRow >
               {headerTableArray.map((name, indx) => (
                 <StyledTableCell key={indx} sx={{paddingY:4}} align="center">{name}</StyledTableCell>
               ))}
@@ -58,8 +64,12 @@ if(actions=='no') setAllActions('no');
                   </StyledTableCell>
                 ))}
                 
-                <StyledTableCell sx={{ padding: 0, margin: 0 }} align="center">
-                  <Actions allActions={allActions} id={item?._id} openDeleteModal={openDeleteModal}/>
+                <StyledTableCell  sx={{margin:0, padding:0,width:"10px" }} align="center">
+                  <Button type="submit" sx={{padding:0}} onClick={()=>{                    
+                  setId(item?._id)
+                  }} >
+                  <ActionsAds   allActions={allActions} id={id} openDeleteModal={openDeleteModal} />
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
