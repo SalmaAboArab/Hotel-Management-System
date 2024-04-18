@@ -15,17 +15,11 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  width: "95%", // Default width
-  "@media (min-width:400px)": {
-    width: 400,
-  },
-  "@media (min-width:800px)": {
-    width: 450,
-  },
 };
 
 type props={
@@ -34,6 +28,7 @@ type props={
 }
 export default function DeleteModal({name,closeModal}:props) {
   const [open, setOpen] = React.useState(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const id=localStorage.getItem('curruntItemId');
 
@@ -46,14 +41,14 @@ export default function DeleteModal({name,closeModal}:props) {
             },
           });
           toast.success('Item Deleted Successfully')
+          handleClose();
           closeModal();
           
     } catch (error) {
+        handleClose();
         closeModal();
         toast.error('Somthing went wrong!');
     }
-    handleClose();
-
   }
   return (
     <div>
@@ -81,20 +76,26 @@ export default function DeleteModal({name,closeModal}:props) {
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2, color:'#494949' }} component='p'>
             are you sure you want to delete this item? 
+            {/* <br/>  */}
+            {/* if you are sure just click on delete it */}
 
             </Typography>
             <Box>
                 <Button
+                  // fullWidth
                   variant="outlined"
                   color='error'
+                  // sx={{ mt: 4, mb: 2, py: 1 }}
                   sx={{mx:1, my:3, px:3}}
                   onClick={handleDelete}
                 >
                   Delete
                 </Button>
                 <Button
+                  // fullWidth
                   variant="outlined"
                   color='info'
+                  // sx={{ mt: 4, mb: 2, py: 1 }}
                   sx={{mx:1, my:3, px:3}}
                   onClick={()=>{closeModal(); handleClose;}}
                 >
