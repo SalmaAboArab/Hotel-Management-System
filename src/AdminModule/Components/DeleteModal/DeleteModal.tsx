@@ -46,13 +46,12 @@ export default function DeleteModal({name,closeModal}:props) {
             },
           });
           toast.success('Item Deleted Successfully')
-          closeModal();
           
     } catch (error) {
-        closeModal();
-        toast.error('Somthing went wrong!');
+      toast.error('Somthing went wrong!');
     }
     handleClose();
+    closeModal();
 
   }
   return (
