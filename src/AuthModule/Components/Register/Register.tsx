@@ -30,24 +30,34 @@ import {
   userNameValidation,
 } from "../Validators/Validators";
 import axios from "axios";
-import avatar from '../../../assets/avatar2.jpg'
+import avatar from "../../../assets/avatar2.jpg";
+import { blue, lime } from "@mui/material/colors";
 
-
-
-
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
 export default function Register() {
-  // const defaultTheme = createTheme();
+  const defaultTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#3252DF',
+        // light: will be calculated from palette.primary.main,
+        // dark: will be calculated from palette.primary.main,
+        // contrastText: will be calculated to contrast with palette.primary.main
+      },
+      secondary:{
+        main:'#eb5148'
+      }
+    },
+  });
 
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -59,7 +69,7 @@ export default function Register() {
   } = useForm();
   const confirmPassword = watch("password");
 
-  const [userImage,setUserImage]=useState(avatar);
+  const [userImage, setUserImage] = useState(avatar);
 
   type RegisterData = {
     userName: string;
@@ -68,39 +78,42 @@ export default function Register() {
     email: string;
     password: string;
     confirmPassword: string;
-    role:string;
-    profileImage:string;
+    role: string;
+    profileImage: string;
   };
 
-  const appendRegisterFormData=(data:RegisterData)=>{
-    let formData=new FormData();
-    formData.append("userName",data.userName);
-    formData.append("phoneNumber",data.phoneNumber);
-    formData.append("country",data.country);
-    formData.append("email",data.email);
-    formData.append("password",data.password);
-    formData.append("confirmPassword",data.confirmPassword);
-    formData.append("role",data.role);
-    formData.append("profileImage",data.profileImage[0]);
+  const appendRegisterFormData = (data: RegisterData) => {
+    let formData = new FormData();
+    formData.append("userName", data.userName);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("country", data.country);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("role", "user");
+    formData.append("profileImage", data.profileImage[0]);
     return formData;
-  }
+  };
   async function handleRegister(data: RegisterData) {
     console.log(data);
-    let registerDataForm= appendRegisterFormData(data);
+    let registerDataForm = appendRegisterFormData(data);
 
     try {
-      const response = await axios.post(`${baseUrl}/admin/users`, registerDataForm);
+      const response = await axios.post(
+        `${baseUrl}/admin/users`,
+        registerDataForm
+      );
       // console.log(response);
-      toast.success('Account Created Succefully');
-      navigate('/Authentication');
+      toast.success("Account Created Succefully");
+      navigate("/Authentication");
     } catch (error) {
       // console.log(error?.response?.data?.message);
-      toast.error(error?.response?.data?.message||'Somthing went wrong!');
+      toast.error(error?.response?.data?.message || "Somthing went wrong!");
     }
   }
   return (
     <>
-      {/* <ThemeProvider theme={defaultTheme}> */}
+      <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         {/* <CssBaseline /> */}
 
@@ -126,7 +139,7 @@ export default function Register() {
             <Link
               to={"/"}
               style={{
-                color: "#3252df",
+                // color: "#3252df",
                 fontSize: "1.5rem",
                 textDecoration: "none",
                 fontWeight: 600,
@@ -141,6 +154,7 @@ export default function Register() {
                 cation.
               </Typography>
             </Link>
+            
           </Box>
 
           <Box
@@ -187,25 +201,38 @@ export default function Register() {
                 onSubmit={handleSubmit(handleRegister)}
               >
                 <Box
-                sx={{ display: "flex", flexDirection:'column', alignItems: "center" }}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  <Box sx={{width:'100px',height:'100px'}}><img src={userImage} alt="" style={{width:'100%'}} /></Box>
-                <Button
-                
-                  component="label"
-                  role={undefined}
-                  variant="outlined"
-                  tabIndex={-1}
-                  // startIcon={<CloudUploadIcon />}
-                  sx={{mb:2}}
-                >
-                  Upload image
-                  <VisuallyHiddenInput type="file" 
-                  {...register("profileImage", { required: "Image is required" })}
-                  onChange={(e)=>setUserImage(URL.createObjectURL(e?.target?.files[0]))}
-                  />
-                </Button>
-                {errors.profileImage && (
+                  <Box sx={{ width: "100px", height: "100px", mb: 1 }}>
+                    <img
+                      src={userImage}
+                      alt=""
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </Box>
+                  <Button
+                    component="label"
+                    role={undefined}
+                    variant="outlined"
+                    tabIndex={-1}
+                    sx={{ mb: 2 ,color:'primary'}}
+                  >
+                    Upload image
+                    <VisuallyHiddenInput
+                      type="file"
+                      {...register("profileImage", {
+                        required: "Image is required",
+                      })}
+                      onChange={(e) =>
+                        setUserImage(URL.createObjectURL(e?.target?.files[0]))
+                      }
+                    />
+                  </Button>
+                  {errors.profileImage && (
                     <Typography variant="body2" sx={{ color: "red" }}>
                       {errors?.profileImage?.message}
                     </Typography>
@@ -213,81 +240,85 @@ export default function Register() {
                 </Box>
 
                 <Box>
-                  <Typography sx={{ mt: 1 }}>User Name</Typography>
+                  {/* <Typography sx={{ mt: 1 }}>User Name</Typography> */}
+                  <label htmlFor="username" style={{ marginTop: "10px" }}>
+                    User Name
+                  </label>
                   <TextField
                     // sx={{bgcolor:'#F5F6F8'}}
                     placeholder="Please type here ..."
                     margin="normal"
-                    required
                     fullWidth
                     id="username"
-                    // label="User Name"
+                    // label="Email Address"
                     autoComplete="username"
                     autoFocus
-                    {...register("userName", userNameValidation)}
+                    {...register("username", userNameValidation)}
                   />
                   {errors.username && (
                     <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors?.userName?.message}
+                      {errors?.username?.message}
                     </Typography>
                   )}
                 </Box>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Box>
-                    <Typography sx={{ mt: 1 }}>Phone Number</Typography>
-                    <TextField
-                      // sx={{bgcolor:'#F5F6F8'}}
-                      placeholder="Please type here ..."
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="phoneNumber"
-                      // label="Email Address"
-                      autoComplete="phoneNumber"
-                      autoFocus
-                      {...register("phoneNumber", phoneNumberValidation)}
-                    />
-                    {errors.phoneNumber && (
-                      <Typography variant="body2" sx={{ color: "red" }}>
-                        {errors?.phoneNumber?.message}
-                      </Typography>
-                    )}
-                  </Box>
-                  <Box>
-                    <Typography sx={{ mt: 1 }}>Country</Typography>
-                    <TextField
-                      // sx={{bgcolor:'#F5F6F8'}}
-                      placeholder="Please type here ..."
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="country"
-                      // label="Email Address"
-                      autoComplete="country"
-                      autoFocus
-                      {...register("country", countryValidation)}
-                    />
-                    {errors.country && (
-                      <Typography variant="body2" sx={{ color: "red" }}>
-                        {errors?.country?.message}
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
-
                 <Box>
-                  <Typography sx={{ mt: 1 }}>Email Address</Typography>
+                  {/* <Typography sx={{ mt: 1 }}>Phone Number</Typography> */}
+                  <label htmlFor="phoneNumber" style={{ marginTop: "10px" }}>
+                    Phone Number
+                  </label>
                   <TextField
                     // sx={{bgcolor:'#F5F6F8'}}
                     placeholder="Please type here ..."
                     margin="normal"
-                    required
+                    type="tel"
+                    fullWidth
+                    id="phoneNumber"
+                    // label="Email Address"
+                    autoComplete="phoneNumber"
+                    autoFocus
+                    {...register("phoneNumber", phoneNumberValidation)}
+                  />
+                  {errors.phoneNumber && (
+                    <Typography variant="body2" sx={{ color: "red" }}>
+                      {errors?.phoneNumber?.message}
+                    </Typography>
+                  )}
+                </Box>
+
+                <Box>
+                  {/* <Typography sx={{ mt: 1 }}>Country</Typography> */}
+                  <label htmlFor="country" style={{ marginTop: "10px" }}>
+                    Country
+                  </label>
+                  <TextField
+                    // sx={{bgcolor:'#F5F6F8'}}
+                    placeholder="Please type here ..."
+                    margin="normal"
+                    fullWidth
+                    id="country"
+                    // label="Email Address"
+                    autoComplete="country"
+                    autoFocus
+                    {...register("country", countryValidation)}
+                  />
+                  {errors.country && (
+                    <Typography variant="body2" sx={{ color: "red" }}>
+                      {errors?.country?.message}
+                    </Typography>
+                  )}
+                </Box>
+
+                <Box>
+                  {/* <Typography sx={{ mt: 1 }}>Email Address</Typography> */}
+                  <label htmlFor="email" style={{ marginTop: "10px" }}>
+                    Email Address
+                  </label>
+                  <TextField
+                    // sx={{bgcolor:'#F5F6F8'}}
+                    placeholder="Please type here ..."
+                    margin="normal"
+                    type="email"
                     fullWidth
                     id="email"
                     // label="Email Address"
@@ -303,12 +334,14 @@ export default function Register() {
                 </Box>
 
                 <Box>
-                  <Typography sx={{ mt: 1 }}>Password</Typography>
+                  {/* <Typography sx={{ mt: 1 }}>Password</Typography> */}
+                  <label htmlFor="password" style={{ marginTop: "10px" }}>
+                    Password
+                  </label>
                   <TextField
                     // sx={{bgcolor:'#F5F6F8'}}
                     placeholder="Please type here ..."
                     margin="normal"
-                    required
                     fullWidth
                     // label="Password"
                     type="password"
@@ -324,12 +357,17 @@ export default function Register() {
                 </Box>
 
                 <Box>
-                  <Typography sx={{ mt: 1 }}>Confirm Password</Typography>
+                  {/* <Typography sx={{ mt: 1 }}>Confirm Password</Typography> */}
+                  <label
+                    htmlFor="confirmPassword"
+                    style={{ marginTop: "10px" }}
+                  >
+                    Confirm Password
+                  </label>
                   <TextField
                     // sx={{bgcolor:'#F5F6F8'}}
                     placeholder="Please type here ..."
                     margin="normal"
-                    required
                     fullWidth
                     // label="Password"
                     type="password"
@@ -348,49 +386,11 @@ export default function Register() {
                   )}
                 </Box>
 
-                <FormControl
-                  sx={{ my: 3, display: "flex", alignItems: "center" }}
-                >
-                  <FormLabel
-                    id="demo-form-control-label-placement"
-                    sx={{ color: "blue" }}
-                  >
-                    Role
-                  </FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-form-control-label-placement"
-                    // name="position"
-                    defaultValue="top"
-                    {...register("role", { required: "Role is required" })}
-                  >
-                    <FormControlLabel
-                      value="admin"
-                      control={<Radio />}
-                      label="Admin"
-                      labelPlacement="start"
-                    />
-                    <FormControlLabel
-                      value="user"
-                      control={<Radio />}
-                      label="User"
-                      labelPlacement="start"
-                    />
-                  </RadioGroup>
-                  {errors.role && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
-                      {errors?.role?.message}
-                    </Typography>
-                  )}
-                </FormControl>
-
-                
-
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 5, mb: 2, bgcolor: "#3252DF", py: 2 }}
+                  sx={{ mt: 5, mb: 2, bgcolor: "primary", py: 2 }}
                 >
                   Sign up
                 </Button>
@@ -426,7 +426,7 @@ export default function Register() {
           ></Container>
         </Grid>
       </Grid>
-      {/* </ThemeProvider> */}
+      </ThemeProvider>
     </>
   );
 }
