@@ -98,7 +98,9 @@ const style = {
   },
 };
 
-export default function AddAds({ open, handleClose }) {
+export default function AddAds({ open, handleClose,updateValues }) {
+  console.log(updateValues);
+  
   const theme = useTheme();
   const [roomName, setRoomName] = React.useState([]);
   const [personName, setPersonName] = React.useState("");
@@ -149,7 +151,7 @@ export default function AddAds({ open, handleClose }) {
       });
       toast.success(data?.statusText);
     } catch (error) {
-      toast.error(error?.response.data.message || "There's a mistake.");
+      toast.error("you have already ads with the same room." || "There's a mistake.");
     }
     handleClose();
   }
@@ -202,6 +204,7 @@ export default function AddAds({ open, handleClose }) {
               sx={{ textAlign: "center", marginTop: 2, pt: 2 }}
               onSubmit={handleSubmit(onSubmit)}
             >
+              {!updateValues?
               <Box sx={{ height: 85 }}>
                 <FormControl sx={{ width: "100%" }}>
                   <InputLabel id="demo-multiple-name-label">
@@ -232,7 +235,7 @@ export default function AddAds({ open, handleClose }) {
                     </FormHelperText>
                   )}
                 </FormControl>
-              </Box>
+              </Box>:""}
               <Box sx={{ height: 85 }}>
                 <FormControl sx={{ width: "100%" }}>
                   <TextField
