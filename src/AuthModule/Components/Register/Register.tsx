@@ -3,13 +3,8 @@ import {
   Button,
   Container,
   CssBaseline,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   Paper,
-  Radio,
-  RadioGroup,
   TextField,
   ThemeProvider,
   Typography,
@@ -31,7 +26,6 @@ import {
 } from "../Validators/Validators";
 import axios from "axios";
 import avatar from "../../../assets/avatar2.jpg";
-import { blue, lime } from "@mui/material/colors";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -55,6 +49,9 @@ export default function Register() {
       },
       secondary:{
         main:'#eb5148'
+      },
+      grey:{
+        100:'#F5F6F8',
       }
     },
   });
@@ -136,29 +133,29 @@ export default function Register() {
               mx: 4,
             }}
           >
+
+            <Typography
+            variant="h5"
+            sx={{
+              '& span':{color:'black',fontWeight:400},
+              '& h4':{color:'primary.main',fontWeight:600}
+            }}
+            >
             <Link
               to={"/"}
               style={{
-                // color: "#3252df",
-                fontSize: "1.5rem",
                 textDecoration: "none",
-                fontWeight: 600,
               }}
             >
-              Stay
-              <Typography
-                component="span"
-                variant="h5"
-                sx={{ color: "#152c5b" }}
-              >
-                cation.
-              </Typography>
+              <h4>Stay
+                <span>cation.</span>
+              </h4>
             </Link>
+            </Typography>
             
           </Box>
 
           <Box
-            // bgcolor={'red'}
             sx={{
               my: 8,
               mx: 4,
@@ -179,18 +176,18 @@ export default function Register() {
                 >
                   Sign up
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" sx={{'& span':{color:'secondary.main'}}}
+                >
                   If you already have an account register <br /> You can{" "}
                   <Link
                     to={"/Authentication"}
                     style={{
-                      color: "#eb5148",
                       textDecoration: "none",
                       fontWeight: 600,
                       marginLeft: 5,
                     }}
                   >
-                    Login here !
+                    <span>Login here !</span>
                   </Link>
                 </Typography>
               </Box>
@@ -219,7 +216,7 @@ export default function Register() {
                     role={undefined}
                     variant="outlined"
                     tabIndex={-1}
-                    sx={{ mb: 2 ,color:'primary'}}
+                    sx={{ mb: 2 ,color:'primary.main'}}
                   >
                     Upload image
                     <VisuallyHiddenInput
@@ -233,19 +230,18 @@ export default function Register() {
                     />
                   </Button>
                   {errors.profileImage && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.profileImage?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>User Name</Typography> */}
                   <label htmlFor="username" style={{ marginTop: "10px" }}>
                     User Name
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     fullWidth
@@ -256,19 +252,18 @@ export default function Register() {
                     {...register("username", userNameValidation)}
                   />
                   {errors.username && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.username?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>Phone Number</Typography> */}
                   <label htmlFor="phoneNumber" style={{ marginTop: "10px" }}>
                     Phone Number
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     type="tel"
@@ -280,19 +275,18 @@ export default function Register() {
                     {...register("phoneNumber", phoneNumberValidation)}
                   />
                   {errors.phoneNumber && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.phoneNumber?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>Country</Typography> */}
                   <label htmlFor="country" style={{ marginTop: "10px" }}>
                     Country
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     fullWidth
@@ -303,19 +297,18 @@ export default function Register() {
                     {...register("country", countryValidation)}
                   />
                   {errors.country && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.country?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>Email Address</Typography> */}
                   <label htmlFor="email" style={{ marginTop: "10px" }}>
                     Email Address
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     type="email"
@@ -327,19 +320,18 @@ export default function Register() {
                     {...register("email", emailValidation)}
                   />
                   {errors.email && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.email?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>Password</Typography> */}
                   <label htmlFor="password" style={{ marginTop: "10px" }}>
                     Password
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     fullWidth
@@ -350,14 +342,13 @@ export default function Register() {
                     {...register("password", passwordValidation)}
                   />
                   {errors.password && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.password?.message}
                     </Typography>
                   )}
                 </Box>
 
                 <Box>
-                  {/* <Typography sx={{ mt: 1 }}>Confirm Password</Typography> */}
                   <label
                     htmlFor="confirmPassword"
                     style={{ marginTop: "10px" }}
@@ -365,7 +356,7 @@ export default function Register() {
                     Confirm Password
                   </label>
                   <TextField
-                    // sx={{bgcolor:'#F5F6F8'}}
+                    sx={{bgcolor:'grey.100'}}
                     placeholder="Please type here ..."
                     margin="normal"
                     fullWidth
@@ -380,7 +371,7 @@ export default function Register() {
                     })}
                   />
                   {errors.confirmPassword && (
-                    <Typography variant="body2" sx={{ color: "red" }}>
+                    <Typography variant="body2" sx={{ color: "error.light" }}>
                       {errors?.confirmPassword?.message}
                     </Typography>
                   )}
