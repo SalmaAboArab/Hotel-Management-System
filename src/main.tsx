@@ -10,7 +10,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ToastContainer/>
+    <ToastContainer theme="colored"/>
     <App />
   </React.StrictMode>,
 )
