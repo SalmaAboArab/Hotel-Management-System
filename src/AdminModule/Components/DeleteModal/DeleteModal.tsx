@@ -31,18 +31,17 @@ const style = {
 type props={
     name:string;
     closeModal:Function;
+    curruntItem:object;
 }
-export default function DeleteModal({name,closeModal}:props) {
+export default function DeleteModal({name,closeModal,curruntItem}:props) {
   const [open, setOpen] = React.useState(true);
   const handleClose = () => setOpen(false);
-  const id=localStorage.getItem('curruntItemId');
-
+  const token=localStorage.getItem('adminToken')
   async function handleDelete() {
     try {
-        let response= await axios.delete(`${baseUrl}/admin/${name}/${id}`,{
+        let response= await axios.delete(`${baseUrl}/admin/${name}/${curruntItem?._id}`,{
             headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+              Authorization:token
             },
           });
           toast.success('Item Deleted Successfully')

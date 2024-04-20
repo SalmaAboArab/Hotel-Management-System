@@ -6,11 +6,22 @@ import Tables from '../../../SharedModule/Components/Tables/Tables'
 import NoData from '../../../SharedModule/Components/NoData/NoData'
 import axios from 'axios'
 import { baseUrl } from '../../../Constants/Components/Urls'
-import DeleteModal from '../DeleteModal/DeleteModal'
+import ViewModal from '../ViewModal/ViewModal'
 
 export default function BookingList() {
   const [bookingList, setBookingList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const token=localStorage.getItem('adminToken');
+  const [openViewModal, setOpenViewModal] = React.useState(false);
+  const [curruntBooking,setCurruntBooking]=useState({});
+  const handleOpenModal = (curruntItem:object) => {
+    setOpenViewModal(true);
+    setCurruntBooking(curruntItem);
+    
+  }
+  const handleCloseModal = () =>{
+    setOpenViewModal(false);
+  }
 
   const headerTableArray = [
     // "Booking Id",
@@ -34,8 +45,7 @@ export default function BookingList() {
     try {
       const { data } = await axios.get(`${baseUrl}/admin/booking?page=1&size=10`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+          Authorization:token
         },
       });      
       setBookingList(data.data.booking);
@@ -60,10 +70,13 @@ export default function BookingList() {
     {isLoading ? (
       <Loading />
     ) : bookingList?.length !== 0 ? (
-      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} />
+      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal}/>
     ) : (
       <NoData />
     )}
+    {openViewModal?
+      <ViewModal closeModal={handleCloseModal} curruntItem={curruntBooking} paths={distract} lables={headerTableArray}/>
+      :''}
   </Box>
   )
 }

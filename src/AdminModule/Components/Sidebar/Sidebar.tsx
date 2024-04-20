@@ -94,7 +94,7 @@ export default function Sidebar() {
  
   return (
     <>
-   < Modal show={show} onHide={handleClose}>
+   < Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
         <ChangePassword handleClose={handleClose}/>
         </Modal.Body>
@@ -103,7 +103,7 @@ export default function Sidebar() {
   
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} >
+      <Drawer variant="permanent" open={open} className='sidBar'>
         <DrawerHeader>
       
           <IconButton onClick={handleToggle}>
@@ -115,7 +115,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-              onClick={()=>{navigateTo("/Admin/home")}}
+              onClick={()=>{navigateTo("/Admin")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -184,6 +184,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+              onClick={()=>{navigateTo("/Admin/ads")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',

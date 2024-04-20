@@ -49,8 +49,16 @@ type props = {
   allActions: string;
   id: string;
   openDeleteModal: Function;
+  openViewModal: Function;
+  curruntItem:object;
 };
-export default function Actions({ allActions, id, openDeleteModal} : props) {
+export default function Actions({
+  allActions,
+  id,
+  openDeleteModal,
+  openViewModal,
+  curruntItem
+}: props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -62,6 +70,7 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   const [valuesItem, setValuesItem] = React.useState({})
   async function getOneAds() {
@@ -85,7 +94,14 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
       <AddAds  open={openAdd} handleClose={handleCloseAdd} updateValues={valuesItem} id={id} />
 
       {allActions == "no" ? (
-        <Button onClick={handleClose} disableRipple>
+        <Button
+        sx={{mx:2}}
+          onClick={() => {
+            handleClose;
+            openViewModal(curruntItem);
+          }}
+          disableRipple
+        >
           <Visibility sx={{ color: "#203FC7", mx: 1 }} />
           View
         </Button>
@@ -108,7 +124,14 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem
+              onClick={() => {
+                handleClose;
+                openViewModal(curruntItem);
+                handleClose()
+              }}
+              disableRipple
+            >
               <Visibility />
               View
             </MenuItem>
@@ -125,10 +148,9 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                localStorage.setItem("curruntItemId", id);
-                openDeleteModal();
+                // localStorage.setItem("curruntItemId", id);
+                openDeleteModal(curruntItem);
                 handleClose()
-
               }}
               disableRipple
             >
