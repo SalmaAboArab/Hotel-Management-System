@@ -76,7 +76,7 @@ export default function UsersList() {
     {isLoading ? (
       <Loading />
     ) : usersList?.length !== 0 ? (
-      <Tables array={usersList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal}/>
+      <Tables array={usersList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal} name={''}/>
     ) : (
       <NoData />
     )}
