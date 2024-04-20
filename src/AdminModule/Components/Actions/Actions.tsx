@@ -50,6 +50,7 @@ type props = {
   id: string;
   openDeleteModal: Function;
   openViewModal: Function;
+  openUpdateModel:Function;
   curruntItem:object;
   name:string;
 };
@@ -58,6 +59,7 @@ export default function Actions({
   id,
   openDeleteModal,
   openViewModal,
+  openUpdateModel,
   curruntItem,
   name
 }: props) {
@@ -140,6 +142,7 @@ export default function Actions({
             <MenuItem
               onClick={() => {
                 if(name=='ads'){
+                  
                   handleOpenAdd();
                 getOneAds();
                 }
@@ -149,6 +152,7 @@ export default function Actions({
                 else if(name=='rooms'){
                   console.log('hi');
                 }
+                openUpdateModel('facilities')
                 handleClose()
               }}
               disableRipple
