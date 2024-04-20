@@ -37,8 +37,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     actions:string;
     openDeleteModal:Function;
     openViewModal:Function;
+    name:string;
   }
-  export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal,openViewModal}:tableProps) {
+  export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal,openViewModal,name}:tableProps) {
   const [id, setId] = useState(null)
 const [allActions,setAllActions]=useState<string>('yes');
 useEffect(()=>{
@@ -69,7 +70,7 @@ if(actions=='no') setAllActions('no');
                   <Button type="submit" sx={{padding:0}} onClick={()=>{                    
                   setId(item?._id)
                   }} >
-                  <ActionsAds  allActions={allActions} id={item?._id} curruntItem={item} openDeleteModal={openDeleteModal} openViewModal={openViewModal}/>
+                  <ActionsAds  allActions={allActions} id={item?._id} curruntItem={item} openDeleteModal={openDeleteModal} openViewModal={openViewModal} name={name}/>
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>

@@ -8,6 +8,7 @@ import Loading from "../../../../../SharedModule/Components/Loading/Loading";
 import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
 import ViewModal from '../../../ViewModal/ViewModal';
+import DeleteModal from '../../../DeleteModal/DeleteModal';
 
 
 
@@ -26,6 +27,16 @@ export default function FacilitiesList() {
     setOpenViewModal(false);
   }
   
+
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const handleOpenDeleteModal = (curruntItem:object) => {
+    setOpenDeleteModal(true);
+    setCurruntFacility(curruntItem);
+  }
+  const handleCloseDeleteModal = () =>{
+    setOpenDeleteModal(false);
+    getFacilitiesList();
+  }
 
 
   const headerTableArray = [
@@ -106,11 +117,13 @@ export default function FacilitiesList() {
         <Loading />
       ) : facilitiesList.length !== 0 ? (
         <Tables  
-        array={facilitiesList} distract={distract} headerTableArray={headerTableArray} openViewModal={handleOpenViewModal}/>
+        array={facilitiesList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} name={'facilities'}/>
       ) : (
         <NoData />
       )}
-      
+      {openDeleteModal?
+      <DeleteModal name={'room-facilities'} closeModal={handleCloseDeleteModal} curruntItem={curruntFacility}/>
+      :''}
       {openViewModal?
       <ViewModal closeModal={handleCloseViewModal} curruntItem={curruntFacility} paths={distract} lables={headerTableArray}/>
       :''}

@@ -70,7 +70,7 @@ export default function BookingList() {
     {isLoading ? (
       <Loading />
     ) : bookingList?.length !== 0 ? (
-      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal}/>
+      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal} name={''}/>
     ) : (
       <NoData />
     )}

@@ -51,13 +51,15 @@ type props = {
   openDeleteModal: Function;
   openViewModal: Function;
   curruntItem:object;
+  name:string;
 };
 export default function Actions({
   allActions,
   id,
   openDeleteModal,
   openViewModal,
-  curruntItem
+  curruntItem,
+  name
 }: props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -137,8 +139,16 @@ export default function Actions({
             </MenuItem>
             <MenuItem
               onClick={() => {
-                handleOpenAdd();
+                if(name=='ads'){
+                  handleOpenAdd();
                 getOneAds();
+                }
+                else if(name=='facilities'){
+                  console.log('hi');
+                }
+                else if(name=='rooms'){
+                  console.log('hi');
+                }
                 handleClose()
               }}
               disableRipple

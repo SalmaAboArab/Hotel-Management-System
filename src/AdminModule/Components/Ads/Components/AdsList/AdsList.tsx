@@ -21,11 +21,11 @@ export default function AdsList() {
 
 
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-  const handleOpenModal = (curruntItem:object) => {
+  const handleOpenDeleteModal = (curruntItem:object) => {
     setOpenDeleteModal(true);
     setCurruntAd(curruntItem);
   }
-  const handleCloseModal = () =>{
+  const handleCloseDeleteModal = () =>{
     setOpenDeleteModal(false);
     getAdsList();
   }
@@ -99,12 +99,12 @@ export default function AdsList() {
       {isLoading ? (
         <Loading />
       ) : adsList.length !== 0 ? (
-        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenModal} openViewModal={handleOpenViewModal} actions={'yes'}/>
+        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} actions={'yes'} name={'ads'}/>
       ) : (
         <NoData />
       )}
       {openDeleteModal?
-      <DeleteModal name={'ads'} closeModal={handleCloseModal} curruntItem={curruntAd}/>
+      <DeleteModal name={'ads'} closeModal={handleCloseDeleteModal} curruntItem={curruntAd}/>
       :''}
       {openViewModal?
       <ViewModal closeModal={handleCloseViewModal} curruntItem={curruntAd} paths={distract} lables={headerTableArray}/>
