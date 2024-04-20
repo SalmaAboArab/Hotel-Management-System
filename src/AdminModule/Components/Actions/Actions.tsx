@@ -147,12 +147,12 @@ export default function Actions({
                 getOneAds();
                 }
                 else if(name=='facilities'){
-                  console.log('hi');
+                  openUpdateModel(curruntItem)
                 }
                 else if(name=='rooms'){
                   console.log('hi');
                 }
-                openUpdateModel('facilities')
+                
                 handleClose()
               }}
               disableRipple
