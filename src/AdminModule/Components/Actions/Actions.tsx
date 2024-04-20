@@ -5,8 +5,8 @@ import { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
-import AddAds from "./AddAds";
-import { baseUrl } from "../../../../../Constants/Components/Urls";
+import AddAds from "../Ads/Components/ActionsAds/AddAds";
+import { baseUrl } from "../../../Constants/Components/Urls";
 import axios from "axios";
 
 const StyledMenu = styled((props: MenuProps) => (
