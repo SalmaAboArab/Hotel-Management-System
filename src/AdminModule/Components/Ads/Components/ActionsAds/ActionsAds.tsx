@@ -5,6 +5,9 @@ import { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
+import AddAds from "./AddAds";
+import { baseUrl } from "../../../../../Constants/Components/Urls";
+import axios from "axios";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -45,7 +48,7 @@ const StyledMenu = styled((props: MenuProps) => (
 type props = {
   allActions: string;
   id: string;
-  openDeleteModal(): void;
+  openDeleteModal: Function;
   openViewModal: Function;
   curruntItem:object;
 };
@@ -58,9 +61,9 @@ export default function Actions({
 }: props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  // const [openAdd, setOpenAdd] = React.useState(false);
-  // const handleOpenAdd = () => setOpenAdd(true);
-  // const handleCloseAdd = () => setOpenAdd(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,8 +71,28 @@ export default function Actions({
     setAnchorEl(null);
   };
 
+
+  const [valuesItem, setValuesItem] = React.useState({})
+  async function getOneAds() {
+    try {
+      const { data } = await axios.get(`${baseUrl}/admin/ads/${id}`, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
+        },
+      });
+      setValuesItem(data.data.ads)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
+
   return (
     <>
+      <AddAds  open={openAdd} handleClose={handleCloseAdd} updateValues={valuesItem} id={id} />
+
       {allActions == "no" ? (
         <Button
         sx={{mx:2}}
@@ -105,6 +128,7 @@ export default function Actions({
               onClick={() => {
                 handleClose;
                 openViewModal(curruntItem);
+                handleClose()
               }}
               disableRipple
             >
@@ -113,8 +137,9 @@ export default function Actions({
             </MenuItem>
             <MenuItem
               onClick={() => {
-                // handleOpenAdd();
-                // getOneAds();
+                handleOpenAdd();
+                getOneAds();
+                handleClose()
               }}
               disableRipple
             >
@@ -125,6 +150,7 @@ export default function Actions({
               onClick={() => {
                 // localStorage.setItem("curruntItemId", id);
                 openDeleteModal(curruntItem);
+                handleClose()
               }}
               disableRipple
             >
@@ -135,7 +161,6 @@ export default function Actions({
         </Box>
       )}
 
-      {/* <AddAds open={openAdd} handleClose={handleCloseAdd}  /> */}
     </>
   );
 }

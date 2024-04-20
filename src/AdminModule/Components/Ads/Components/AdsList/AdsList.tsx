@@ -87,7 +87,7 @@ export default function AdsList() {
   
   return (
     <Box sx={{ padding: 2 }}>
-    <AddAds open={openAdd} handleClose={handleCloseAdd}    />
+    <AddAds open={openAdd} handleClose={handleCloseAdd}   getAdsList={getAdsList()} />
 
       <HeaderComponents
         title={"ADS Table Details"}
