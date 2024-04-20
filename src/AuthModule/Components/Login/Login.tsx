@@ -35,7 +35,8 @@ export default function Login() {
       );
       toast.success(response.data.message);
       
-  localStorage.setItem("adminToken",response.data.token);
+  localStorage.setItem("adminToken",response?.data?.data?.token);
+  
       navigate("/Admin");
     } catch (error) {
       toast.error(error?.response?.data?.message || "There's a mistake.");
@@ -98,7 +99,7 @@ export default function Login() {
               <Typography variant="body1">
               If you don’t have an account register <br /> You can{" "}
                 <Link
-                  to={"/Authentication"}
+                  to={"/Authentication/register"}
                   style={{
                     color: "#152C5B",
                     textDecoration: "none",

@@ -115,7 +115,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-              onClick={()=>{navigateTo("/Admin/home")}}
+              onClick={()=>{navigateTo("/Admin")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -184,6 +184,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+              onClick={()=>{navigateTo("/Admin/ads")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',

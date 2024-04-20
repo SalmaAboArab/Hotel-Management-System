@@ -46,8 +46,16 @@ type props = {
   allActions: string;
   id: string;
   openDeleteModal: Function;
+  openViewModal: Function;
+  curruntItem:object;
 };
-export default function Actions({ allActions, id, openDeleteModal} : props) {
+export default function Actions({
+  allActions,
+  id,
+  openDeleteModal,
+  openViewModal,
+  curruntItem
+}: props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   // const [openAdd, setOpenAdd] = React.useState(false);
@@ -60,13 +68,16 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
     setAnchorEl(null);
   };
 
-  
-  
-
   return (
     <>
       {allActions == "no" ? (
-        <Button onClick={handleClose} disableRipple>
+        <Button
+          onClick={() => {
+            handleClose;
+            openViewModal(curruntItem);
+          }}
+          disableRipple
+        >
           <Visibility sx={{ color: "#203FC7", mx: 1 }} />
           View
         </Button>
@@ -89,7 +100,13 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem
+              onClick={() => {
+                handleClose;
+                openViewModal(curruntItem);
+              }}
+              disableRipple
+            >
               <Visibility />
               View
             </MenuItem>
@@ -105,8 +122,8 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                localStorage.setItem("curruntItemId", id);
-                openDeleteModal();
+                // localStorage.setItem("curruntItemId", id);
+                openDeleteModal(curruntItem);
               }}
               disableRipple
             >
