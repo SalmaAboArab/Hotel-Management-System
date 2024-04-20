@@ -98,9 +98,13 @@ const style = {
   },
 };
 
-export default function AddAds({ open, handleClose,updateValues }) {
-  console.log(updateValues);
-  
+export default function AddAds({
+  open,
+  handleClose,
+  updateValues,
+  id,
+  getAdsList,
+}) {
   const theme = useTheme();
   const [roomName, setRoomName] = React.useState([]);
   const [personName, setPersonName] = React.useState("");
@@ -115,7 +119,7 @@ export default function AddAds({ open, handleClose,updateValues }) {
   };
 
   const handleChangeDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDiscount(Number(event.target.value));
+    setDiscount(event.target.value);
   };
 
   const handleChangeIsActive = (event: SelectChangeEvent<typeof isActive>) => {
@@ -137,8 +141,10 @@ export default function AddAds({ open, handleClose,updateValues }) {
   }
 
   React.useEffect(() => {
-    getAllRooms();
-  }, []);
+    if (open) {
+      getAllRooms();
+    }
+  }, [open]);
 
   async function addAds(values) {
     console.log(values);
@@ -150,10 +156,33 @@ export default function AddAds({ open, handleClose,updateValues }) {
         },
       });
       toast.success(data?.statusText);
+      setDiscount("");
+      setIsActive("");
+      setPersonName("");
+      handleClose();
+
     } catch (error) {
-      toast.error("you have already ads with the same room." || "There's a mistake.");
+      toast.error(
+        "you have already ads with the same room." || "There's a mistake."
+      );
     }
-    handleClose();
+  }
+  async function updateAds(values) {
+    try {
+      const { data } = await axios.put(`${baseUrl}/admin/ads/${id}`, values, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
+        },
+      });
+
+      toast.success(data?.message);
+      handleClose();
+
+    } catch (error) {
+      toast.error(error?.response.data.message || "There's a mistake.");
+    }
+    getAdsList();
   }
 
   const {
@@ -163,14 +192,28 @@ export default function AddAds({ open, handleClose,updateValues }) {
   } = useForm();
 
   function onSubmit(data) {
-    const values = {
-      isActive: Boolean(data.isActive),
-      discount: Number(data.discount),
-      room: String(data.room),
-    };
-
-    addAds(values);
+    if (updateValues && id) {
+      const valuesUpdate = {
+        isActive: data.isActive,
+        discount: Number(data.discount),
+      };
+      updateAds(valuesUpdate);
+    } else {
+      const valuesUpdateAdd = {
+        isActive: data.isActive,
+        discount: Number(data.discount),
+        room: String(data.room),
+      };
+      addAds(valuesUpdateAdd);
+    }
   }
+
+  React.useEffect(() => {
+    if (updateValues) {
+      setDiscount(updateValues.room?.discount);
+      setIsActive(Boolean(updateValues.isActive));
+    }
+  }, [updateValues]);
 
   return (
     <div>
@@ -204,48 +247,58 @@ export default function AddAds({ open, handleClose,updateValues }) {
               sx={{ textAlign: "center", marginTop: 2, pt: 2 }}
               onSubmit={handleSubmit(onSubmit)}
             >
-              {!updateValues?
-              <Box sx={{ height: 85 }}>
-                <FormControl sx={{ width: "100%" }}>
-                  <InputLabel id="demo-multiple-name-label">
-                    Room Name
-                  </InputLabel>
-                  <Select
-                    {...register("room", { required: true })}
-                    labelId="demo-multiple-name-label"
-                    id="demo-multiple-name"
-                    value={personName}
-                    onChange={handleChangeRoomName}
-                    input={<OutlinedInput label="Room Name" />}
-                    MenuProps={MenuProps}
-                  >
-                    {roomName.map((name) => (
-                      <MenuItem
-                        key={name._id}
-                        value={name._id}
-                        style={getStyles(name, personName, theme)}
-                      >
-                        {name.roomNumber}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {errors.room && (
-                    <FormHelperText sx={{ color: "error.main", pY: 1 }}>
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Box>:""}
+              {!updateValues ? (
+                <Box sx={{ height: 85 }}>
+                  <FormControl sx={{ width: "100%" }}>
+                    <InputLabel id="demo-multiple-name-label">
+                      Room Name
+                    </InputLabel>
+                    <Select
+                      {...register("room", { required: true })}
+                      labelId="demo-multiple-name-label"
+                      id="demo-multiple-name"
+                      value={personName}
+                      onChange={handleChangeRoomName}
+                      input={<OutlinedInput label="Room Name" />}
+                      MenuProps={MenuProps}
+                    >
+                      {roomName.map((name) => (
+                        <MenuItem
+                          key={name._id}
+                          value={name._id}
+                          style={getStyles(name, personName, theme)}
+                        >
+                          {name.roomNumber}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {errors.room && (
+                      <FormHelperText sx={{ color: "error.main", pY: 1 }}>
+                        This field is required
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                </Box>
+              ) : (
+                ""
+              )}
+
               <Box sx={{ height: 85 }}>
                 <FormControl sx={{ width: "100%" }}>
                   <TextField
                     {...register("discount", { required: true })}
-                    sx={{ width: "100%", "& input": { textAlign: "center" } }} // Apply textAlign to input element
+                    sx={{ width: "100%", "& input": { textAlign: "center" } }}
                     id="outlined-basic"
                     label="Discount"
                     variant="outlined"
                     value={discount}
                     onChange={handleChangeDiscount}
+                    inputRef={(input) => {
+                      if (updateValues && id) {
+                        input && input.focus();
+                      }
+                    }
+                  }
                   />
 
                   {errors.discount && (
@@ -289,7 +342,7 @@ export default function AddAds({ open, handleClose,updateValues }) {
               />
               <Box sx={{ textAlign: "end", mt: 2 }}>
                 <Button sx={{ paddingX: 4 }} variant="contained" type="submit">
-                  Save
+                  {updateValues && id ? "Update" : "Save"}
                 </Button>
               </Box>
             </Box>
