@@ -45,7 +45,7 @@ const StyledMenu = styled((props: MenuProps) => (
 type props = {
   allActions: string;
   id: string;
-  openDeleteModal: Function;
+  openDeleteModal(): void;
   openViewModal: Function;
   curruntItem:object;
 };
@@ -72,6 +72,7 @@ export default function Actions({
     <>
       {allActions == "no" ? (
         <Button
+        sx={{mx:2}}
           onClick={() => {
             handleClose;
             openViewModal(curruntItem);

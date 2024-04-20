@@ -94,7 +94,7 @@ export default function Sidebar() {
  
   return (
     <>
-   < Modal show={show} onHide={handleClose}>
+   < Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
         <ChangePassword handleClose={handleClose}/>
         </Modal.Body>
@@ -103,7 +103,7 @@ export default function Sidebar() {
   
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} >
+      <Drawer variant="permanent" open={open} className='sidBar'>
         <DrawerHeader>
       
           <IconButton onClick={handleToggle}>

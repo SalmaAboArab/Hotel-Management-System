@@ -47,7 +47,7 @@ if(actions=='no') setAllActions('no');
   return (
     <>
       <TableContainer sx={{ marginTop: 2 }} component={Paper}>
-        <Table sx={{ minWidth: 700 ,}} aria-label="table">
+        <Table sx={{ minWidth: 700 }} aria-label="table">
           <TableHead>
             <TableRow >
               {headerTableArray.map((name, indx) => (

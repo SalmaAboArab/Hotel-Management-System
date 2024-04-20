@@ -20,7 +20,7 @@ export default function AdminHome() {
     const token=localStorage.getItem('adminToken');
     try {
       const response= await axios.get(`${baseUrl}/admin/dashboard`,{headers:{Authorization:token}});
-      console.log(response?.data?.data);
+      // console.log(response?.data?.data);
       setDashboardData(response?.data?.data);
       
     } catch (error) {
@@ -53,16 +53,18 @@ export default function AdminHome() {
       component={Paper}
       elevation={6}
       square
-      sx={{boxShadow:'none',bgcolor:'black',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
+      sx={{boxShadow:'none',bgcolor:'#3654d7',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
       >
+       <Link to={'rooms'} style={{textDecoration:'none',color:'white'}}>
        <Box sx={{display:'flex',justifyContent:'space-evenly',alignItems:'center'}}>
        <Typography variant='h5' sx={{'& h5':{color:'#FFFFFFCC'}}}>{dashboardData?.rooms}
        <h5>Rooms</h5>
        </Typography>
-        <Link to={'rooms'}>
-        <WorkOutlineOutlined sx={{fontSize:'3vw'}}/>
-        </Link>
+        <Typography>
+        <WorkOutlineOutlined sx={{fontSize:'3vw',color:'#8dd3f1'}}/>
+        </Typography>
        </Box>
+       </Link>
         </Grid>
 
         <Grid item
@@ -72,16 +74,18 @@ export default function AdminHome() {
       component={Paper}
       elevation={6}
       square
-      sx={{boxShadow:'none',bgcolor:'black',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
+      sx={{boxShadow:'none',bgcolor:'#3654d7',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
       >
+       <Link to={'facilities'} style={{textDecoration:'none',color:'white'}}>
        <Box sx={{display:'flex',justifyContent:'space-evenly',alignItems:'center'}}>
        <Typography variant='h5' sx={{'& h5':{color:'#FFFFFFCC'}}}>{dashboardData?.facilities}
        <h5>Facilities</h5>
        </Typography>
-        <Link to={'facilities'}>
-        <WorkOutlineOutlined sx={{fontSize:'3vw'}}/>
-        </Link>
+        <Typography>
+        <WorkOutlineOutlined sx={{fontSize:'3vw',color:'#8dd3f1'}}/>
+        </Typography>
        </Box>
+       </Link>
         </Grid>
 
         <Grid 
@@ -92,16 +96,18 @@ export default function AdminHome() {
       component={Paper}
       elevation={6}
       square
-      sx={{boxShadow:'none',bgcolor:'black',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
+      sx={{boxShadow:'none',bgcolor:'#3654d7',color:'white',borderRadius:'10px',textAlign:'center',alignContent:"center",py:2,height:'30%'}}
       >
+       <Link to={'ads'} style={{textDecoration:'none',color:'white'}}>
        <Box sx={{display:'flex',justifyContent:'space-evenly',alignItems:'center'}}>
        <Typography variant='h5' sx={{'& h5':{color:'#FFFFFFCC'}}}>{dashboardData?.ads}
        <h5>Ads</h5>
        </Typography>
-        <Link to={'ads'}>
-        <WorkOutlineOutlined sx={{fontSize:'3vw'}}/>
-        </Link>
+        <Typography>
+        <WorkOutlineOutlined sx={{fontSize:'3vw',color:'#8dd3f1'}}/>
+        </Typography>
        </Box>
+       </Link>
         </Grid>
 
     </Grid>
