@@ -5,7 +5,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import ActionsAds from "../../../AdminModule/Components/Ads/Components/ActionsAds/ActionsAds";
+import Actions from "../../../AdminModule/Components/Actions/Actions";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -70,7 +70,7 @@ if(actions=='no') setAllActions('no');
                   <Button type="submit" sx={{padding:0}} onClick={()=>{                    
                   setId(item?._id)
                   }} >
-                  <ActionsAds  allActions={allActions} id={item?._id} curruntItem={item} openDeleteModal={openDeleteModal} openViewModal={openViewModal} name={name}/>
+                  <Actions  allActions={allActions} id={item?._id} curruntItem={item} openDeleteModal={openDeleteModal} openViewModal={openViewModal} name={name}/>
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
