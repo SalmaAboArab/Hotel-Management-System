@@ -32,7 +32,8 @@ export default function FacilitiesList() {
    //ID==>ellllll update
    let idUpdate=localStorage.getItem('item_id');
    console.log(idUpdate)
-   useEffect(()=>{
+   
+  useEffect(()=>{
     setValue("name",currentFacility.name)
   },[currentFacility.name])
  
@@ -64,9 +65,9 @@ async function onSubmitUpdateFacilities(data:object) {
 
   
 //elllllllllll adddd
-/*const [openAdd, setOpenAdd] = React.useState(false);
+const [openAdd, setOpenAdd] = React.useState(false);
 const handleOpenAdd = () => setOpenAdd(true);
-const handleCloseAdd = () => setOpenAdd(false);*/
+const handleCloseAdd = () => setOpenAdd(false);
 
 
   const [facilitiesList, setFacilitiesList] = useState([]);
@@ -202,7 +203,9 @@ const handleCloseAdd = () => setOpenAdd(false);*/
       <HeaderComponents
         title={"Facilities Table Details"}
         buttonName={"Add New facilities"}
-      //  OpenFacilitiesAddModal={handleOpenAdd}
+        anyFunction={handleOpenAdd}
+       // listName={'facilities'}
+        
        
       />
 
@@ -222,10 +225,10 @@ const handleCloseAdd = () => setOpenAdd(false);*/
       :''}
 
 {
-  /*openAdd?
-  <AddFacilities getFacilitiesList={FacilitiesList} CloseAddModal={handleCloseAdd} listName={'facilities'}/>
+  openAdd?
+  <AddFacilities getFacilitiesList={FacilitiesList} CloseAddModal={handleCloseAdd}  currentFacility={currentFacility}/>
 :''
-*/}
+}
      
     </Box>
    </>

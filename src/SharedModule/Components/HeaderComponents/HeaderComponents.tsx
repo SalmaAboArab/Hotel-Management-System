@@ -51,8 +51,9 @@ export default function HeaderComponents({
       {addOn === "no" ? null : (
         <Box>
           <Button onClick={()=>{
-            anyFunction;
-            if(listName=='facilities') OpenFacilitiesAddModal();
+            anyFunction();
+           // if(listName=='facilities')  
+           // OpenFacilitiesAddModal();
           }}type="submit" sx={{ paddingX: 3, textTransform: "capitalize", fontSize: "1.1rem" }} variant="contained">
             {buttonName}
           </Button>

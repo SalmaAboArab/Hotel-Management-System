@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextField, Box } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { baseUrl } from "../../../../../Constants/Components/Urls";
 import {useForm} from 'react-hook-form';
 import Button from '@mui/material/Button';
@@ -14,8 +13,8 @@ export default function AddFacilities({getFacilitiesList,CloseAddModal}) {
   const [openAdd, setOpenAdd] = React.useState(true);
 //   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
-
-  //style el two modal
+  const token=localStorage.getItem('adminToken')
+  //style el modal
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -38,15 +37,16 @@ async function onSubmitAddFacilities(data:object) {
     try {
       const response = await axios.post(`${baseUrl}/admin/room-facilities?5`,data, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+          Authorization:token
         },
         
       });
       toast.success('Add is Successuflly');
-      getFacilitiesList();
+      
       CloseAddModal();
-    handleCloseAdd();
+    
+      handleCloseAdd();
+      getFacilitiesList();
       
      
      // console.log(data.message)
