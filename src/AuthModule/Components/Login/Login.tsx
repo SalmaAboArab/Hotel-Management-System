@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -20,11 +20,23 @@ import { baseUrl } from "../../../Constants/Components/Urls";
 import { toast } from "react-toastify";
 import styles from "./Login.module.css";
 import { emailValidation,passwordValidation } from "../Validators/Validators";
+import { jwtDecode } from "jwt-decode";
+
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();  
+
+
+  const saveLoginData=()=>{
+    const encodedToken:any=localStorage.getItem("adminToken");
+    const decodedToken:any=jwtDecode(encodedToken);      
+    localStorage.setItem('loginData',JSON.stringify(decodedToken)); 
+    localStorage.setItem('userRole',JSON.stringify(decodedToken?.userGroup)); 
+     
+  }
+
 
   async function callLoginApi(data: { email: string }) {
     try {
@@ -34,8 +46,8 @@ export default function Login() {
         
       );
       toast.success(response.data.message);
-      
-  localStorage.setItem("adminToken",response.data.token);
+      localStorage.setItem("adminToken",response?.data?.data?.token); 
+      saveLoginData(); 
       navigate("/Admin");
     } catch (error) {
       toast.error(error?.response?.data?.message || "There's a mistake.");
@@ -98,7 +110,7 @@ export default function Login() {
               <Typography variant="body1">
               If you don’t have an account register <br /> You can{" "}
                 <Link
-                  to={"/Authentication"}
+                  to={"/Authentication/register"}
                   style={{
                     color: "#152C5B",
                     textDecoration: "none",
@@ -137,7 +149,7 @@ export default function Login() {
               </Box>
 
 
-              <Box sx={{ display: "flex", flexDirection: "column" ,height:100 }}>
+              <Box sx={{ display: "flex", flexDirection: "column" ,height:100, mt:3 }}>
                 <label htmlFor="password" style={{ fontSize: "1.3rem", fontWeight: 500, opacity: 0.8 }}>Password</label>
                 <TextField
                   sx={{ marginTop: 1, marginBottom: 1, bgcolor: "#f5f6f8" }}
@@ -151,6 +163,16 @@ export default function Login() {
                     {errors.password.message}
                   </Typography>
                 )}
+              </Box>
+
+              <Box sx={{textAlign:'end',mt:1}}>
+              <Link to={'forgot-password'} style={{
+                    color: "#4D4D4D",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                  }}>
+              Forgot Password ?
+              </Link>
               </Box>
 
              {/*<Box sx={{ display: "flex", flexDirection: "column" }}>

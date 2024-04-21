@@ -8,21 +8,40 @@ import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
 import DeleteModal from "../../../DeleteModal/DeleteModal";
 import AddAds from "../ActionsAds/AddAds";
+import ViewModal from "../../../ViewModal/ViewModal";
 
 export default function AdsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
   
   const [adsList, setAdsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [curruntAd,setCurruntAd]=useState({});
+
+
+
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-  const handleOpenModal = () => setOpenDeleteModal(true);
-  const handleCloseModal = () =>{
+  const handleOpenDeleteModal = (curruntItem:object) => {
+    setOpenDeleteModal(true);
+    setCurruntAd(curruntItem);
+  }
+  const handleCloseDeleteModal = () =>{
     setOpenDeleteModal(false);
     getAdsList();
-    localStorage.removeItem('curruntItemId');
   }
+
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
+
+
+  const [openViewModal, setOpenViewModal] = React.useState(false);
+  const handleOpenViewModal = (curruntItem:object) => {
+    setOpenViewModal(true);
+    setCurruntAd(curruntItem);
+  }
+  const handleCloseViewModal = () => setOpenViewModal(false);
+  
+  
   const headerTableArray = [
     "Room Name",
     "Price",
@@ -33,10 +52,10 @@ export default function AdsList() {
     ];
 
   const distract = [
-    ".room.roomNumber",
-    ".room.price",
-    ".room.discount",
-    ".room.capacity",
+    ".room?.roomNumber",
+    ".room?.price",
+    ".room?.discount",
+    ".room?.capacity",
     ".isActive",
   ];
 
@@ -49,6 +68,8 @@ export default function AdsList() {
       });
 
       setAdsList(data.data.ads);
+      console.log(data.data.ads);
+      
     } catch (error) {
       console.error("Error fetching ads:", error);
     }
@@ -78,12 +99,15 @@ export default function AdsList() {
       {isLoading ? (
         <Loading />
       ) : adsList.length !== 0 ? (
-        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenModal} actions={'yes'}/>
+        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} actions={'yes'} name={'ads'}/>
       ) : (
         <NoData />
       )}
       {openDeleteModal?
-      <DeleteModal name={'ads'} closeModal={handleCloseModal}/>
+      <DeleteModal name={'ads'} closeModal={handleCloseDeleteModal} curruntItem={curruntAd}/>
+      :''}
+      {openViewModal?
+      <ViewModal closeModal={handleCloseViewModal} curruntItem={curruntAd} paths={distract} lables={headerTableArray}/>
       :''}
     </Box>
   );

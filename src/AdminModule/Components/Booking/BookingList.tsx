@@ -6,27 +6,49 @@ import Tables from '../../../SharedModule/Components/Tables/Tables'
 import NoData from '../../../SharedModule/Components/NoData/NoData'
 import axios from 'axios'
 import { baseUrl } from '../../../Constants/Components/Urls'
+import ViewModal from '../ViewModal/ViewModal'
 import DeleteModal from '../DeleteModal/DeleteModal'
 
 export default function BookingList() {
   const [bookingList, setBookingList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const token=localStorage.getItem('adminToken');
+  const [openViewModal, setOpenViewModal] = React.useState(false);
+  const [curruntBooking,setCurruntBooking]=useState({});
+  const handleOpenModal = (curruntItem:object) => {
+    setOpenViewModal(true);
+    setCurruntBooking(curruntItem);
+    
+  }
+  const handleCloseModal = () =>{
+    setOpenViewModal(false);
+  }
+
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const handleOpenDeleteModal = (curruntItem:object) => {
+    setOpenDeleteModal(true);
+    setCurruntBooking(curruntItem);
+  }
+  const handleCloseDeleteModal = () =>{
+    setOpenDeleteModal(false);
+    getBookingList();
+  }
 
   const headerTableArray = [
     // "Booking Id",
-    "UserName",
     "Room Number",
-    "Status",
     "Total Price",
+    "Status",
+    "UserName",
     "Actions",
   ];
 
   const distract = [
     // "._id",
-    ".user.userName",
     ".room?.roomNumber",
-    ".status",
     ".totalPrice",
+    ".status",
+    ".user.userName",
     
   ];
 
@@ -34,8 +56,7 @@ export default function BookingList() {
     try {
       const { data } = await axios.get(`${baseUrl}/admin/booking?page=1&size=10`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+          Authorization:token
         },
       });      
       setBookingList(data.data.booking);
@@ -60,10 +81,16 @@ export default function BookingList() {
     {isLoading ? (
       <Loading />
     ) : bookingList?.length !== 0 ? (
-      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} />
+      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'yes'} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenModal} name={'booking'}/>
     ) : (
       <NoData />
     )}
+    {openDeleteModal?
+      <DeleteModal name={'booking'} closeModal={handleCloseDeleteModal} curruntItem={curruntBooking}/>
+      :''}
+    {openViewModal?
+      <ViewModal closeModal={handleCloseModal} curruntItem={curruntBooking} paths={distract} lables={headerTableArray}/>
+      :''}
   </Box>
   )
 }

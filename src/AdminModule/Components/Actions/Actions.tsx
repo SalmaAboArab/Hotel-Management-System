@@ -5,8 +5,8 @@ import { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
-import AddAds from "./AddAds";
-import { baseUrl } from "../../../../../Constants/Components/Urls";
+import AddAds from "../Ads/Components/ActionsAds/AddAds";
+import { baseUrl } from "../../../Constants/Components/Urls";
 import axios from "axios";
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -49,8 +49,18 @@ type props = {
   allActions: string;
   id: string;
   openDeleteModal: Function;
+  openViewModal: Function;
+  curruntItem:object;
+  name:string;
 };
-export default function Actions({ allActions, id, openDeleteModal} : props) {
+export default function Actions({
+  allActions,
+  id,
+  openDeleteModal,
+  openViewModal,
+  curruntItem,
+  name
+}: props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -62,6 +72,7 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   const [valuesItem, setValuesItem] = React.useState({})
   async function getOneAds() {
@@ -85,7 +96,14 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
       <AddAds  open={openAdd} handleClose={handleCloseAdd} updateValues={valuesItem} id={id} />
 
       {allActions == "no" ? (
-        <Button onClick={handleClose} disableRipple>
+        <Button
+        sx={{mx:2}}
+          onClick={() => {
+            handleClose;
+            openViewModal(curruntItem);
+          }}
+          disableRipple
+        >
           <Visibility sx={{ color: "#203FC7", mx: 1 }} />
           View
         </Button>
@@ -108,27 +126,43 @@ export default function Actions({ allActions, id, openDeleteModal} : props) {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose} disableRipple>
-              <Visibility />
-              View
-            </MenuItem>
             <MenuItem
               onClick={() => {
-                handleOpenAdd();
-                getOneAds();
+                handleClose;
+                openViewModal(curruntItem);
                 handleClose()
               }}
               disableRipple
             >
-              <EditIcon />
-              Edit
+              <Visibility />
+              View
             </MenuItem>
+            {name=='booking'?'':
+            <MenuItem
+            onClick={() => {
+              if(name=='ads'){
+                handleOpenAdd();
+              getOneAds();
+              }
+              else if(name=='facilities'){
+                console.log('hi');
+              }
+              else if(name=='rooms'){
+                console.log('hi');
+              }
+              handleClose()
+            }}
+            disableRipple
+          >
+            <EditIcon />
+            Edit
+          </MenuItem>
+            }
             <MenuItem
               onClick={() => {
-                localStorage.setItem("curruntItemId", id);
-                openDeleteModal();
+                // localStorage.setItem("curruntItemId", id);
+                openDeleteModal(curruntItem);
                 handleClose()
-
               }}
               disableRipple
             >

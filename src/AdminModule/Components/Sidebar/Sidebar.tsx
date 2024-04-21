@@ -23,6 +23,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from '../../../AuthModule/Components/ChangePassword/ChangePassword';
+import Logout from '../../../AuthModule/Components/Logout/Logout';
 
 const drawerWidth = 240;
 
@@ -91,10 +92,14 @@ export default function Sidebar() {
   const [show, setShow] = React.useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [openLogoutModal, setOpenLogoutModal] = React.useState(false);
+  const handleOpenLogoutModal = () => setOpenLogoutModal(true);
+  const handleCloseLogoutModal = () => setOpenLogoutModal(false);
  
   return (
     <>
-   < Modal show={show} onHide={handleClose}>
+   < Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
         <ChangePassword handleClose={handleClose}/>
         </Modal.Body>
@@ -103,7 +108,7 @@ export default function Sidebar() {
   
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} >
+      <Drawer variant="permanent" open={open} className='sidBar'>
         <DrawerHeader>
       
           <IconButton onClick={handleToggle}>
@@ -115,7 +120,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-              onClick={()=>{navigateTo("/Admin/home")}}
+              onClick={()=>{navigateTo("/Admin")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -184,6 +189,7 @@ export default function Sidebar() {
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+              onClick={()=>{navigateTo("/Admin/ads")}}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -279,7 +285,7 @@ export default function Sidebar() {
            
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-              onClick={()=>{navigateTo("/")}}
+              onClick={()=>{handleOpenLogoutModal()}}
                 sx={{
                   color:"white",
                   minHeight: 48,
@@ -305,6 +311,11 @@ export default function Sidebar() {
       </Drawer>
       
     </Box>
+    {
+      openLogoutModal?
+      <Logout closeModal={handleCloseLogoutModal}/>
+      :''
+    }
     </>
   );
 }

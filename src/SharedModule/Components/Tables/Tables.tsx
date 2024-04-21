@@ -5,7 +5,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import ActionsAds from "../../../AdminModule/Components/Ads/Components/ActionsAds/ActionsAds";
+import Actions from "../../../AdminModule/Components/Actions/Actions";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,8 +36,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     distract:string[];
     actions:string;
     openDeleteModal:Function;
+    openViewModal:Function;
+    name:string;
   }
-  export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal}:tableProps) {
+  export default function Tables({ array, headerTableArray ,distract ,actions,openDeleteModal,openViewModal,name}:tableProps) {
   const [id, setId] = useState(null)
 const [allActions,setAllActions]=useState<string>('yes');
 useEffect(()=>{
@@ -46,7 +48,7 @@ if(actions=='no') setAllActions('no');
   return (
     <>
       <TableContainer sx={{ marginTop: 2 }} component={Paper}>
-        <Table sx={{ minWidth: 700 ,}} aria-label="table">
+        <Table sx={{ minWidth: 700 }} aria-label="table">
           <TableHead>
             <TableRow >
               {headerTableArray.map((name, indx) => (
@@ -68,7 +70,7 @@ if(actions=='no') setAllActions('no');
                   <Button type="submit" sx={{padding:0}} onClick={()=>{                    
                   setId(item?._id)
                   }} >
-                  <ActionsAds   allActions={allActions} id={id} openDeleteModal={openDeleteModal} />
+                  <Actions  allActions={allActions} id={item?._id} curruntItem={item} openDeleteModal={openDeleteModal} openViewModal={openViewModal} name={name}/>
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>

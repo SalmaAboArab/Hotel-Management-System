@@ -5,10 +5,9 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import trash from '../../../assets/trash.png'
-import axios from 'axios';
-import { baseUrl } from '../../../Constants/Components/Urls';
+import logout from '../../../assets/logout.png'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -29,29 +28,21 @@ const style = {
 };
 
 type props={
-    name:string;
-    closeModal:Function;
-    curruntItem:object;
+    closeModal:()=>void;
 }
-export default function DeleteModal({name,closeModal,curruntItem}:props) {
+
+
+export default function Logout({closeModal}:props) {
   const [open, setOpen] = React.useState(true);
   const handleClose = () => setOpen(false);
-  const token=localStorage.getItem('adminToken')
-  async function handleDelete() {
-    try {
-        let response= await axios.delete(`${baseUrl}/admin/${name}/${curruntItem?._id}`,{
-            headers: {
-              Authorization:token
-            },
-          });
-          toast.success('Item Deleted Successfully')
-          
-    } catch (error) {      
-      toast.error('Somthing went wrong!');
-    }
+  const navigate=useNavigate();
+
+  function handleLogout() {
+    localStorage.clear();
+    navigate('/');
     handleClose();
     closeModal();
-
+    toast.success('Bye Bye');
   }
   return (
     <div>
@@ -72,13 +63,13 @@ export default function DeleteModal({name,closeModal,curruntItem}:props) {
         <Fade in={open}>
           <Box sx={style} borderRadius={3} border='true' borderColor={'#d32f2f'}>
             
-            <Box sx={{textAlign:'center',mx:5,my:3}}><img src={trash} alt="" /></Box>
+            <Box sx={{textAlign:'center',mx:5,my:3,width:'100%',paddingRight:3}}><img src={logout} alt="" style={{width:'40%'}}/></Box>
             <Box sx={{textAlign:'center',mx:0}}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-            Delete This Item ?
+            Logout?
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2, color:'#494949' }} component='p'>
-            are you sure you want to delete this item? 
+            Are you sure you want to leave? 
 
             </Typography>
             <Box>
@@ -86,9 +77,9 @@ export default function DeleteModal({name,closeModal,curruntItem}:props) {
                   variant="outlined"
                   color='error'
                   sx={{mx:1, my:3, px:3}}
-                  onClick={handleDelete}
+                  onClick={handleLogout}
                 >
-                  Delete
+                  Logout
                 </Button>
                 <Button
                   variant="outlined"

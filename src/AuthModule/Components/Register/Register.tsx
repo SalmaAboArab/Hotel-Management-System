@@ -411,7 +411,7 @@ export default function Register() {
               backgroundRepeat: "no-repeat",
               borderRadius: "2%",
               bgcolor: "white",
-              backgroundSize: "cover",
+              backgroundSize: "contain",
               backgroundPosition: "center",
             }}
           ></Container>
