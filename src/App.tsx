@@ -19,6 +19,9 @@ import RoomsList from './AdminModule/Components/Rooms/Components/RoomsList/Rooms
 import RoomsForm from './AdminModule/Components/Rooms/Components/RoomsForm/RoomsForm'
 import UsersList from './AdminModule/Components/UsersList/UsersList'
 import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
+import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRoute'
+import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
+import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 
 function App() {
   const routers = createBrowserRouter([
@@ -29,7 +32,8 @@ function App() {
       children:
       [
         {index:true,element:<LandingPage/>},
-        
+        {path:'all-rooms',element:<AllRooms/>},
+        {path:'all-rooms/room-details',element:<RoomDetails/>},
       ]
     },
     {
@@ -47,7 +51,9 @@ function App() {
     },
     {
       path:'Admin',
-      element:<AdminLayout/>,
+      element:(
+        <ProtectedRoute><AdminLayout/></ProtectedRoute>
+      ),
       errorElement:<NotFound/>,
       children:
       [

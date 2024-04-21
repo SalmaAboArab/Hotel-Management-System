@@ -137,25 +137,27 @@ export default function Actions({
               <Visibility />
               View
             </MenuItem>
+            {name=='booking'?'':
             <MenuItem
-              onClick={() => {
-                if(name=='ads'){
-                  handleOpenAdd();
-                getOneAds();
-                }
-                else if(name=='facilities'){
-                  console.log('hi');
-                }
-                else if(name=='rooms'){
-                  console.log('hi');
-                }
-                handleClose()
-              }}
-              disableRipple
-            >
-              <EditIcon />
-              Edit
-            </MenuItem>
+            onClick={() => {
+              if(name=='ads'){
+                handleOpenAdd();
+              getOneAds();
+              }
+              else if(name=='facilities'){
+                console.log('hi');
+              }
+              else if(name=='rooms'){
+                console.log('hi');
+              }
+              handleClose()
+            }}
+            disableRipple
+          >
+            <EditIcon />
+            Edit
+          </MenuItem>
+            }
             <MenuItem
               onClick={() => {
                 // localStorage.setItem("curruntItemId", id);
