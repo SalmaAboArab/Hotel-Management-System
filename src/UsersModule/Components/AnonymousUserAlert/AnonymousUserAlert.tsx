@@ -5,8 +5,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import logout from "../../../assets/logout.png";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const style = {
