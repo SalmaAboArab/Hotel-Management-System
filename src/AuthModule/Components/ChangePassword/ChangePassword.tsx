@@ -46,7 +46,7 @@ try {
   return (
     <div>
       <div className='text-center'>
-      <Typography variant="h4" component="h2">
+      <Typography variant="h4" component="h2" sx={{my:3}}>
   Change Password
 </Typography>
       </div>
@@ -110,7 +110,7 @@ try {
    </div>
 
 
-<div className='d-flex form-outline  position-relative'>
+<div className='d-flex form-outline  position-relative mb-2'>
 <TextField
  sx={{width:"100%"}}
       variant="filled"

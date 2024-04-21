@@ -7,6 +7,7 @@ import NoData from '../../../SharedModule/Components/NoData/NoData'
 import axios from 'axios'
 import { baseUrl } from '../../../Constants/Components/Urls'
 import ViewModal from '../ViewModal/ViewModal'
+import DeleteModal from '../DeleteModal/DeleteModal'
 
 export default function BookingList() {
   const [bookingList, setBookingList] = useState([]);
@@ -23,21 +24,31 @@ export default function BookingList() {
     setOpenViewModal(false);
   }
 
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const handleOpenDeleteModal = (curruntItem:object) => {
+    setOpenDeleteModal(true);
+    setCurruntBooking(curruntItem);
+  }
+  const handleCloseDeleteModal = () =>{
+    setOpenDeleteModal(false);
+    getBookingList();
+  }
+
   const headerTableArray = [
     // "Booking Id",
-    "UserName",
     "Room Number",
-    "Status",
     "Total Price",
+    "Status",
+    "UserName",
     "Actions",
   ];
 
   const distract = [
     // "._id",
-    ".user.userName",
     ".room?.roomNumber",
-    ".status",
     ".totalPrice",
+    ".status",
+    ".user.userName",
     
   ];
 
@@ -70,10 +81,13 @@ export default function BookingList() {
     {isLoading ? (
       <Loading />
     ) : bookingList?.length !== 0 ? (
-      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal} name={''}/>
+      <Tables array={bookingList} distract={distract} headerTableArray={headerTableArray} actions={'yes'} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenModal} name={'booking'}/>
     ) : (
       <NoData />
     )}
+    {openDeleteModal?
+      <DeleteModal name={'booking'} closeModal={handleCloseDeleteModal} curruntItem={curruntBooking}/>
+      :''}
     {openViewModal?
       <ViewModal closeModal={handleCloseModal} curruntItem={curruntBooking} paths={distract} lables={headerTableArray}/>
       :''}
