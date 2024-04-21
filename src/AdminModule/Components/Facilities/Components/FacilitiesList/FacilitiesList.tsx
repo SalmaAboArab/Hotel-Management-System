@@ -26,9 +26,13 @@ export default function FacilitiesList() {
   const handleOpenUpdate = (Facility:object) =>{
     setOpenUpdate(true);
     setCurrentFacility(Facility);
+
+    //setValue    
+    setValue("name",Facility?.name)
   } 
    const handleCloseUpdate = () => setOpenUpdate(false);
 
+<<<<<<< HEAD
    //ID==>ellllll update
    let idUpdate=localStorage.getItem('item_id');
    console.log(idUpdate)
@@ -36,10 +40,12 @@ export default function FacilitiesList() {
   useEffect(()=>{
     setValue("name",currentFacility.name)
   },[currentFacility.name])
+=======
+>>>>>>> 6c59539577f1a8a98b994189c7dd76bef4e178e6
  
    //function elllllllllllllll update
 
-async function onSubmitUpdateFacilities(data:object) {
+async function onSubmitUpdateFacilities(data:object) {  
   try {
     const response = await axios.put(`${baseUrl}/admin/room-facilities/${currentFacility?._id}`,data, {
       headers: {

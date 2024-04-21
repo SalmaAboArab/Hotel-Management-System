@@ -152,7 +152,11 @@ export default function Actions({
                 else if(name=='rooms'){
                   console.log('hi');
                 }
+<<<<<<< HEAD
                
+=======
+                
+>>>>>>> 6c59539577f1a8a98b994189c7dd76bef4e178e6
                 handleClose()
               }}
               disableRipple
