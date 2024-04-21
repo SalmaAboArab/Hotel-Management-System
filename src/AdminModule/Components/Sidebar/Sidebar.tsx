@@ -111,7 +111,7 @@ export default function Sidebar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{backgroundColor:"#203FC7",color:"white"}}>
+        <List sx={{backgroundColor:"#203FC7",color:"white",height:"100vh"}}>
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
