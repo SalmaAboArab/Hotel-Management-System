@@ -20,19 +20,27 @@ import {useForm} from 'react-hook-form';
 export default function FacilitiesList() {
 
    //useState=====>Update
-   const [openUpdate, setOpenUpdate] = React.useState(false);
+   const [openActionsModal, setOpenActionsModal] = React.useState(false);
    const [currentFacility, setCurrentFacility] = React.useState({});
+   const [currentAction,setCurrentAction] = React.useState('')
+
    const handleOpenUpdate = (Facility:object) =>{
-     setOpenUpdate(true);
+     setOpenActionsModal(true);
      setCurrentFacility(Facility);
-   } 
-    const handleCloseUpdate = () => setOpenUpdate(false);
+     setValue('name',Facility?.name)
+     setCurrentAction('update');
+   }
+   const handleOpenAdd = () =>{
+    setOpenActionsModal(true);
+    setCurrentAction('add');
+  } 
+    const handleCloseActionsModal = () => setOpenActionsModal(false);
  
  //hookForm
  const{register,handleSubmit,formState:{errors},setValue}=useForm();
- useEffect(() => {
-   setValue('name',currentFacility.name)
- }, [currentFacility.name]);
+//  useEffect(() => {
+//    setValue('name',currentFacility.name)
+//  }, [currentFacility.name]);
  
 
   //function elllllllllllllll update
@@ -47,7 +55,7 @@ async function onSubmitUpdateFacilities(data:object) {
       
     });
    //console.log(response)
-    toast.success('Edit is Succeefully')
+    toast.success('Facility Updated Succeefully')
     getFacilitiesList();
     
    
@@ -56,7 +64,34 @@ async function onSubmitUpdateFacilities(data:object) {
    console.log(error);
    
   }
-  handleCloseUpdate();
+  handleCloseActionsModal();
+ 
+}
+
+
+
+//function elllllllllllllll add
+
+async function onSubmitAddFacilities(data:object) {
+  try {
+    const response = await axios.post(`${baseUrl}/admin/room-facilities`,data, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+      },
+      
+    });
+   //console.log(response)
+    toast.success('Facility Added Succeefully')
+    getFacilitiesList();
+    
+   
+   
+  } catch (error) {
+   console.log(error);
+   
+  }
+  handleCloseActionsModal();
  
 }
 
@@ -66,6 +101,8 @@ async function onSubmitUpdateFacilities(data:object) {
   const [isLoading, setIsLoading] = useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
   const [curruntFacility,setCurruntFacility]=useState({});
+  
+  //view
   const handleOpenViewModal = (curruntItem:object) => {
     setOpenViewModal(true);
     setCurruntFacility(curruntItem);
@@ -75,7 +112,7 @@ async function onSubmitUpdateFacilities(data:object) {
     setOpenViewModal(false);
   }
   
-
+//delete
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const handleOpenDeleteModal = (curruntItem:object) => {
     setOpenDeleteModal(true);
@@ -150,20 +187,20 @@ async function onSubmitUpdateFacilities(data:object) {
   
  
 
- {/*model elllllllllllllll Update-----------------------------*/}
+ {/*model elllllllllllllll Update&add-----------------------------*/}
  <div>
       <Modal
-        open={openUpdate}
-        onClose={handleCloseUpdate}
+        open={openActionsModal}
+        onClose={handleCloseActionsModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          Edit Facility
+            {currentAction=='add'?'Add':'Edit'} Facility 
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <form onSubmit={handleSubmit(onSubmitUpdateFacilities)}>
+          <form onSubmit={currentAction=='add'?handleSubmit(onSubmitAddFacilities):handleSubmit(onSubmitUpdateFacilities)}>
           <TextField id="standard-basic"  variant="standard" fullWidth
            type="name"
           //  defaultValue={currentFacility?.name}
@@ -177,7 +214,7 @@ async function onSubmitUpdateFacilities(data:object) {
                 )}
 
 <Button sx={{marginTop:'50px',float:'right'}}  type="submit"
- variant="contained">Edit</Button>
+ variant="contained">{currentAction=='add'?'Add':'Edit'}</Button>
                 </form>
           </Typography>
         </Box>
@@ -190,6 +227,7 @@ async function onSubmitUpdateFacilities(data:object) {
       <HeaderComponents
         title={"Facilities Table Details"}
         buttonName={"Add New facilities"}
+        anyFunction={handleOpenAdd}
        
       />
 
