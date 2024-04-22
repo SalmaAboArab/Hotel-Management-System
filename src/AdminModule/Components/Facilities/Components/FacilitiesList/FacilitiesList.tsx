@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Box } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { baseUrl } from "../../../../../Constants/Components/Urls";
@@ -9,10 +9,58 @@ import NoData from "../../../../../SharedModule/Components/NoData/NoData";
 import Tables from "../../../../../SharedModule/Components/Tables/Tables";
 import ViewModal from '../../../ViewModal/ViewModal';
 import DeleteModal from '../../../DeleteModal/DeleteModal';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import { toast } from "react-toastify";
+import {useForm} from 'react-hook-form';
 
 
 
 export default function FacilitiesList() {
+
+   //useState=====>Update
+   const [openUpdate, setOpenUpdate] = React.useState(false);
+   const [currentFacility, setCurrentFacility] = React.useState({});
+   const handleOpenUpdate = (Facility:object) =>{
+     setOpenUpdate(true);
+     setCurrentFacility(Facility);
+   } 
+    const handleCloseUpdate = () => setOpenUpdate(false);
+ 
+ //hookForm
+ const{register,handleSubmit,formState:{errors},setValue}=useForm();
+ useEffect(() => {
+   setValue('name',currentFacility.name)
+ }, [currentFacility.name]);
+ 
+
+  //function elllllllllllllll update
+
+async function onSubmitUpdateFacilities(data:object) {
+  try {
+    const response = await axios.put(`${baseUrl}/admin/room-facilities/${currentFacility?._id}`,data, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+      },
+      
+    });
+   //console.log(response)
+    toast.success('Edit is Succeefully')
+    getFacilitiesList();
+    
+   
+   
+  } catch (error) {
+   console.log(error);
+   
+  }
+  handleCloseUpdate();
+ 
+}
+
+
   
   const [facilitiesList, setFacilitiesList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -102,7 +150,39 @@ export default function FacilitiesList() {
   
  
 
+ {/*model elllllllllllllll Update-----------------------------*/}
+ <div>
+      <Modal
+        open={openUpdate}
+        onClose={handleCloseUpdate}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+          Edit Facility
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <form onSubmit={handleSubmit(onSubmitUpdateFacilities)}>
+          <TextField id="standard-basic"  variant="standard" fullWidth
+           type="name"
+          //  defaultValue={currentFacility?.name}
+           placeholder="Name"
+           {...register("name",{required:'Name is required'} )}
+           />
+             {errors.name && (
+                  <Typography variant="body2" sx={{ color: "red" }}>
+                    {errors.name.message}
+                  </Typography>
+                )}
 
+<Button sx={{marginTop:'50px',float:'right'}}  type="submit"
+ variant="contained">Edit</Button>
+                </form>
+          </Typography>
+        </Box>
+      </Modal>
+    </div>
 
  
 
@@ -116,7 +196,7 @@ export default function FacilitiesList() {
       {isLoading ? (
         <Loading />
       ) : facilitiesList.length !== 0 ? (
-        <Tables  
+        <Tables   openUpdateModel={handleOpenUpdate}
         array={facilitiesList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} name={'facilities'}/>
       ) : (
         <NoData />
