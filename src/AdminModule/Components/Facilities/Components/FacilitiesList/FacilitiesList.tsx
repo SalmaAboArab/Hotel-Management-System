@@ -14,6 +14,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { toast } from "react-toastify";
 import {useForm} from 'react-hook-form';
+import AddFacilities from '../AddFacilities/AddFacilities';
 
 
 
@@ -59,6 +60,12 @@ async function onSubmitUpdateFacilities(data:object) {
   handleCloseUpdate();
  
 }
+
+
+//elllllllllll adddd
+const [openAdd, setOpenAdd] = React.useState(false);
+const handleOpenAdd = () => setOpenAdd(true);
+const handleCloseAdd = () => setOpenAdd(false);
 
 
   
@@ -190,6 +197,8 @@ async function onSubmitUpdateFacilities(data:object) {
       <HeaderComponents
         title={"Facilities Table Details"}
         buttonName={"Add New facilities"}
+        OpenFacilitiesAddModal={handleOpenAdd}
+        listName={'facilities'}
        
       />
 
@@ -200,7 +209,14 @@ async function onSubmitUpdateFacilities(data:object) {
         array={facilitiesList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} name={'facilities'}/>
       ) : (
         <NoData />
+        
       )}
+
+{
+  openAdd?
+  <AddFacilities getFacilitiesList={FacilitiesList} CloseAddModal={handleCloseAdd} /*listName={'facilities'}*/ />
+:''
+}
       {openDeleteModal?
       <DeleteModal name={'room-facilities'} closeModal={handleCloseDeleteModal} curruntItem={curruntFacility}/>
       :''}

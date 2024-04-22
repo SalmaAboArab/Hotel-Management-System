@@ -5,6 +5,8 @@ type HeaderProps = {
   buttonName: string;
   addOn: 'yes' | 'no'; 
   anyFunction: () => void; 
+  OpenFacilitiesAddModal:Function;
+  listName:string;
 }
 
 const theme = createTheme();
@@ -29,7 +31,9 @@ export default function HeaderComponents({
   title,
   buttonName,
   addOn,
-  anyFunction
+  anyFunction,
+  OpenFacilitiesAddModal,
+  listName
 }: HeaderProps) {
   return (
     <Box sx={{ textTransform: "capitalize", padding: 2, my: 4, display: "flex",flexWrap:"wrap", justifyContent: "space-between", alignItems: "center" }}>
@@ -44,7 +48,10 @@ export default function HeaderComponents({
 
       {addOn === "no" ? null : (
         <Box>
-          <Button onClick={anyFunction} type="submit" sx={{ paddingX: 3, textTransform: "capitalize", fontSize: "1.1rem" }} variant="contained">
+          <Button onClick={()=>{
+            anyFunction;
+            if(listName=='facilities') OpenFacilitiesAddModal();
+          }} type="submit" sx={{ paddingX: 3, textTransform: "capitalize", fontSize: "1.1rem" }} variant="contained">
             {buttonName}
           </Button>
         </Box>
