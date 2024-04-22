@@ -58,15 +58,14 @@ async function onSubmitUpdateFacilities(data:object) {
    //console.log(response)
     toast.success('Facility Updated Succeefully')
     getFacilitiesList();
-    
+    handleCloseActionsModal();
    
    
   } catch (error) {
-   console.log(error);
+  //  console.log(error);
+   toast.error(error?.response?.data?.message||'Something is wrong');
    
-  }
-  handleCloseActionsModal();
- 
+  } 
 }
 
 
@@ -85,15 +84,15 @@ async function onSubmitAddFacilities(data:object) {
    //console.log(response)
     toast.success('Facility Added Succeefully')
     getFacilitiesList();
+    handleCloseActionsModal();
     
    
    
   } catch (error) {
-   console.log(error);
+  //  console.log(error);
+   toast.error(error?.response?.data?.message||'Something is wrong');
    
-  }
-  handleCloseActionsModal();
- 
+  } 
 }
 
 
