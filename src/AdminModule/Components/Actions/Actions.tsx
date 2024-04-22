@@ -50,6 +50,7 @@ type props = {
   id: string;
   openDeleteModal: Function;
   openViewModal: Function;
+  openUpdateModel:Function;
   curruntItem:object;
   name:string;
 };
@@ -58,6 +59,7 @@ export default function Actions({
   id,
   openDeleteModal,
   openViewModal,
+  openUpdateModel,
   curruntItem,
   name
 }: props) {
@@ -145,7 +147,7 @@ export default function Actions({
               getOneAds();
               }
               else if(name=='facilities'){
-                console.log('hi');
+                openUpdateModel(curruntItem)
               }
               else if(name=='rooms'){
                 console.log('hi');
