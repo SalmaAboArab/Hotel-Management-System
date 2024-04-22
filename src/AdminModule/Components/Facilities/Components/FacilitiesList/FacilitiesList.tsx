@@ -20,6 +20,7 @@ import {useForm} from 'react-hook-form';
 export default function FacilitiesList() {
 
    //useState=====>Update
+   const token=localStorage.getItem('adminToken');
    const [openActionsModal, setOpenActionsModal] = React.useState(false);
    const [currentFacility, setCurrentFacility] = React.useState({});
    const [currentAction,setCurrentAction] = React.useState('')
@@ -50,8 +51,7 @@ async function onSubmitUpdateFacilities(data:object) {
   try {
     const response = await axios.put(`${baseUrl}/admin/room-facilities/${currentFacility?._id}`,data, {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+        Authorization:token
       },
       
     });
@@ -76,8 +76,7 @@ async function onSubmitAddFacilities(data:object) {
   try {
     const response = await axios.post(`${baseUrl}/admin/room-facilities`,data, {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
+        Authorization:token
       },
       
     });
@@ -125,7 +124,7 @@ async function onSubmitAddFacilities(data:object) {
 
 
   const headerTableArray = [
-    "id",
+    // "id",
     "name",
     "createdBy",
     "createdAt",
@@ -135,7 +134,7 @@ async function onSubmitAddFacilities(data:object) {
 
   
   const distract = [
-    "._id",
+    // "._id",
     ".name",
     ".createdBy?.userName",
     ".createdAt",
@@ -160,8 +159,7 @@ async function onSubmitAddFacilities(data:object) {
     try {
       const { data } = await axios.get(`${baseUrl}/admin/room-facilities`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFkODg3NDZlYmJiZWZiYzE5ZjgzNTIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzIxMTU0NywiZXhwIjoxNzE0NDIxMTQ3fQ.7MqD3AXL084Rdk-yMz64VGk_X2-zAo0x0qArnEnSJfo",
+          Authorization:token
         },
         
       });
