@@ -32,6 +32,7 @@ export default function FacilitiesList() {
    }
    const handleOpenAdd = () =>{
     setOpenActionsModal(true);
+    setValue('name','')
     setCurrentAction('add');
   } 
     const handleCloseActionsModal = () => setOpenActionsModal(false);
