@@ -19,6 +19,7 @@ import RoomsList from './AdminModule/Components/Rooms/Components/RoomsList/Rooms
 import RoomsForm from './AdminModule/Components/Rooms/Components/RoomsForm/RoomsForm'
 import UsersList from './AdminModule/Components/UsersList/UsersList'
 import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
+import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
 
 function App() {
   const routers = createBrowserRouter([
@@ -60,6 +61,7 @@ function App() {
         {path:'facilities/facilities-form',element:<FacilitiesForm/>},
         {path:'rooms',element:<RoomsList/>},
         {path:'rooms/rooms-form',element:<RoomsForm/>},
+        {path:'rooms/updateRoom/:roomId',element:<UpdateRoom/>},
         {path:"change-password",element:<ChangePassword/>}
       ]
     }

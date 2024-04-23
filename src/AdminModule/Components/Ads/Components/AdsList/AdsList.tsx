@@ -99,7 +99,9 @@ export default function AdsList() {
       {isLoading ? (
         <Loading />
       ) : adsList.length !== 0 ? (
-        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} actions={'yes'} name={'ads'}/>
+        <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} 
+        openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal}
+         actions={'yes'} name={'ads'}/>
       ) : (
         <NoData />
       )}

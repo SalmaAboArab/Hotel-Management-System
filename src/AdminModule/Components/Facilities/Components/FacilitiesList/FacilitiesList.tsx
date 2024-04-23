@@ -18,6 +18,7 @@ export default function FacilitiesList() {
   const [isLoading, setIsLoading] = useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
   const [curruntFacility,setCurruntFacility]=useState({});
+
   const handleOpenViewModal = (curruntItem:object) => {
     setOpenViewModal(true);
     setCurruntFacility(curruntItem);
@@ -27,7 +28,6 @@ export default function FacilitiesList() {
     setOpenViewModal(false);
   }
   
-
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const handleOpenDeleteModal = (curruntItem:object) => {
     setOpenDeleteModal(true);
@@ -117,7 +117,9 @@ export default function FacilitiesList() {
         <Loading />
       ) : facilitiesList.length !== 0 ? (
         <Tables  
-        array={facilitiesList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} name={'facilities'}/>
+        array={facilitiesList} distract={distract} headerTableArray={headerTableArray}
+         openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} 
+         name={'facilities'}/>
       ) : (
         <NoData />
       )}

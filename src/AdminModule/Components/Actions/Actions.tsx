@@ -8,6 +8,7 @@ import * as React from "react";
 import AddAds from "../Ads/Components/ActionsAds/AddAds";
 import { baseUrl } from "../../../Constants/Components/Urls";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -72,7 +73,7 @@ export default function Actions({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+const navigateTo=useNavigate();
 
   const [valuesItem, setValuesItem] = React.useState({})
   async function getOneAds() {
@@ -93,7 +94,8 @@ export default function Actions({
 
   return (
     <>
-      <AddAds  open={openAdd} handleClose={handleCloseAdd} updateValues={valuesItem} id={id} />
+      <AddAds  open={openAdd} handleClose={handleCloseAdd} updateValues={valuesItem} 
+      id={id} />
 
       {allActions == "no" ? (
         <Button
@@ -147,9 +149,12 @@ export default function Actions({
                   console.log('hi');
                 }
                 else if(name=='rooms'){
-                  console.log('hi');
+                  localStorage.setItem(
+                    "id",id );
+
+                  navigateTo(`/Admin/rooms/updateRoom/${id}`,{state:{room:curruntItem}});
                 }
-                handleClose()
+              
               }}
               disableRipple
             >
