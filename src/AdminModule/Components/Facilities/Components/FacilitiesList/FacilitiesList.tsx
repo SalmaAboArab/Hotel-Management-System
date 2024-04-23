@@ -50,8 +50,7 @@ export default function FacilitiesList() {
     try {
       const response = await axios.put(
         `${baseUrl}/admin/room-facilities/${currentFacility?._id}`,
-        data,
-        {
+        data,{
           headers: {
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMxNDk2NywiZXhwIjoxNzE0NTI0NTY3fQ.hZHGyq8URhmMYQ11qie8VUDRyU1JY9LujY8j7_XIamY",
@@ -82,6 +81,31 @@ export default function FacilitiesList() {
       setCountPage(Number(activePage));
     }
   }, []);
+
+//function elllllllllllllll add
+
+async function onSubmitAddFacilities(data:object) {
+  try {
+    const response = await axios.post(`${baseUrl}/admin/room-facilities`,data, {
+      headers: {
+        Authorization:token
+      },
+      
+    });
+   //console.log(response)
+    toast.success('Facility Added Succeefully')
+    getFacilitiesList();
+    handleCloseActionsModal();
+    
+   
+   
+  } catch (error) {
+  //  console.log(error);
+   toast.error(error?.response?.data?.message||'Something is wrong');
+   
+  } 
+}
+
 
   
 
@@ -133,7 +157,7 @@ export default function FacilitiesList() {
   };
 
   const headerTableArray = [
-    "id",
+    // "id",
     "name",
     "createdBy",
     "createdAt",
@@ -142,7 +166,7 @@ export default function FacilitiesList() {
   ];
 
   const distract = [
-    "._id",
+    // "._id",
     ".name",
     ".createdBy?.userName",
     ".createdAt",
