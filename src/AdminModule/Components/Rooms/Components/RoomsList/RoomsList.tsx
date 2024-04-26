@@ -48,10 +48,11 @@ export default function RoomsList() {
   const name="rooms";
 
   const gitAllRoom=async()=>{
+    const token=localStorage.getItem('adminToken');
 try {
   setIsLoading(true)
   const {data}=await axios.get(`${baseUrl}/admin/rooms` ,
-   {headers:{Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFhYTZkNzZlYmJiZWZiYzE5ZjMyM2UiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzAyNDQ1MCwiZXhwIjoxNzE0MjM0MDUwfQ.WGP2BzDpvgwhKVCenvoDk7yOr4GnG4utAhSnf-baTOg"}})
+   {headers:{Authorization:token}})
   console.log(data.data.rooms)
   setRoomList(data?.data?.rooms);
 

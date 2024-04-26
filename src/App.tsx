@@ -61,13 +61,14 @@ function App() {
         {path:'facilities/facilities-form',element:<FacilitiesForm/>},
         {path:'rooms',element:<RoomsList/>},
         {path:'rooms/rooms-form',element:<RoomsForm/>},
-        {path:'rooms/updateRoom/:roomId',element:<UpdateRoom/>},
+        {path:'rooms/update-room/:roomId',element:<UpdateRoom/>},
         {path:"change-password",element:<ChangePassword/>}
       ]
     }
   ])
   return (
     <>
+    
     <RouterProvider router={routers} />
     </>
   )

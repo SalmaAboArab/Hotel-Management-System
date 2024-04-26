@@ -7,7 +7,8 @@ import { ICreateRoom } from '../RoomsForm/RoomListInterface';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, MenuItem, Select, Stack, TextField, styled,Typography } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
-import Loading from '../../../../../SharedModule/Components/Loading/Loading';
+
+
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -54,9 +55,10 @@ export default function UpdateRoom() {
 
     const submitUpdateRoom=async(data:ICreateRoom)=>{
         const AppendData=appendToFormData(data)
+        const token=localStorage.getItem('adminToken');
         try {
           const response=await axios.put(`${baseUrl}/admin/rooms/${room._id}`,AppendData,
-          {headers:{Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFhYTZkNzZlYmJiZWZiYzE5ZjMyM2UiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzAyNDQ1MCwiZXhwIjoxNzE0MjM0MDUwfQ.WGP2BzDpvgwhKVCenvoDk7yOr4GnG4utAhSnf-baTOg"}})
+          {headers:{Authorization:token}})
           toast.success("Room updated successfully");
        navigateTo("/Admin/rooms")
         } catch (error: any) {
@@ -68,10 +70,10 @@ export default function UpdateRoom() {
       // get facilitiesList
   
   const gitAllFacilities=async()=>{
+    const token=localStorage.getItem('adminToken');
     try {
-   
       const response=await axios.get(`${baseUrl}/admin/room-facilities` ,
-       {headers:{Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFhYTZkNzZlYmJiZWZiYzE5ZjMyM2UiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzAyNDQ1MCwiZXhwIjoxNzE0MjM0MDUwfQ.WGP2BzDpvgwhKVCenvoDk7yOr4GnG4utAhSnf-baTOg"}})
+       {headers:{Authorization:token}})
       console.log(response.data.data.facilities)
       setfacilitiesList(response?.data?.data?.facilities);
     } catch (error) {
@@ -157,7 +159,7 @@ size='small'
                 multiple
                 defaultValue={room?.facilities?.map((facility:any)=>facility._id)}
                 {...register("facilities")}
-                required
+              
                 variant="filled"
                 fullWidth
                 type="text"
@@ -244,7 +246,7 @@ size='small'
     </Grid>
     <Grid item xs={3} >
     <Button onClick={()=>navigateTo("/Admin/rooms")} type="submit" size='large'
-     variant="contained" color="primary">
+     variant="outlined" color="error">
         Cancel
       </Button>
     </Grid>

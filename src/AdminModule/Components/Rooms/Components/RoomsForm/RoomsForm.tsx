@@ -20,6 +20,7 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
 export default function RoomsForm() {
  const navigateTo=useNavigate();
  const { action } = useParams();
@@ -27,7 +28,7 @@ export default function RoomsForm() {
  const [isLoading, setIsLoading] = useState(false);
   const {register,handleSubmit,watch, setValue, formState: { errors }}=useForm();
   const [facilitiesList,setfacilitiesList]=useState<string[]>([]);
-const[images,setImages]=useState<File[]>([]);
+
 
   const AppendToFormData=(data:ICreateRoom)=>{
     let formData=new FormData();
@@ -51,10 +52,10 @@ const[images,setImages]=useState<File[]>([]);
   const submitData=async(data:ICreateRoom)=>{
    
     let roomAppendForm=AppendToFormData(data);
-     
+    const token=localStorage.getItem('adminToken');
     try {
       const response=await axios.post(`${baseUrl}/admin/rooms`,roomAppendForm,
-  {headers:{Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFhYTZkNzZlYmJiZWZiYzE5ZjMyM2UiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzAyNDQ1MCwiZXhwIjoxNzE0MjM0MDUwfQ.WGP2BzDpvgwhKVCenvoDk7yOr4GnG4utAhSnf-baTOg"}})
+  {headers:{Authorization:token}})
   console.log(response)
   setTimeout(()=>{
     toast.success(`${process} done`,{autoClose: 5000}),1000
@@ -69,9 +70,9 @@ const[images,setImages]=useState<File[]>([]);
   
   const gitAllFacilities=async()=>{
     try {
-   
+      const token=localStorage.getItem('adminToken');
       const response=await axios.get(`${baseUrl}/admin/room-facilities` ,
-       {headers:{Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjFhYTZkNzZlYmJiZWZiYzE5ZjMyM2UiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzAyNDQ1MCwiZXhwIjoxNzE0MjM0MDUwfQ.WGP2BzDpvgwhKVCenvoDk7yOr4GnG4utAhSnf-baTOg"}})
+       {headers:{Authorization:token}})
       console.log(response.data.data.facilities)
       setfacilitiesList(response?.data?.data?.facilities);
     } catch (error) {
@@ -84,6 +85,7 @@ const[images,setImages]=useState<File[]>([]);
           },[])
   return (
     <>
+       
   <form onSubmit={handleSubmit(submitData)}>
    <Grid  justifyContent="center"
       alignItems="center" container p={1} paddingTop={5} spacing={2}>
@@ -93,7 +95,6 @@ const[images,setImages]=useState<File[]>([]);
 label="roomNumber"
 {...register("roomNumber")}
 name="roomNumber"
-required
 fullWidth
 margin="normal"
 variant="filled"
@@ -105,7 +106,6 @@ size='small'
         label="price"
         {...register("price")}
        name="price"
-       required
         fullWidth
         variant="filled"
         margin="normal"
@@ -123,7 +123,7 @@ size='small'
         variant="filled"
         {...register("capacity")}
        name="capacity"
-       required
+      
         fullWidth
         margin="normal"
         size='small'
@@ -135,7 +135,7 @@ size='small'
         label="discount"
         {...register("discount")}
        name="discount"
-       required
+      
        variant="filled"
         fullWidth
         margin="normal"
@@ -153,7 +153,7 @@ size='small'
                 multiple
                 {...register("facilities")}
               value={watch("facilities")|| []}
-                required
+              
                 variant="filled"
                 fullWidth
                 type="text"
@@ -219,7 +219,7 @@ size='small'
               </Button>
     </Grid>
     <Grid item xs={3} >
-    <Button onClick={()=>navigateTo("/Admin/rooms")} type="submit" size='large' variant="contained" color="primary">
+    <Button onClick={()=>navigateTo("/Admin/rooms")} color="error" type="submit" size='large' variant="contained" >
         Cancel
       </Button>
     </Grid>
