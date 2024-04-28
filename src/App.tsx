@@ -32,8 +32,10 @@ function App() {
       children:
       [
         {index:true,element:<LandingPage/>},
-        {path:'all-rooms',element:<AllRooms/>},
-        {path:'all-rooms/room-details',element:<RoomDetails/>},
+        // {path:'all-rooms',element:<AllRooms/>},
+        {path:'all-rooms/:explore-data',element:<AllRooms/>},
+        // {path:'all-rooms/room-details',element:<RoomDetails/>},
+        {path:'all-rooms/room-details/:room-id',element:<RoomDetails/>},
       ]
     },
     {

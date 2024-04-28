@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AllRooms() {
     const navigate=useNavigate();
+    
   return (
     <>
     <div>AllRooms</div>

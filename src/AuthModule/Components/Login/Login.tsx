@@ -29,13 +29,14 @@ export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();  
 
 
-  const saveLoginData=()=>{
-    const encodedToken:any=localStorage.getItem("adminToken");
-    const decodedToken:any=jwtDecode(encodedToken);      
-    localStorage.setItem('loginData',JSON.stringify(decodedToken)); 
-    localStorage.setItem('userRole',JSON.stringify(decodedToken?.userGroup)); 
+
+  // const saveLoginData=()=>{
+  //   const encodedToken:any=localStorage.getItem("adminToken");
+  //   const decodedToken:any=jwtDecode(encodedToken);    
+  //   localStorage.setItem('loginData',JSON.stringify(decodedToken)); 
+  //   localStorage.setItem('userRole',JSON.stringify(decodedToken?.role)); 
      
-  }
+  // }
 
 
   async function callLoginApi(data: { email: string }) {
@@ -47,8 +48,20 @@ export default function Login() {
       );
       toast.success(response.data.message);
       localStorage.setItem("adminToken",response?.data?.data?.token); 
-      saveLoginData(); 
-      navigate("/Admin");
+      // saveLoginData(); 
+      const encodedToken:any=localStorage.getItem("adminToken");
+    const decodedToken:any=jwtDecode(encodedToken); 
+    let role=decodedToken?.role;
+    localStorage.setItem('loginData',JSON.stringify(decodedToken)); 
+    localStorage.setItem('userRole',JSON.stringify(decodedToken?.role)); 
+
+      if(role=='user'){
+        navigate("/");
+      }
+      else{
+        navigate("/Admin");
+      }
+
     } catch (error) {
       toast.error(error?.response?.data?.message || "There's a mistake.");
     } finally {
@@ -156,7 +169,9 @@ export default function Login() {
                   type="password"
                   id="password"
                   placeholder="Please type here ..."
-                  {...register("password", passwordValidation)}
+                  {...register("password",
+                  //  passwordValidation
+                  )}
                 />
                 {errors.password && (
                   <Typography variant="body2" sx={{ color: "red" }}>

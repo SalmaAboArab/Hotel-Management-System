@@ -1,0 +1,6 @@
+.imgContainer:hover{
+    .imgLayout{
+        display: flex; 
+    overflow: hidden;
+    }
+}
