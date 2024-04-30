@@ -155,7 +155,7 @@ export default function Login() {
                   {...register("email", emailValidation)}
                 />
                 {errors.email && (
-                  <Typography variant="body2" sx={{ color: "red" }}>
+                  <Typography variant="body2" sx={{ color: "error.light" }}>
                     {errors.email.message}
                   </Typography>
                 )}
@@ -169,12 +169,12 @@ export default function Login() {
                   type="password"
                   id="password"
                   placeholder="Please type here ..."
-                  {...register("password",
+                  {...register("password",{required:"Password is required"}
                   //  passwordValidation
                   )}
                 />
                 {errors.password && (
-                  <Typography variant="body2" sx={{ color: "red" }}>
+                  <Typography variant="body2" sx={{ color: "error.light" }}>
                     {errors.password.message}
                   </Typography>
                 )}
