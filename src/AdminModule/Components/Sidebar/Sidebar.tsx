@@ -23,6 +23,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from '../../../AuthModule/Components/ChangePassword/ChangePassword';
+import Logout from '../../../AuthModule/Components/Logout/Logout';
 
 const drawerWidth = 240;
 
@@ -91,6 +92,10 @@ export default function Sidebar() {
   const [show, setShow] = React.useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [openLogoutModal, setOpenLogoutModal] = React.useState(false);
+  const handleOpenLogoutModal = () => setOpenLogoutModal(true);
+  const handleCloseLogoutModal = () => setOpenLogoutModal(false);
  
   return (
     <>
@@ -111,7 +116,7 @@ export default function Sidebar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{backgroundColor:"#203FC7",color:"white"}}>
+        <List sx={{backgroundColor:"#203FC7",color:"white",height:"100vh"}}>
 
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -280,7 +285,7 @@ export default function Sidebar() {
            
             <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-              onClick={()=>{navigateTo("/")}}
+              onClick={()=>{handleOpenLogoutModal()}}
                 sx={{
                   color:"white",
                   minHeight: 48,
@@ -306,6 +311,11 @@ export default function Sidebar() {
       </Drawer>
       
     </Box>
+    {
+      openLogoutModal?
+      <Logout closeModal={handleCloseLogoutModal}/>
+      :''
+    }
     </>
   );
 }

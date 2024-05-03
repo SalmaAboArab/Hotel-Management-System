@@ -7,6 +7,7 @@ import NoData from '../../../SharedModule/Components/NoData/NoData'
 import axios from 'axios'
 import { baseUrl } from '../../../Constants/Components/Urls'
 import ViewModal from '../ViewModal/ViewModal'
+import PaginationShared from '../../../SharedModule/Components/Pagination/PaginationShared'
 export default function UsersList() {
   const [usersList, setUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,15 +46,34 @@ export default function UsersList() {
     
   ];
 
+
+   //? <<============= handle Pagination =============>>
+   const [countPage, setCountPage] = useState(1);
+   const [totalPages, setTotalPages] = useState(10);
+ 
+   function handlePage(event: React.ChangeEvent<unknown>, page: number) {    
+     setCountPage(page);
+     localStorage.setItem("activePage", String(page));
+   }
+   
+   useEffect(() => {
+     const activePage = localStorage.getItem("activePage");
+     if (activePage) {
+       setCountPage(Number(activePage));
+     }
+   }, []);
+ 
+   
+
   async function getUsersList() {
     try {
-      const { data } = await axios.get(`${baseUrl}/admin/users?page=1&size=10`, {
+      const { data } = await axios.get(`${baseUrl}/admin/users?page=${countPage}&size=10`, {
         headers: {
           Authorization:token
         },
       });  
       // console.log(data.data.users);
-          
+      setTotalPages(Math.ceil(data.data.totalCount / 10));
       setUsersList(data.data.users);
     } catch (error) {
       console.error("Somthing went wrong", error);
@@ -64,7 +84,7 @@ export default function UsersList() {
   useEffect(() => {
     setIsLoading(true);
     getUsersList();
-  }, []);
+  }, [countPage]);
   return (
     <Box sx={{ padding: 2 }}>
     <HeaderComponents
@@ -75,8 +95,11 @@ export default function UsersList() {
 
     {isLoading ? (
       <Loading />
-    ) : usersList?.length !== 0 ? (
-      <Tables array={usersList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal} name={''}/>
+    ) : usersList?.length !== 0 ? (<>
+    <Tables array={usersList} distract={distract} headerTableArray={headerTableArray} actions={'no'} openViewModal={handleOpenModal} name={''}/>
+   <PaginationShared countPage={countPage} handlePage={handlePage} totalPages={totalPages}/>
+    
+    </>
     ) : (
       <NoData />
     )}

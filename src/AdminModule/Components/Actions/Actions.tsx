@@ -51,6 +51,7 @@ type props = {
   id: string;
   openDeleteModal: Function;
   openViewModal: Function;
+  openUpdateModel:Function;
   curruntItem:object;
   name:string;
 };
@@ -59,6 +60,7 @@ export default function Actions({
   id,
   openDeleteModal,
   openViewModal,
+  openUpdateModel,
   curruntItem,
   name
 }: props) {
@@ -74,14 +76,15 @@ export default function Actions({
     setAnchorEl(null);
   };
 const navigateTo=useNavigate();
+  const token=localStorage.getItem('adminToken');
+
 
   const [valuesItem, setValuesItem] = React.useState({})
   async function getOneAds() {
     try {
       const { data } = await axios.get(`${baseUrl}/admin/ads/${id}`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBmNzU5ODZlYmJiZWZiYzE5ZWEyMmUiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzMwNDczMywiZXhwIjoxNzE0NTE0MzMzfQ.T4R-kftCVUlZuPZddbWyVrcBUPN7bMY6O7Z3jHMY9D0",
+          Authorization:token
         },
       });
       setValuesItem(data.data.ads)
@@ -139,28 +142,32 @@ const navigateTo=useNavigate();
               <Visibility />
               View
             </MenuItem>
+            {name=='booking'?'':
             <MenuItem
-              onClick={() => {
-                if(name=='ads'){
-                  handleOpenAdd();
-                getOneAds();
-                }
-                else if(name=='facilities'){
-                  console.log('hi');
-                }
-                else if(name=='rooms'){
+            onClick={() => {
+              if(name=='ads'){
+                handleOpenAdd();
+              getOneAds();
+              }
+              else if(name=='facilities'){
+                openUpdateModel(curruntItem)
+              }
+              else if(name=='rooms'){
+                
                   localStorage.setItem(
                     "id",id );
 
                   navigateTo(`/Admin/rooms/updateRoom/${id}`,{state:{room:curruntItem}});
                 }
               
-              }}
-              disableRipple
-            >
-              <EditIcon />
-              Edit
-            </MenuItem>
+              handleClose()
+            }}
+            disableRipple
+          >
+            <EditIcon />
+            Edit
+          </MenuItem>
+            }
             <MenuItem
               onClick={() => {
                 // localStorage.setItem("curruntItemId", id);
