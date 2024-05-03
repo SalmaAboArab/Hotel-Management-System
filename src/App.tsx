@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+http://localhost:5175/ http://localhost:5175/ http://localhost:5175/import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './App.css'
 import Login from './AuthModule/Components/Login/Login'
 import Register from './AuthModule/Components/Register/Register'
@@ -22,6 +22,7 @@ import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
 import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRoute'
 import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
+import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
 
 function App() {
   const routers = createBrowserRouter([
@@ -66,12 +67,14 @@ function App() {
         {path:'facilities/facilities-form',element:<FacilitiesForm/>},
         {path:'rooms',element:<RoomsList/>},
         {path:'rooms/rooms-form',element:<RoomsForm/>},
+        {path:'rooms/update-room/:roomId',element:<UpdateRoom/>},
         {path:"change-password",element:<ChangePassword/>}
       ]
     }
   ])
   return (
     <>
+    
     <RouterProvider router={routers} />
     </>
   )
