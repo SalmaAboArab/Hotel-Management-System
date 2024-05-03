@@ -33,7 +33,7 @@ function App() {
       [
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
-        {path:'all-rooms/room-details',element:<RoomDetails/>},
+        {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
       ]
     },
     {
