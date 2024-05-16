@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, colors } from '@mui/material';
 import { baseUrl } from '../../../Constants/Components/Urls';
 import React,{useEffect,useState} from 'react';
 import { json, useNavigate } from 'react-router-dom';
@@ -57,21 +57,23 @@ export default function AllRooms() {
   }, []);
 /////////////////////////add to fav ////////////////////////////////////////////
 
-  async function addToFav(id) {
+  async function addToFav(id:any) {
     console.log(id);
     if(userRole=='user'){
       try {
         const response= await axios.post(`${baseUrl}/portal/favorite-rooms`,{'roomId':id}, {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhNjdlN2RiNzVhYzQ5ODAzNTY5ZDYiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0MDE1MzU3LCJleHAiOjE3MTUyMjQ5NTd9.4AZOGtoXVEQ0Ss55wiav379QUL6EcBaDETCr0FRZTG0",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODkxMzI4LCJleHAiOjE3MTcxMDA5Mjh9.t5m_gU78TAQ3OlGOzK0RuuMGwmDovpugVd-5VGr7IzU",
           },
               
         }
        
       );
-        console.log(response.data.data.message);
+       // console.log(response.data.data.message);
+        
         toast.success('add successfully')
+        exploreAllRooms();
       } catch (error) {
         console.error(error);
         toast.error(error?.response?.data?.message);
@@ -117,7 +119,7 @@ All Rooms
                           <Box className={style.memberCaption}>
                             <div className={style.icon}>
                  
-                  <FavoriteIcon sx={{margin:'20px'}} onClick={()=>addToFav(rooms._id)} />
+                  <FavoriteIcon  sx={{margin:'20px'}} onClick={()=>addToFav(rooms._id)  } />
                   
                        
                             <VisibilityIcon onClick={()=>navigate('/all-rooms/room-details')}/>

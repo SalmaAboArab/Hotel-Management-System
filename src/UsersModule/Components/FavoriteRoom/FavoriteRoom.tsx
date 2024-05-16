@@ -12,7 +12,7 @@ import NoData from '../../../SharedModule/Components/NoData/NoData';
 import { toast } from "react-toastify";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import style from '../AllRooms/AllRooms.module.css';
+import style from './FavoriteRoom.module.css';
 export default function FavoriteRoom() {
   const[favorites,setFavorites]=useState([]);
   const navigate=useNavigate();
@@ -23,13 +23,14 @@ export default function FavoriteRoom() {
       const response= await axios.get(`${baseUrl}/portal/favorite-rooms`, {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhNjdlN2RiNzVhYzQ5ODAzNTY5ZDYiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0MDE1MzU3LCJleHAiOjE3MTUyMjQ5NTd9.4AZOGtoXVEQ0Ss55wiav379QUL6EcBaDETCr0FRZTG0",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODg5ODI1LCJleHAiOjE3MTcwOTk0MjV9.ZxcDaaeMB3KCacGttx9FveZitrCZ36AIOzKz267C9mc",
         },
       }
      
     );
    
     setFavorites(response.data.data.favoriteRooms[0].rooms);
+    //setFavorites(response.data.data.favoriteRooms[0].user._id);
       console.log(response.data.data.favoriteRooms[0].rooms);
       
     } catch (error) {
@@ -45,10 +46,11 @@ export default function FavoriteRoom() {
   async function deleteFavRoom(roomId) {
     console.log(roomId)
     try {
-      const response= await axios.delete(`${baseUrl}/portal/favorite-rooms/${roomId}`,{'roomId':roomId}, {
+      const response= await axios.delete(`${baseUrl}/portal/favorite-rooms/${roomId}`, {
+        data:{roomId:roomId},
         headers: {
           Authorization:
-       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0MzYxODY4LCJleHAiOjE3MTU1NzE0Njh9.y3vu5rQPcw1KBONiT1iIwZmtt3ANxuQ_mBD-yQTLewE",
+       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODg5ODI1LCJleHAiOjE3MTcwOTk0MjV9.ZxcDaaeMB3KCacGttx9FveZitrCZ36AIOzKz267C9mc",
         },
             
       }
@@ -56,6 +58,7 @@ export default function FavoriteRoom() {
     );
       console.log(response);
       toast.success('delete successfully')
+      favoritesList();
     } catch (error) {
       console.error(error);
       toast.error(error)
@@ -92,7 +95,7 @@ Your Rooms
                            <Box className={style.memberCaption}>
                             <div className={style.icon}>
                             <FavoriteIcon onClick={()=>deleteFavRoom(favRooms._id)} sx={{margin:'20px'}}  />
-                            <VisibilityIcon onClick={()=>navigate('/all-rooms/room-details')}/>
+                            <VisibilityIcon sx={{color:'white'}} onClick={()=>navigate('/all-rooms/room-details')}/>
                             </div>
                           </Box>
                           
