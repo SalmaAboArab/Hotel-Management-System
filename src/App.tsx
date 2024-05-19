@@ -1,4 +1,4 @@
-http://localhost:5175/ http://localhost:5175/ http://localhost:5175/import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+// http://localhost:5175/ http://localhost:5175/ http://localhost:5175/import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './App.css'
 import Login from './AuthModule/Components/Login/Login'
 import Register from './AuthModule/Components/Register/Register'
@@ -24,9 +24,10 @@ import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
 import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 function App() {
-  const routers = createBrowserRouter([
+  const routers = createHashRouter([
     {
       path:"/",
       element:<MasterLayout/>,
