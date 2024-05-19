@@ -33,7 +33,7 @@ export default function Login() {
     const encodedToken:any=localStorage.getItem("adminToken");
     const decodedToken:any=jwtDecode(encodedToken);      
     localStorage.setItem('loginData',JSON.stringify(decodedToken)); 
-    localStorage.setItem('userRole',JSON.stringify(decodedToken?.userGroup)); 
+    localStorage.setItem('userRole',JSON.stringify(decodedToken?.role)); 
      
   }
 

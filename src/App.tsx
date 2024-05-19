@@ -23,6 +23,7 @@ import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRo
 import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
+import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
 
 function App() {
   const routers = createBrowserRouter([
@@ -32,8 +33,11 @@ function App() {
       errorElement:<NotFound/>,
       children:
       [
+
+        
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
+        {path:'favorite-room',element:<FavoriteRoom/>},
         {path:'all-rooms/room-details',element:<RoomDetails/>},
       ]
     },
