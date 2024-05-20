@@ -24,10 +24,10 @@ import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
 import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
-import { RouterProvider, createHashRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 function App() {
-  const routers = createHashRouter([
+  const routers = createBrowserRouter([
     {
       path:"/",
       element:<MasterLayout/>,
@@ -38,6 +38,7 @@ function App() {
         
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
+        {path:'all-rooms/:explore-data',element:<AllRooms/>},
         {path:'favorite-room',element:<FavoriteRoom/>},
         {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
       ]
