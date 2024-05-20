@@ -15,9 +15,9 @@ export const passwordValidation = {
   },
   pattern: {
     value:
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+      /^(?=.*[a-z])(?=.*)(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
     message:
-      "Password must include at least one lowercase letter, one uppercase letter, one number, and one special character",
+      "Password must include at least one lowercase letter, one number, and one special character",
   },
 };
 

@@ -9,6 +9,7 @@ import Tables from "../../../../../SharedModule/Components/Tables/Tables";
 import DeleteModal from "../../../DeleteModal/DeleteModal";
 import AddAds from "../ActionsAds/AddAds";
 import ViewModal from "../../../ViewModal/ViewModal";
+import PaginationShared from "../../../../../SharedModule/Components/Pagination/PaginationShared";
 
 export default function AdsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -58,6 +59,24 @@ export default function AdsList() {
     ".room?.capacity",
     ".isActive",
   ];
+  
+   //? <<============= handle Pagination =============>>
+   const [countPage, setCountPage] = useState(1);
+   const [totalPages, setTotalPages] = useState(10);
+ 
+   function handlePage(event: React.ChangeEvent<unknown>, page: number) {    
+     setCountPage(page);
+     localStorage.setItem("activePage", String(page));
+   }
+   
+   useEffect(() => {
+     const activePage = localStorage.getItem("activePage");
+     if (activePage) {
+       setCountPage(Number(activePage));
+     }
+   }, []);
+ 
+   
 
   async function getAdsList() {
     try {
@@ -68,7 +87,7 @@ export default function AdsList() {
       });
 
       setAdsList(data.data.ads);
-      console.log(data.data.ads);
+      setTotalPages(Math.ceil(data.data.totalCount / 10));
       
     } catch (error) {
       console.error("Error fetching ads:", error);
@@ -98,8 +117,11 @@ export default function AdsList() {
 
       {isLoading ? (
         <Loading />
-      ) : adsList.length !== 0 ? (
+      ) : adsList.length !== 0 ? (<>
         <Tables array={adsList} distract={distract} headerTableArray={headerTableArray} openDeleteModal={handleOpenDeleteModal} openViewModal={handleOpenViewModal} actions={'yes'} name={'ads'}/>
+   <PaginationShared countPage={countPage} handlePage={handlePage} totalPages={totalPages}/>
+
+      </>
       ) : (
         <NoData />
       )}
