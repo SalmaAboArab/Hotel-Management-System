@@ -1,7 +1,7 @@
 import { Container, Typography, colors } from '@mui/material';
 import { baseUrl } from '../../../Constants/Components/Urls';
 import React,{useEffect,useState} from 'react';
-import { json, useNavigate } from 'react-router-dom';
+import { json, useNavigate ,useParams} from 'react-router-dom';
 import Link from '@mui/material/Link';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -14,6 +14,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import style from './AllRooms.module.css';
 import AnonymousUserAlert from '../AnonymousUserAlert/AnonymousUserAlert';
+import Loading from "../../../SharedModule/Components/Loading/Loading";
+
 
 
 
@@ -24,8 +26,14 @@ import AnonymousUserAlert from '../AnonymousUserAlert/AnonymousUserAlert';
 
 export default function AllRooms() {
   
+  
   let userRole=JSON.parse(localStorage.getItem('userRole')) ;
   console.log(userRole);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const {id}=useParams();
+  
+
 
   ///////////////// expolre all room//////////////////////////////////
   const navigate=useNavigate();
@@ -50,7 +58,11 @@ export default function AllRooms() {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   }
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
   useEffect(() => {
     exploreAllRooms();
     
@@ -105,7 +117,10 @@ All Rooms
      
     >
       <ImageList className='styleImage' sx={{ width: '100%', height: '', }} cols={4} >
-      {allRooms.map((rooms) => (
+      {isLoading ? (
+        <Loading />
+      ) :
+      allRooms.map((rooms) => (
         
         <ImageListItem className={style.member}  key={rooms._id} /*sx={{borderRadius:'50%'}}*/>
          <img
@@ -122,7 +137,7 @@ All Rooms
                   <FavoriteIcon  sx={{margin:'20px'}} onClick={()=>addToFav(rooms._id)  } />
                   
                        
-                            <VisibilityIcon onClick={()=>navigate('/all-rooms/room-details')}/>
+                            <VisibilityIcon onClick={()=>navigate(`/all-rooms/room-details/${rooms._id}`)}/>
                             </div>
                            
                           
