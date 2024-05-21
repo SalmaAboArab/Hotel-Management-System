@@ -14,23 +14,6 @@ export default function Explore() {
         formState: { errors },
       } = useForm();
 
-      const [capacityValue,setCapacityValue] = useState(1);
-
-      const handleCapacityChange=(e)=>{
-        console.log(e.target.value);
-        const value=e.target.value;
-
-        if(value<1){
-            setCapacityValue(1);
-        }
-        else if(value>10){
-            setCapacityValue(10)
-        }
-        else{
-            setCapacityValue(value)
-        }
-        
-      }
 
     // type ExploreData = {
     //     startDate: Date;
@@ -38,19 +21,19 @@ export default function Explore() {
     //     capacity: number;
     //   };
     
-      const Explore = {
-        startDate: new Date(),
-        endDate: new Date(),
-        capacity: new Number(),
-      };
+      // const Explore = {
+      //   startDate: new Date(),
+      //   endDate: new Date(),
+      //   capacity: new Number(),
+      // };
     
       async function handleExplore(data: FieldValues) {
-        // console.log("explore ", data);
-        Explore.startDate = data.startDate;
-        Explore.endDate = data.endDate;
-        Explore.capacity = data.capacity;
-        // console.log(Explore);
-        navigate(`all-rooms/${JSON.stringify(Explore)}`);
+        // Explore.startDate = data.startDate;
+        // Explore.endDate = data.endDate;
+        // Explore.capacity = data.capacity;
+        // navigate(`all-rooms/${JSON.stringify(Explore)}`);
+
+        navigate(`all-rooms/${data.startDate}/${data.endDate}/${data.capacity}`);
       }
   return (
     <Box sx={{ my: 5, width: "75%", mx: "auto", height: "75vh" }}>
@@ -195,8 +178,8 @@ export default function Explore() {
                             // })}
                           />
                           */}
-                          <input type="number" id="capacity" min={1} max={10}
-                           style={{backgroundColor:'#F5F6F8', border:'solid #E5E5E5 1px', width:'100%',height:'50px', borderRadius:'4px'}}
+                          <input type="number" id="capacity" min={1} max={10} onKeyDown={(e)=> e.preventDefault()}
+                           style={{backgroundColor:'#F5F6F8', border:'solid #E5E5E5 1px', width:'100%',height:'50px', borderRadius:'4px',paddingLeft:'10px'}}
                            placeholder="Number of people..."
                            {...register("capacity", {
                               required: "capacity is required",
