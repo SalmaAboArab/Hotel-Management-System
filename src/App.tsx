@@ -38,8 +38,9 @@ function App() {
         
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
-        {path:'all-rooms/:explore-data',element:<AllRooms/>},
+        {path:'all-rooms/:startdate/:enddate/:capacity',element:<AllRooms/>},
         {path:'favorite-room',element:<FavoriteRoom/>},
+        {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
         {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
       ]
     },
