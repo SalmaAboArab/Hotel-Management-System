@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
 import './App.css'
 import Login from './AuthModule/Components/Login/Login'
 import Register from './AuthModule/Components/Register/Register'
@@ -23,6 +23,8 @@ import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRo
 import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
+import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 function App() {
   const routers = createBrowserRouter([
@@ -32,9 +34,11 @@ function App() {
       errorElement:<NotFound/>,
       children:
       [
+
+        
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
-        {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
+        {path:'all-rooms/room-details',element:<RoomDetails/>},
       ]
     },
     {
