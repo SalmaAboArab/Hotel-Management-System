@@ -61,9 +61,8 @@ const navigate =useNavigate();
   const  getRoomDetail=async()=> {
     
     try {
-     
       const response = await axios.get
-(`${baseUrl}/portal/rooms/65a8dd18a5d9953dd42ced9b?startDate=2024-01-18&endDate=2024-04-17`, {
+(`${baseUrl}/portal/rooms/${id}?startDate=2024-01-18&endDate=2024-04-17`, {
         headers: {
           Authorization:token
         },
@@ -109,7 +108,7 @@ const navigate =useNavigate();
 
   // create comment888888888888888888888888
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit,  formState: { errors } } = useForm();
 const submitRate=async(data:any)=>{
   const token=localStorage.getItem('adminToken');
   try {
