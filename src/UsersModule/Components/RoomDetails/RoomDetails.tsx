@@ -1,11 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { baseUrl } from '../../../Constants/Components/Urls';
-import { Box, Button, Card, CardContent, makeStyles, Grid, ImageList, ImageListItem, Paper, Stack, TextField, TextareaAutosize, Typography, CardMedia } from '@mui/material';
-import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Box, Button, Card, CardContent,Grid, Paper,  TextField,  Typography, CardMedia } from '@mui/material';
+
 import { toast } from "react-toastify";
 import BedIcon from "@mui/icons-material/Bed";
 import WeekendIcon from "@mui/icons-material/Weekend";
@@ -15,16 +12,11 @@ import NetworkWifiIcon from "@mui/icons-material/NetworkWifi";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 import BluetoothIcon from "@mui/icons-material/Bluetooth";
-import CommentIcon from "@mui/icons-material/Comment";
-import StarsIcon from "@mui/icons-material/Stars";
-import AdapterDateFns from '@mui/x-date-pickers/AdapterDateFns';
-import { DateField } from '@mui/x-date-pickers/DateField';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Textarea from '@mui/joy/Textarea';
+
 import Calendar from './Calender';
 import dayjs, { Dayjs } from "dayjs";
 
-import Rating from '@mui/material/Rating';
+
 import { styled } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import Loading from '../../../SharedModule/Components/Loading/Loading';
@@ -44,7 +36,7 @@ const navigate =useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [roomInfo,setRoomInfo]=useState([]);
   const token=localStorage.getItem('adminToken');
-  const { id } = useParams();
+  const { _id,enddate,startdate } = useParams();
   const [price , setPrice ] = useState(0)
   const [loading, setLoading] = useState<boolean>(true);
   const today = dayjs();
@@ -62,7 +54,7 @@ const navigate =useNavigate();
     
     try {
       const response = await axios.get
-(`${baseUrl}/portal/rooms/${id}?startDate=2024-01-18&endDate=2024-04-17`, {
+(`${baseUrl}/portal/rooms/${_id}?startDate=${startdate}&endDate=${enddate}`, {
         headers: {
           Authorization:token
         },
@@ -84,7 +76,7 @@ const navigate =useNavigate();
       const requestBody = {
         startDate: startDate,
         endDate: endDate,
-        room: id ,
+        room: _id ,
         totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, 'day')
       };
   
@@ -97,8 +89,10 @@ const navigate =useNavigate();
           },
         }
       );
-      console.log(response);
+      console.log(_id);
       toast.success('Booking created successfully')
+
+      // navigate("/payment")
 
     } catch (error) {
       console.log(error)
@@ -110,12 +104,11 @@ const navigate =useNavigate();
 
   const { register, handleSubmit,  formState: { errors } } = useForm();
 const submitRate=async(data:any)=>{
-  const token=localStorage.getItem('adminToken');
+  const token=localStorage.getItem('userToken');
   try {
     const response = await axios.post
 (`${baseUrl}/portal/room-reviews`,data, {
-      headers: { Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJlMTJhZjZlYmJiZWZiYzFhMzRkMjgiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0Mjk1NDk4LCJleHAiOjE3MTU1MDUwOTh9.bB5wEdYvaMAnldd-NwFYu5MM5sGHXmyt-FnYBiGySlE"
-      }
+      headers: { Authorization:token}
     });  
 
     console.log(response)
@@ -130,8 +123,7 @@ const submitRate=async(data:any)=>{
     try {
       const response = await axios.post
   (`${baseUrl}/portal/room-comments`,data, {
-        headers: { Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJlMTJhZjZlYmJiZWZiYzFhMzRkMjgiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0Mjk1NDk4LCJleHAiOjE3MTU1MDUwOTh9.bB5wEdYvaMAnldd-NwFYu5MM5sGHXmyt-FnYBiGySlE"}
-      });  
+        headers: { Authorization:token} });  
   
       console.log(response)
     } catch (error) {
@@ -158,7 +150,7 @@ const submitRate=async(data:any)=>{
        { !isLoading ? (
       <Loading/>
     ) :<>
-       <Typography variant="h4" textAlign={'center'} >Village Angaa</Typography>
+       <Typography variant="h4" style={{padding:"5px"}} textAlign={'center'} >{roomInfo.roomNumber}</Typography>
        <Typography variant="body1" style={{ marginRight: "5px" }}>
                 <Link
                   to="/"
@@ -167,9 +159,9 @@ const submitRate=async(data:any)=>{
                   Home
                 </Link>
               </Typography>
-       <Grid container spacing={2} p={5}>
+       <Grid container spacing={2} p={3}>
             {roomInfo?.images?.map((image, index) => (
-                <Grid item key={index} xs={12} >
+                <Grid item key={index} xs={6}  md={12} >
                     <Card>
                         <CardMedia
                             component="img"
@@ -304,7 +296,7 @@ const submitRate=async(data:any)=>{
 
           {/* booking8888888888888 */}
         <CardContent>
-          <Typography variant="h5" color="text.secondary">
+          <Typography variant="h5" p={5} color="text.secondary">
          {roomInfo.price} $ Per night
           </Typography>
           <Typography variant="p" color="error">
@@ -329,7 +321,8 @@ const submitRate=async(data:any)=>{
                       marginTop: "3rem",
                     }}
                   >
-                    <Button onClick={()=>{createBooking()}} variant="contained">Continue Book</Button>
+                    <Button onClick={()=>{createBooking()}} 
+                    variant="contained">Continue Book</Button>
 </Box>
         </CardContent>
       </Card>

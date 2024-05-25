@@ -3,6 +3,6 @@ export interface RoomIData {
     endDate: string;
     price: number;
     capacity:number;
-    
+    _id:string;
   }
   

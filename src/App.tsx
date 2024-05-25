@@ -42,7 +42,7 @@ function App() {
        
         {path:'all-rooms/:startdate/:enddate/:capacity',element:<AllRooms/>},
         {path:'favorite-room',element:<FavoriteRoom/>},
-        {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
+        {path:'all-rooms/room-details/:_id/',element:<RoomDetails/>},
        
       ]
     },
