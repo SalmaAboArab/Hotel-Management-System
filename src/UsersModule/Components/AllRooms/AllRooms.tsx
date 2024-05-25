@@ -37,8 +37,7 @@ export default function AllRooms() {
         `${baseUrl}/portal/rooms/available?page=1&size=10&${
           data.startdate
             ? `startDate=${data.startdate}&endDate=${data.enddate}`
-            : ""
-        }`,
+            : ""}`,
         {}
       );
 

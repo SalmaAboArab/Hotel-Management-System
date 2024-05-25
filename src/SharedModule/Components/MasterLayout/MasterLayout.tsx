@@ -11,7 +11,7 @@ export default function MasterLayout() {
 
         <Outlet/>
         </Box>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

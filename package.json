@@ -16,6 +16,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/system": "^5.15.15",
     "@mui/x-charts": "^7.3.0",
+    "@mui/x-date-pickers-pro": "^7.3.2",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "jsonwebtoken": "^9.0.2",

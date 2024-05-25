@@ -1,4 +1,4 @@
-// http://localhost:5175/ http://localhost:5175/ http://localhost:5175/import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
 import './App.css'
 import Login from './AuthModule/Components/Login/Login'
 import Register from './AuthModule/Components/Register/Register'
@@ -36,12 +36,14 @@ function App() {
       [
 
         
+
+        
         {index:true,element:<LandingPage/>},
-        {path:'all-rooms',element:<AllRooms/>},
+       
         {path:'all-rooms/:startdate/:enddate/:capacity',element:<AllRooms/>},
         {path:'favorite-room',element:<FavoriteRoom/>},
-        {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
-        {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
+        {path:'all-rooms/room-details/:_id/',element:<RoomDetails/>},
+       
       ]
     },
     {

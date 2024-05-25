@@ -62,7 +62,7 @@ export default function Navbar() {
             color="initial"
           >
             <Typography
-              variant=""
+              variant="h4"
              
               style={{ fontSize: "clamp(1rem, 4vw, 2rem)",color:'#3d5afe', marginLeft:'70px' }}
             >
