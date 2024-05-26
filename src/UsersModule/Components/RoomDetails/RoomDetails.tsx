@@ -36,7 +36,7 @@ const navigate =useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [roomInfo,setRoomInfo]=useState([]);
   const token=localStorage.getItem('adminToken');
-  const { _id,enddate,startdate } = useParams();
+  const { id,enddate,startdate } = useParams();
   const [price , setPrice ] = useState(0)
   const [loading, setLoading] = useState<boolean>(true);
   const today = dayjs();
@@ -54,7 +54,7 @@ const navigate =useNavigate();
     
     try {
       const response = await axios.get
-(`${baseUrl}/portal/rooms/${_id}?startDate=${startdate}&endDate=${enddate}`, {
+(`${baseUrl}/portal/rooms/${id}`, {
         headers: {
           Authorization:token
         },
@@ -76,7 +76,7 @@ const navigate =useNavigate();
       const requestBody = {
         startDate: startDate,
         endDate: endDate,
-        room: _id ,
+        room: id ,
         totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, 'day')
       };
   
@@ -89,7 +89,7 @@ const navigate =useNavigate();
           },
         }
       );
-      console.log(_id);
+      console.log(id);
       toast.success('Booking created successfully')
 
       // navigate("/payment")
@@ -310,7 +310,7 @@ const submitRate=async(data:any)=>{
   
 
     <Typography p={1}  color="text.secondary">
-     you will pay {roomInfo.price}*{roomInfo.capacity} $ per {roomInfo.capacity} person
+     you will pay {roomInfo.price*roomInfo.capacity} $ per {roomInfo.capacity} person
           </Typography> 
          
           <Calendar {...{ selectedDateRange, setSelectedDateRange }} />
