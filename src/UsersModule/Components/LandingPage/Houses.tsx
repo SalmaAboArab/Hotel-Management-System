@@ -11,7 +11,7 @@ export default function Houses() {
             container
             component="main"
             sx={{
-              height: "30vh",
+              height: "40vh",
               justifyContent: "center",
               overflow: "auto",
               mt: 3,

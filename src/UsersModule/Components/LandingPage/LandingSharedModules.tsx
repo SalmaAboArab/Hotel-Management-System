@@ -50,7 +50,7 @@ type adsImg = {
           <ImgLayer
             width="90%"
             hight="42%"
-            bottom="52%"
+            bottom="50%"
             goToRoom={goToRoom}
             curruntAd={firstAd}
             addfav={addfav}
@@ -79,7 +79,7 @@ type adsImg = {
           <ImgLayer
             width="90%"
             hight="42%"
-            bottom="6.5%"
+            bottom="5%"
             goToRoom={goToRoom}
             curruntAd={secondAd}
             addfav={addfav}
@@ -255,7 +255,7 @@ type adsImg = {
         sm={6}
         md={3}
         sx={{
-          height: "100%",
+          height: "75%",
           width: "100%",
           paddingY: 5,
           alignContent: "center",
