@@ -85,7 +85,8 @@ const navigate =useNavigate();
         requestBody,
         {
           headers: {
-            Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJlMTJhZjZlYmJiZWZiYzFhMzRkMjgiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0Mjk1NDk4LCJleHAiOjE3MTU1MDUwOTh9.bB5wEdYvaMAnldd-NwFYu5MM5sGHXmyt-FnYBiGySlE"
+            Authorization:token
+            // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJlMTJhZjZlYmJiZWZiYzFhMzRkMjgiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE0Mjk1NDk4LCJleHAiOjE3MTU1MDUwOTh9.bB5wEdYvaMAnldd-NwFYu5MM5sGHXmyt-FnYBiGySlE"
           },
         }
       );
@@ -104,7 +105,7 @@ const navigate =useNavigate();
 
   const { register, handleSubmit,  formState: { errors } } = useForm();
 const submitRate=async(data:any)=>{
-  const token=localStorage.getItem('userToken');
+  // const token=localStorage.getItem('userToken');
   try {
     const response = await axios.post
 (`${baseUrl}/portal/room-reviews`,data, {
@@ -119,7 +120,7 @@ const submitRate=async(data:any)=>{
 }
 
   const  createComment=async(data:any)=> {
-    const token=localStorage.getItem('userToken');
+    // const token=localStorage.getItem('userToken');
     try {
       const response = await axios.post
   (`${baseUrl}/portal/room-comments`,data, {
