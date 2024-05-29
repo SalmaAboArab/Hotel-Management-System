@@ -18,46 +18,44 @@ import Loading from "../../../SharedModule/Components/Loading/Loading";
 
 export default function AllRooms() {
   let userRole = JSON.parse(localStorage.getItem("userRole"));
+  let token = localStorage.getItem("adminToken");
   // console.log(userRole);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { ...data } = useParams();
 
   ///////////////// expolre all room//////////////////////////////////
   const navigate = useNavigate();
   const [allRooms, setAllRooms] = useState([]);
-  //const[anonymousAlert,setAnonymousAlert]=()=> setOpenViewModal(false);
   const [anonymousAlert, setAnonymousAlert] = useState(false);
   const handleCloseAnonymousAlert = () => setAnonymousAlert(false);
   const handleOpenAnonymousAlert = () => setAnonymousAlert(true);
 
-  async function exploreAllRooms() {
+  async function exploreAllRooms() {    
     try {
       const response = await axios.get(
-        `${baseUrl}/portal/rooms/available?page=1&size=10&${
+        `${baseUrl}/portal/rooms/available?page=1&size=10${
           data.startdate
-            ? `startDate=${data.startdate}&endDate=${data.enddate}`
-            : ""}`,
-        {}
+            ? `&startDate=${data.startdate}&endDate=${data.enddate}`
+            : ""}`,        
       );
+console.log(response);
 
       setAllRooms(response.data.data.rooms);
-      console.log(response.data.data.totalCount);
+      // console.log(response.data.data.totalCount);
     } catch (error) {
       console.error(error);
     }
     setIsLoading(false);
   }
   useEffect(() => {
-    setIsLoading(true);
-  }, []);
-  useEffect(() => {    
     exploreAllRooms();
   }, []);
+  
   /////////////////////////add to fav ////////////////////////////////////////////
 
   async function addToFav(id: any) {
-    console.log(id);
+    // console.log(id);
     if (userRole == "user") {
       try {
         const response = await axios.post(
@@ -65,8 +63,8 @@ export default function AllRooms() {
           { roomId: id },
           {
             headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODkxMzI4LCJleHAiOjE3MTcxMDA5Mjh9.t5m_gU78TAQ3OlGOzK0RuuMGwmDovpugVd-5VGr7IzU",
+              Authorization:token
+                // `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODkxMzI4LCJleHAiOjE3MTcxMDA5Mjh9.t5m_gU78TAQ3OlGOzK0RuuMGwmDovpugVd-5VGr7IzU`,
             },
           }
         );
@@ -125,9 +123,7 @@ export default function AllRooms() {
                   sx={{ width: "100%", height: "" }}
                   cols={4}
                 >
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
+                  {
                     allRooms.map((rooms) => (
                       <ImageListItem
                         className={style.member}
@@ -156,12 +152,12 @@ export default function AllRooms() {
                         </Box>
                       </ImageListItem>
                     ))
-                  )}
+                  }
                 </ImageList>
               </Box>
             </Paper>
           ) : (
-            <NoData />
+            isLoading? <Loading />:<NoData />
           )}
         </Box>
       </Container>
