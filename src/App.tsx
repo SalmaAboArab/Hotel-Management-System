@@ -22,8 +22,12 @@ import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
 import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRoute'
 import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
+import Payment from './AdminModule/Components/Payment/Payment'
+
 
 function App() {
+
+
   const routers = createBrowserRouter([
     {
       path:"/",
@@ -34,7 +38,9 @@ function App() {
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
         {path:'all-rooms/room-details',element:<RoomDetails/>},
-      ]
+        {path:'payment',element:<Payment/>
+      },
+    ]
     },
     {
       path:"Authentication",
@@ -46,7 +52,7 @@ function App() {
         {path:"register",element:<Register/>},
         {path:"forgot-password",element:<ForgotPassword/>},
         {path:"reset-password",element:<ResetPassword/>}
-       
+        
       ]
     },
     {
@@ -70,8 +76,11 @@ function App() {
       ]
     }
   ])
+
+
   return (
     <>
+   
     <RouterProvider router={routers} />
     </>
   )

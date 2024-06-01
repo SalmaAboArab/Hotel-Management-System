@@ -7,8 +7,7 @@ export default function MasterLayout() {
   return (
     <div>
         <Navbar/>
-        <Box sx={{height:"100vh"}}>
-
+        <Box sx={{minHeight:"100vh"}}>
         <Outlet/>
         </Box>
         <Footer/>
