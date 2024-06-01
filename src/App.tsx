@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
 import './App.css'
 import Login from './AuthModule/Components/Login/Login'
 import Register from './AuthModule/Components/Register/Register'
@@ -24,6 +24,9 @@ import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
 import Payment from './AdminModule/Components/Payment/Payment'
 
+import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
+import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 function App() {
 
@@ -35,12 +38,19 @@ function App() {
       errorElement:<NotFound/>,
       children:
       [
+
+        
+
         {index:true,element:<LandingPage/>},
         {path:'all-rooms',element:<AllRooms/>},
-        {path:'all-rooms/room-details',element:<RoomDetails/>},
-        {path:'payment',element:<Payment/>
-      },
-    ]
+        {path:'all-rooms/:startdate/:enddate/:capacity',element:<AllRooms/>},
+        {path:'favorite-room',element:<FavoriteRoom/>},
+        // {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
+        {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
+        {path:'payment',element:<Payment/>}
+
+       
+      ]
     },
     {
       path:"Authentication",
@@ -72,6 +82,7 @@ function App() {
         {path:'facilities/facilities-form',element:<FacilitiesForm/>},
         {path:'rooms',element:<RoomsList/>},
         {path:'rooms/rooms-form',element:<RoomsForm/>},
+        {path:'rooms/update-room/:roomId',element:<UpdateRoom/>},
         {path:"change-password",element:<ChangePassword/>}
       ]
     }
@@ -80,7 +91,7 @@ function App() {
 
   return (
     <>
-   
+    
     <RouterProvider router={routers} />
     </>
   )

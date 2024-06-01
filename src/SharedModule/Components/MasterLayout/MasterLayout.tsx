@@ -10,7 +10,7 @@ export default function MasterLayout() {
         <Box sx={{minHeight:"100vh"}}>
         <Outlet/>
         </Box>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

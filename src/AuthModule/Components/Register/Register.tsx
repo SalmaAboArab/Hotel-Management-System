@@ -92,7 +92,7 @@ export default function Register() {
     return formData;
   };
   async function handleRegister(data: RegisterData) {
-    console.log(data);
+    // console.log(data);
     let registerDataForm = appendRegisterFormData(data);
 
     try {
@@ -104,7 +104,7 @@ export default function Register() {
       toast.success("Account Created Succefully");
       navigate("/Authentication");
     } catch (error) {
-      // console.log(error?.response?.data?.message);
+      // console.log(error);
       toast.error(error?.response?.data?.message || "Somthing went wrong!");
     }
   }
@@ -237,7 +237,7 @@ export default function Register() {
                 </Box>
 
                 <Box>
-                  <label htmlFor="username" style={{ marginTop: "10px" }}>
+                  <label htmlFor="userName" style={{ marginTop: "10px" }}>
                     User Name
                   </label>
                   <TextField
@@ -245,11 +245,11 @@ export default function Register() {
                     placeholder="Please type here ..."
                     margin="normal"
                     fullWidth
-                    id="username"
+                    id="userName"
                     // label="Email Address"
                     autoComplete="username"
                     autoFocus
-                    {...register("username", userNameValidation)}
+                    {...register("userName", userNameValidation)}
                   />
                   {errors.username && (
                     <Typography variant="body2" sx={{ color: "error.light" }}>
