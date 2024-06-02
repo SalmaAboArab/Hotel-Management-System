@@ -168,12 +168,12 @@ console.log(response);
       )}
 
       <br />
-      <button
+      {/* <button
         className="btn btn-danger mb-1 mt-5"
         onClick={() => navigate("/all-rooms/room-details")}
       >
         Room Details
-      </button>
+      </button> */}
       <br />
     </>
   );

@@ -22,11 +22,15 @@ import LandingPage from './UsersModule/Components/LandingPage/LandingPage'
 import ProtectedRoute from './SharedModule/Components/ProtectedRoute/ProtectedRoute'
 import AllRooms from './UsersModule/Components/AllRooms/AllRooms'
 import RoomDetails from './UsersModule/Components/RoomDetails/RoomDetails'
+import Payment from './AdminModule/Components/Payment/Payment'
+
 import UpdateRoom from './AdminModule/Components/Rooms/Components/UpdateRoom/UpdateRoom'
 import FavoriteRoom from './UsersModule/Components/FavoriteRoom/FavoriteRoom'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 function App() {
+
+
   const routers = createBrowserRouter([
     {
       path:"/",
@@ -41,8 +45,10 @@ function App() {
         {path:'all-rooms',element:<AllRooms/>},
         {path:'all-rooms/:startdate/:enddate/:capacity',element:<AllRooms/>},
         {path:'favorite-room',element:<FavoriteRoom/>},
-        {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
+        // {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
         {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
+        {path:'payment/:id',element:<Payment/>}
+
        
       ]
     },
@@ -56,7 +62,7 @@ function App() {
         {path:"register",element:<Register/>},
         {path:"forgot-password",element:<ForgotPassword/>},
         {path:"reset-password",element:<ResetPassword/>}
-       
+        
       ]
     },
     {
@@ -81,6 +87,8 @@ function App() {
       ]
     }
   ])
+
+
   return (
     <>
     

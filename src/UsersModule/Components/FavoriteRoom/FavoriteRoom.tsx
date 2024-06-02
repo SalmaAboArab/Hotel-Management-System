@@ -49,8 +49,7 @@ export default function FavoriteRoom() {
       const response= await axios.delete(`${baseUrl}/portal/favorite-rooms/${roomId}`, {
         data:{roomId:roomId},
         headers: {
-          Authorization:
-       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODg5ODI1LCJleHAiOjE3MTcwOTk0MjV9.ZxcDaaeMB3KCacGttx9FveZitrCZ36AIOzKz267C9mc",
+          Authorization: localStorage.getItem("adminToken"),
         },
             
       }
