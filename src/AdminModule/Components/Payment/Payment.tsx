@@ -1,7 +1,3 @@
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./CheckoutForm";
-import { Link, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -12,13 +8,16 @@ import {
   StepLabel,
   Stepper,
   Typography,
-  colors,
   createTheme,
 } from "@mui/material";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import finishedPayment from "../../../assets/Group 1 1.png";
 import BcaImage from "../../../assets/image 4.png";
 import mandlrl from "../../../assets/image 5.png";
-import finishedPayment from "../../../assets/Group 1 1.png";
-import React from "react";
+import CheckoutForm from "./CheckoutForm";
 const stripePromise = loadStripe(
   "pk_test_51OTjURBQWp069pqTmqhKZHNNd3kMf9TTynJtLJQIJDOSYcGM7xz3DabzCzE7bTxvuYMY0IX96OHBjsysHEKIrwCK006Mu7mKw8"
 );
@@ -28,23 +27,22 @@ const steps = ["Payment Now", "Payment Finished"];
 const Payment = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
-  const { bookingId } = useParams();
-  // console.log(bookingId);
+  const { id } = useParams();
   const stepStyle = {
     boxShadow: 2,
     backgroundColor: "rgba(0,0,0,0.1)",
-    borderRadius:3,
+    borderRadius: 3,
     padding: 2,
-    mt:0,
-    mb:"50px",
+    mt: 0,
+    mb: "50px",
     "& .Mui-active": {
       "&.MuiStepIcon-root": {
         color: "rgba(26, 188, 156, 1)",
         fontSize: "3rem",
       },
       "& .MuiStepConnector-line": {
-        borderColor: "warning.main"
-      }
+        borderColor: "warning.main",
+      },
     },
     "& .Mui-completed": {
       "&.MuiStepIcon-root": {
@@ -52,11 +50,10 @@ const Payment = () => {
         fontSize: "3rem",
       },
       "& .MuiStepConnector-line": {
-        borderColor: "secondary.main"
+        borderColor: "secondary.main",
       },
-    }
-    
-  }
+    },
+  };
   const theme = createTheme({
     palette: {
       primary: {
@@ -73,7 +70,7 @@ const Payment = () => {
 
   return (
     <>
-      <Box sx={{ m: 0, p: 0 }}>
+      <Box sx={{ mt: 5, p: 0 }}>
         <Link
           to={"/"}
           style={{
@@ -104,12 +101,12 @@ const Payment = () => {
             flexDirection: "column",
             alignContent: "center",
             justifyContent: "center",
-            minHeight: "100vh",
-            
+            py: 2,
+            m: 0,
           }}
         >
-          <Container sx={{ width: "100%", mt: 3 }}>
-            <Stepper activeStep={activeStep} sx={stepStyle}> 
+          <Container sx={{ width: "100%" }}>
+            <Stepper activeStep={activeStep} sx={stepStyle}>
               {steps.map((label, index) => {
                 const stepProps: { completed?: boolean } = {};
                 const labelProps: {
@@ -151,6 +148,7 @@ const Payment = () => {
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "center",
                       flexWrap: "wrap",
                     }}
                   >
@@ -171,10 +169,10 @@ const Payment = () => {
                             Transfer Pembayaran:
                             <br />
                             Tax: 10%
-                            <br />
-                            Sub total: $480 USD
-                            <br />
-                            Total: $580 USD
+                            {/* <br /> */}
+                            {/* Sub total: $480 USD */}
+                            {/* <br /> */}
+                            {/* Total: $580 USD */}
                           </Typography>
                         </Box>
 
@@ -221,7 +219,10 @@ const Payment = () => {
 
                     <Grid item xs={12} md={6}>
                       <Box sx={{ width: "100%" }}>
-                        <CheckoutForm bookingId={bookingId}  setActiveStep={setActiveStep}/>
+                        <CheckoutForm
+                          bookingId={id}
+                          setActiveStep={setActiveStep}
+                        />
                       </Box>
                     </Grid>
                   </Container>
