@@ -47,7 +47,7 @@ function App() {
         {path:'favorite-room',element:<FavoriteRoom/>},
         // {path:'all-rooms/room-details/:id/:startdate/:enddate/:capacity',element:<RoomDetails/>},
         {path:'all-rooms/room-details/:id',element:<RoomDetails/>},
-        {path:'payment',element:<Payment/>}
+        {path:'payment/:id',element:<Payment/>}
 
        
       ]

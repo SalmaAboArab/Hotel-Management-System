@@ -39,22 +39,22 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 // }));
 
 export default function RoomDetails() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [roomInfo, setRoomInfo] = useState([]);
   const token = localStorage.getItem("adminToken");
   const { id } = useParams();
-  // const [price] = useState(0);
+  const [price] = useState(0);
   const today = dayjs();
   const nextDate = dayjs().add(1, "day");
   const [selectedDateRange, setSelectedDateRange] = useState<[Dayjs, Dayjs]>([
     today,
     nextDate,
   ]);
-  // const roomDateStart = selectedDateRange[0];
-  // const roomDateEnd = selectedDateRange[1];
-  // const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
-  // const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
+  const roomDateStart = selectedDateRange[0];
+  const roomDateEnd = selectedDateRange[1];
+  const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
+  const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
 
   const getRoomDetail = async () => {
     try {
@@ -65,40 +65,40 @@ export default function RoomDetails() {
       });
 
       setRoomInfo(response?.data?.data?.room);
-      console.log(response.data.data.room);
     } catch (error) {
       console.error("Somthing went wrong", error);
       setIsLoading(false);
     }
   };
-  // create booking
+  //create booking
 
-  // const createBooking = async () => {
-  //   try {
-  //     const requestBody = {
-  //       startDate: startDate,
-  //       endDate: endDate,
-  //       room: id,
-  //       totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, "day"),
-  //     };
+  const createBooking = async () => {
+    try {
+      const requestBody = {
+        startDate: startDate,
+        endDate: endDate,
+        room: id,
+        totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, "day"),
+      };
 
-  //     const response = await axios.post(
-  //       `${baseUrl}/portal/booking`,
-  //       requestBody,
-  //       {
-  //         headers: {
-  //           Authorization: token          }
-  //       }
-  //     );
-  //     console.log(id);
-  //     toast.success("Booking created successfully");
+      const response = await axios.post(
+        `${baseUrl}/portal/booking`,
+        requestBody,
+        {
+          headers: {
+            Authorization: token          }
+        }
+      );
+      
+      console.log(response);
+      toast.success("Booking created successfully");
 
-  //     // navigate("/payment")
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Booking creation failed ");
-  //   }
-  // };
+      navigate(`/payment/:${id}`)
+    } catch (error) {
+      console.log(error);
+      toast.error("Booking creation failed ");
+    }
+  };
 
   // create comment888888888888888888888888
 
@@ -171,11 +171,12 @@ export default function RoomDetails() {
                 Home
               </Link>
             </Typography>
-            <Grid container spacing={2} p={3}>
+            <Grid container   justifyContent={"center"} gap={3} mb={3}>
               {roomInfo?.images?.map((image, index) => (
-                <Grid item key={index} xs={6} md={12}>
-                  <Card>
+                <Grid  key={index} xs={12} sm={5} >
+                  <Card >
                     <CardMedia
+                    sx={{}}
                       component="img"
                       alt={image.alt}
                       height={350}
@@ -187,11 +188,13 @@ export default function RoomDetails() {
             </Grid>
 
             <Grid
+            justifyContent={"space-between"}
               container
               rowSpacing={1}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              
             >
-              <Grid item xs={6} p={2}>
+              <Grid item xs={12}  md={6} >
                 <Typography
                   color="text.secondary"
                   sx={{ opacity: 0.6 }}
@@ -217,9 +220,12 @@ export default function RoomDetails() {
                       marginTop: "2rem",
                       display: "flex",
                       justifyContent: "center",
+                      flexWrap:"wrap",
+                      
                     }}
+                    
                   >
-                    <Box>
+                    <Box  my={3}  width={"150px"}>
                       <BedIcon
                         style={{
                           color: "#152C5B",
@@ -229,7 +235,7 @@ export default function RoomDetails() {
                       />
                       <Box style={{ color: "#B0B0B0" }}> Bedroom</Box>
                     </Box>
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box   my={3}  width={"150px"}>
                       <WeekendIcon
                         style={{
                           color: "#152C5B",
@@ -240,7 +246,7 @@ export default function RoomDetails() {
                       <Box style={{ color: "#B0B0B0" }}> Living room</Box>
                     </Box>
 
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box   my={3}  width={"150px"}>
                       <BathtubIcon
                         style={{
                           color: "#152C5B",
@@ -251,7 +257,7 @@ export default function RoomDetails() {
                       <Box style={{ color: "#B0B0B0" }}> Bathroom</Box>
                     </Box>
 
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box  my={3}   width={"150px"}>
                       <FlatwareIcon
                         style={{
                           color: "#152C5B",
@@ -261,16 +267,8 @@ export default function RoomDetails() {
                       />
                       <Box style={{ color: "#B0B0B0" }}> Dining room</Box>
                     </Box>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      marginTop: "2rem",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Box>
+                    
+                    <Box  my={3}  width={"150px"}>
                       <NetworkWifiIcon
                         style={{
                           color: "#152C5B",
@@ -280,7 +278,7 @@ export default function RoomDetails() {
                       />
                       <Box style={{ color: "#B0B0B0" }}> Mbp/s</Box>
                     </Box>
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box   my={3}  width={"150px"}>
                       <AcUnitIcon
                         style={{
                           color: "#152C5B",
@@ -291,7 +289,7 @@ export default function RoomDetails() {
                       <Box style={{ color: "#B0B0B0" }}>Unit Ready</Box>
                     </Box>
 
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box   my={3}  width={"150px"}>
                       <BluetoothIcon
                         style={{
                           color: "#152C5B",
@@ -302,7 +300,7 @@ export default function RoomDetails() {
                       <Box style={{ color: "#B0B0B0" }}> Bluetooth</Box>
                     </Box>
 
-                    <Box sx={{ marginLeft: "2rem" }}>
+                    <Box   my={3}  width={"150px"}>
                       <TvIcon
                         style={{
                           color: "#152C5B",
@@ -313,9 +311,20 @@ export default function RoomDetails() {
                       <Box style={{ color: "#B0B0B0" }}> television</Box>
                     </Box>
                   </Box>
+
+                  {/* <Box
+                    sx={{
+                      marginTop: "2rem",
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap:"wrap"
+                    }}
+                  >
+                   
+                  </Box> */}
                 </Box>
               </Grid>
-              <Grid p={2} item xs={6} textAlign={"center"}>
+              <Grid  item xs={12}  md={6}textAlign={"center"}>
                 <Card>
                   <Typography variant="h5" component="div">
                     Start Booking
@@ -338,9 +347,9 @@ export default function RoomDetails() {
                       {roomInfo.capacity} person
                     </Typography>
 
-                    {/* <Calendar
+                    <Calendar
                       {...{ selectedDateRange, setSelectedDateRange }}
-                    /> */}
+                    /> 
                     <Box
                       sx={{
                         display: "flex",
@@ -362,7 +371,7 @@ export default function RoomDetails() {
               </Grid>
             </Grid>
 
-            <Grid container spacing={2}>
+            <Grid container alignItems={"center"} >
               {/* Grid item with full width on extra-small screens and half width on medium screens */}
               <Grid item xs={12} md={6}>
                 <Box
@@ -373,6 +382,7 @@ export default function RoomDetails() {
                   <Typography variant="h6" mb={2}>
                     Add Your Comment
                   </Typography>
+                  <br />
                   <TextField
                     variant="outlined"
                     fullWidth
@@ -424,6 +434,7 @@ export default function RoomDetails() {
                   </Button>
                 </Box>
               </Grid>
+
             </Grid>
           </>
         )}
