@@ -97,7 +97,6 @@ export default function Explore() {
                             id="startDate"
                             // label="Email Address"
                             autoComplete="date"
-                            autoFocus
                             {...register("startDate", {
                               required: "Start date is required",
                             })}
@@ -132,7 +131,6 @@ export default function Explore() {
                             id="endDate"
                             // label="Email Address"
                             autoComplete="date"
-                            autoFocus
                             {...register("endDate", {
                               required: "End date is required",
                             })}
