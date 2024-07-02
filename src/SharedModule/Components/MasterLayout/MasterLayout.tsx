@@ -6,7 +6,7 @@ import { Box } from '@mui/material'
 export default function MasterLayout() {
   return (
     <div>
-        <Navbar/>
+        {/* <Navbar/> */}
         <Box >
         <Outlet/>
         </Box>
