@@ -25,7 +25,6 @@ import {
 } from "../Validators/Validators";
 import axios from "axios";
 import avatar from "../../../assets/avatar2.jpg";
-import SignUpBox from "./SignUpBox";
 import { ThreeDots } from "react-loader-spinner";
 
 
@@ -415,7 +414,7 @@ export default function Register() {
                     Sign up
                   </Button> */}
 
-                  <SignUpBox />
+                 
              
                 </Box>
               </Container>
