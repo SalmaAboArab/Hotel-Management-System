@@ -183,6 +183,11 @@ export default function DrawerAppBar(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const logOut = () =>{
+ localStorage.clear()
+ navigate("/Authentication")
+  }
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -252,6 +257,10 @@ export default function DrawerAppBar(props: Props) {
 
             <Button variant="outlined">AR</Button>
 
+
+{userRole != "user" ?<>
+
+
             <Button
               variant="contained"
               color="primary"
@@ -268,6 +277,18 @@ export default function DrawerAppBar(props: Props) {
             >
               Sign Up
             </Button>
+            </>
+            :
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ height: "40px",  background: "#900000" }}
+              onClick={() => logOut()}
+            >
+              Log Out
+            </Button>
+            }
+
           </Box>
 
           <IconButton
