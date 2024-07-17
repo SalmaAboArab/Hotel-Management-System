@@ -13,17 +13,18 @@ import { toast } from "react-toastify";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import style from './FavoriteRoom.module.css';
+import Loading from '../../../SharedModule/Components/Loading/Loading';
 export default function FavoriteRoom() {
   const[favorites,setFavorites]=useState([]);
   const navigate=useNavigate();
-  //let token = localStorage.getItem("adminToken");
+  let token = localStorage.getItem("adminToken");
+  const [isLoading, setIsLoading] = useState(true);
   /////////////explore favorit list room//////////////////////////////////
   async function favoritesList() {
     try {
       const response= await axios.get(`${baseUrl}/portal/favorite-rooms`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI5ZDBiNzZlYmJiZWZiYzFhMjQyMjEiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE1ODg5ODI1LCJleHAiOjE3MTcwOTk0MjV9.ZxcDaaeMB3KCacGttx9FveZitrCZ36AIOzKz267C9mc",
+          Authorization:token
         },
       }
      
@@ -36,6 +37,7 @@ export default function FavoriteRoom() {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   }
   useEffect(() => {
     favoritesList();
@@ -56,10 +58,10 @@ export default function FavoriteRoom() {
      
     );
       console.log(response);
-      toast.success('delete successfully')
+      toast.success('Room deleted successfully')
       favoritesList();
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       toast.error(error)
     }
   }
@@ -74,27 +76,31 @@ Your Rooms
 </Typography>
 
       <Box sx={{marginTop:'50px'}}>
-{favorites?.length > 0 ? (
+{isLoading ? (
+            <Loading />
+          ) :
+          favorites?.length > 0 ? (
           <Paper>
              
              <Box
      
     >
+      
       <ImageList sx={{ width: '100%',  }} cols={4} >
-      {favorites.map((favRooms) => (
-        <ImageListItem className={style.member}  key={favRooms._id}>
+      {favorites.map((favRoom) => (
+        <ImageListItem className={style.member}  key={favRoom._id}>
          <img
            loading="lazy"
                             className=" imagemodify"
                             src={
                              
-                                favRooms?.images[0]
+                                favRoom?.images[0]
                             }
                           />
                            <Box className={style.memberCaption}>
                             <div className={style.icon}>
-                            <FavoriteIcon onClick={()=>deleteFavRoom(favRooms._id)} sx={{margin:'20px'}}  />
-                            <VisibilityIcon sx={{color:'white'}} onClick={()=>navigate('/all-rooms/room-details')}/>
+                            <FavoriteIcon onClick={()=>deleteFavRoom(favRoom._id)} sx={{margin:'20px'}}  />
+                            <VisibilityIcon sx={{color:'white'}} onClick={()=>navigate(`/all-rooms/room-details/${favRoom?._id}`)}/>
                             </div>
                           </Box>
                           

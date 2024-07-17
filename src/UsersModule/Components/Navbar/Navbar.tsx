@@ -251,7 +251,7 @@ export default function DrawerAppBar(props: Props) {
                   color="error"
                 />
               ) : (
-                <FavoriteIcon onClick={() => toast.error("sure login")} />
+                <FavoriteIcon onClick={() => toast.error("You should login first!")} />
               )}
             </IconButton>
 

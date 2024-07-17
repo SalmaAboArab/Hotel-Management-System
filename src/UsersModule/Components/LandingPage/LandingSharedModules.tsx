@@ -43,7 +43,7 @@ type adsImg = {
           width: "100%",
           paddingY: 5,
           alignContent: "center",
-          position: "relative",
+          position: "relative"
         }}
       >
         <span className={`${styles.imgContainer}`}>
@@ -151,6 +151,7 @@ type adsImg = {
           backgroundSize: "cover",
           backgroundPosition: "center",
           mb: marginB,
+          bgcolor: "gray",
           // position:'relative'
         }}
       >

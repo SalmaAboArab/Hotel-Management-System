@@ -78,7 +78,7 @@ export default function Ads({ fiveAds, openAnonymousAlert }: AdsProps) {
             backgroundImage: `url(${fiveAds[0]?.room?.images[0]})`,
             backgroundRepeat: "no-repeat",
             borderRadius: "20px",
-            bgcolor: "black",
+            bgcolor: "gray",
             backgroundSize: "cover",
             backgroundPosition: "center",
             // position:'relative'

@@ -39,7 +39,7 @@ export default function AllRooms() {
             ? `&startDate=${data.startdate}&endDate=${data.enddate}`
             : ""}`,        
       );
-console.log(response);
+// console.log(response);
 
       setAllRooms(response.data.data.rooms);
       // console.log(response.data.data.totalCount);
@@ -70,10 +70,10 @@ console.log(response);
         );
         // console.log(response.data.data.message);
 
-        toast.success("add successfully");
+        toast.success("Room added to favorite successfully");
         exploreAllRooms();
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         toast.error(error?.response?.data?.message);
       }
     } else {
@@ -124,27 +124,32 @@ console.log(response);
                   cols={4}
                 >
                   {
-                    allRooms.map((rooms) => (
+                    allRooms.map((room) => (
                       <ImageListItem
                         className={style.member}
-                        key={rooms._id} /*sx={{borderRadius:'50%'}}*/
+                        // sx={{bgcolor:'gray'}}
+                        key={room._id} /*sx={{borderRadius:'50%'}}*/
                       >
+                        {room?.images[0]?
                         <img
                           loading="lazy"
                           className=" imagemodify"
-                          src={rooms?.images}
+                          src={room?.images[0]}
+                          alt="Room Image"
                         />
+                        :
+                        <Typography>Room Image</Typography>}
                         <Box className={style.memberCaption}>
                           <div className={style.icon}>
                             <FavoriteIcon
                               sx={{ margin: "20px" }}
-                              onClick={() => addToFav(rooms._id)}
+                              onClick={() => addToFav(room._id)}
                             />
 
                             <VisibilityIcon
                               onClick={() =>
                                 navigate(
-                                    `/all-rooms/room-details/${rooms._id} ${data.startdate? `/${data.startdate}/${data.enddate}/${data.capacity}`:''}`
+                                    `/all-rooms/room-details/${room._id} ${data.startdate? `/${data.startdate}/${data.enddate}/${data.capacity}`:''}`
                                 )
                               }
                             />

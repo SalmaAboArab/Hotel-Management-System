@@ -39,7 +39,6 @@ export default function LandingPage() {
       setAds(response?.data?.data?.ads);
     } catch (error) {
       console.log(error);
-      
     }
     setIsLoading(false);
   }

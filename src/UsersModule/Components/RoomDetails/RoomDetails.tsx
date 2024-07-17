@@ -30,6 +30,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useForm } from "react-hook-form";
 import Loading from "../../../SharedModule/Components/Loading/Loading";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ArrowRight } from "@mui/icons-material";
 
 // const DemoPaper = styled(Paper)(({ theme }) => ({
 //   width: "100%",
@@ -44,7 +45,8 @@ export default function RoomDetails() {
   const [roomInfo, setRoomInfo] = useState([]);
   const token = localStorage.getItem("adminToken");
   const { id } = useParams();
-  const [price] = useState(0);
+  const price=roomInfo?.price;
+  const capacity=roomInfo?.capacity;
   const today = dayjs();
   const nextDate = dayjs().add(1, "day");
   const [selectedDateRange, setSelectedDateRange] = useState<[Dayjs, Dayjs]>([
@@ -72,25 +74,26 @@ export default function RoomDetails() {
   };
   //create booking
 
-  const createBooking = async () => {
+  const createBooking = async () => {    
     try {
       const requestBody = {
-        startDate: startDate,
-        endDate: endDate,
-        room: id,
-        totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, "day"),
-      };
+        'startDate': startDate,
+        'endDate': endDate,
+        'room': id,
+        'totalPrice': price * dayjs(roomDateEnd).diff(roomDateStart, "day") * capacity,
+      };      
 
       const response = await axios.post(
         `${baseUrl}/portal/booking`,
-        requestBody,
+        {data:requestBody},
         {
           headers: {
-            Authorization: token          }
+            Authorization: token
+          }
         }
       );
       
-      console.log(response);
+      // console.log(response);
       toast.success("Booking created successfully");
 
       navigate(`/payment/:${id}`)
@@ -124,10 +127,12 @@ export default function RoomDetails() {
   };
 
   const createComment = async (data: any) => {
+    console.log(data);
+    
     try {
       const response = await axios.post(
         `${baseUrl}/portal/room-comments`,
-        data,
+        {'roomId':id,'comment':data.comment},
         {
           headers: { Authorization: token },
         }
@@ -135,7 +140,7 @@ export default function RoomDetails() {
 
       console.log(response);
     } catch (error) {
-      console.error("Somthing went wrong", error);
+      toast.error("Somthing went wrong", error);
     }
   };
 
@@ -154,7 +159,7 @@ export default function RoomDetails() {
   // }
   return (
     <>
-      <Box sx={{ minHeight: "30vw", width: "90%", margin: "auto" }}>
+      <Box sx={{ minHeight: "30vw", width: "90%", margin: "auto", mt:6 }}>
         {!isLoading ? (
           <Loading />
         ) : (
@@ -167,25 +172,29 @@ export default function RoomDetails() {
               {roomInfo?.roomNumber}
             </Typography>
             <Typography variant="body1" style={{ marginRight: "5px" }}>
-              <Link to="/" style={{ color: "#B0B0B0", textDecoration: "none" }}>
-                Home
+              <Link to="/" style={{ color: "#1976d2", textDecoration: "none" }}>
+                Home <ArrowRight/>
               </Link>
             </Typography>
-            <Grid container   justifyContent={"center"} gap={3} mb={3}>
-              {roomInfo?.images?.map((image, index) => (
-                <Grid  key={index} xs={12} sm={5} >
-                  <Card >
-                    <CardMedia
-                    sx={{}}
-                      component="img"
-                      alt={image.alt}
-                      height={350}
-                      image={image} // image.url should be the URL of the image
-                    />
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            {roomInfo?.images?
+            <Grid container   justifyContent={"center"} gap={3} my={5}>
+            {roomInfo?.images?.map((image, index) => (
+              <Grid  key={index} xs={12} sm={5} >
+                <Card >
+                  <CardMedia
+                  sx={{}}
+                    component="img"
+                    alt={image.alt}
+                    height={350}
+                    image={image} // image.url should be the URL of the image
+                  />
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          :
+          <Loading/>
+          }
 
             <Grid
             justifyContent={"space-between"}
@@ -197,8 +206,11 @@ export default function RoomDetails() {
               <Grid item xs={12}  md={6} >
                 <Typography
                   color="text.secondary"
-                  sx={{ opacity: 0.6 }}
-                  variant="p"
+                  sx={{ opacity: 0.6}}
+                  mt={4}
+                  paddingLeft={8}
+                  paddingRight={3}
+                  // variant="p"
                 >
                   Minimal techno is a minimalist subgenre of techno music. It is
                   characterized by a stripped-down aesthetic that exploits the
@@ -326,7 +338,7 @@ export default function RoomDetails() {
               </Grid>
               <Grid  item xs={12}  md={6}textAlign={"center"}>
                 <Card>
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h5" component="div" mt={3}>
                     Start Booking
                   </Typography>
 
@@ -342,14 +354,14 @@ export default function RoomDetails() {
                       pick a date
                     </Typography>
 
-                    <Typography p={1} color="text.secondary">
-                      you will pay {roomInfo.price * roomInfo.capacity} $ per{" "}
-                      {roomInfo.capacity} person
-                    </Typography>
-
                     <Calendar
                       {...{ selectedDateRange, setSelectedDateRange }}
                     /> 
+
+                    <Typography p={1} mt={2} color="text.secondary">
+                      you will pay {roomInfo.price * roomInfo.capacity} $ per{" "}
+                      {roomInfo.capacity} person
+                    </Typography>
                     <Box
                       sx={{
                         display: "flex",
@@ -371,7 +383,7 @@ export default function RoomDetails() {
               </Grid>
             </Grid>
 
-            <Grid container alignItems={"center"} >
+            <Grid container alignItems={"center"} my={3} >
               {/* Grid item with full width on extra-small screens and half width on medium screens */}
               <Grid item xs={12} md={6}>
                 <Box
