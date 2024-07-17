@@ -127,10 +127,12 @@ export default function RoomDetails() {
   };
 
   const createComment = async (data: any) => {
+    console.log(data);
+    
     try {
       const response = await axios.post(
         `${baseUrl}/portal/room-comments`,
-        data,
+        {'roomId':id,'comment':data.comment},
         {
           headers: { Authorization: token },
         }
@@ -138,7 +140,7 @@ export default function RoomDetails() {
 
       console.log(response);
     } catch (error) {
-      console.error("Somthing went wrong", error);
+      toast.error("Somthing went wrong", error);
     }
   };
 
@@ -204,8 +206,11 @@ export default function RoomDetails() {
               <Grid item xs={12}  md={6} >
                 <Typography
                   color="text.secondary"
-                  sx={{ opacity: 0.6 }}
-                  variant="p"
+                  sx={{ opacity: 0.6}}
+                  mt={4}
+                  paddingLeft={8}
+                  paddingRight={3}
+                  // variant="p"
                 >
                   Minimal techno is a minimalist subgenre of techno music. It is
                   characterized by a stripped-down aesthetic that exploits the
