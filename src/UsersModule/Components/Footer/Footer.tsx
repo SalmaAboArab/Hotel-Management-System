@@ -139,7 +139,7 @@ export default function Footer() {
           </Grid>
           
           <Typography
-            sx={{ textAlign: "center", width: "100%", marginY: 3 , opacity:"0.5"}}
+            sx={{ textAlign: "center", width: "100%", mb: 3 , mt: 4 , opacity:"0.5"}}
             variant="body1"
           >
             Copyright 2019 • All rights reserved • Staycation

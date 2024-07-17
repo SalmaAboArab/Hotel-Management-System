@@ -30,6 +30,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useForm } from "react-hook-form";
 import Loading from "../../../SharedModule/Components/Loading/Loading";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ArrowRight } from "@mui/icons-material";
 
 // const DemoPaper = styled(Paper)(({ theme }) => ({
 //   width: "100%",
@@ -154,7 +155,7 @@ export default function RoomDetails() {
   // }
   return (
     <>
-      <Box sx={{ minHeight: "30vw", width: "90%", margin: "auto" }}>
+      <Box sx={{ minHeight: "30vw", width: "90%", margin: "auto", mt:6 }}>
         {!isLoading ? (
           <Loading />
         ) : (
@@ -167,11 +168,11 @@ export default function RoomDetails() {
               {roomInfo?.roomNumber}
             </Typography>
             <Typography variant="body1" style={{ marginRight: "5px" }}>
-              <Link to="/" style={{ color: "#B0B0B0", textDecoration: "none" }}>
-                Home
+              <Link to="/" style={{ color: "#1976d2", textDecoration: "none" }}>
+                Home <ArrowRight/>
               </Link>
             </Typography>
-            <Grid container   justifyContent={"center"} gap={3} mb={3}>
+            <Grid container   justifyContent={"center"} gap={3} my={5}>
               {roomInfo?.images?.map((image, index) => (
                 <Grid  key={index} xs={12} sm={5} >
                   <Card >
@@ -326,7 +327,7 @@ export default function RoomDetails() {
               </Grid>
               <Grid  item xs={12}  md={6}textAlign={"center"}>
                 <Card>
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h5" component="div" mt={3}>
                     Start Booking
                   </Typography>
 
@@ -371,7 +372,7 @@ export default function RoomDetails() {
               </Grid>
             </Grid>
 
-            <Grid container alignItems={"center"} >
+            <Grid container alignItems={"center"} my={3} >
               {/* Grid item with full width on extra-small screens and half width on medium screens */}
               <Grid item xs={12} md={6}>
                 <Box
