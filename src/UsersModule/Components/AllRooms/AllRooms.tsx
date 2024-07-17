@@ -39,7 +39,7 @@ export default function AllRooms() {
             ? `&startDate=${data.startdate}&endDate=${data.enddate}`
             : ""}`,        
       );
-console.log(response);
+// console.log(response);
 
       setAllRooms(response.data.data.rooms);
       // console.log(response.data.data.totalCount);
@@ -70,10 +70,10 @@ console.log(response);
         );
         // console.log(response.data.data.message);
 
-        toast.success("add successfully");
+        toast.success("Room added to favorite successfully");
         exploreAllRooms();
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         toast.error(error?.response?.data?.message);
       }
     } else {

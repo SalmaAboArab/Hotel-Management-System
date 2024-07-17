@@ -29,7 +29,7 @@ export default function Footer() {
   });
   return (
     <>
-      <Divider component={"hr"} sx={{ bgcolor: 'black',height:1,my:2 }} />
+      <Divider component={"hr"} sx={{ bgcolor: 'black',height:1,my:2}} />
       <Container maxWidth="xl">
         <Grid container  spacing={1}>
           <Grid sx={style} item xs={12} sm={6} md={3}>

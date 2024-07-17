@@ -45,7 +45,8 @@ export default function RoomDetails() {
   const [roomInfo, setRoomInfo] = useState([]);
   const token = localStorage.getItem("adminToken");
   const { id } = useParams();
-  const [price] = useState(0);
+  const price=roomInfo?.price;
+  const capacity=roomInfo?.capacity;
   const today = dayjs();
   const nextDate = dayjs().add(1, "day");
   const [selectedDateRange, setSelectedDateRange] = useState<[Dayjs, Dayjs]>([
@@ -73,25 +74,26 @@ export default function RoomDetails() {
   };
   //create booking
 
-  const createBooking = async () => {
+  const createBooking = async () => {    
     try {
       const requestBody = {
-        startDate: startDate,
-        endDate: endDate,
-        room: id,
-        totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, "day"),
-      };
+        'startDate': startDate,
+        'endDate': endDate,
+        'room': id,
+        'totalPrice': price * dayjs(roomDateEnd).diff(roomDateStart, "day") * capacity,
+      };      
 
       const response = await axios.post(
         `${baseUrl}/portal/booking`,
-        requestBody,
+        {data:requestBody},
         {
           headers: {
-            Authorization: token          }
+            Authorization: token
+          }
         }
       );
       
-      console.log(response);
+      // console.log(response);
       toast.success("Booking created successfully");
 
       navigate(`/payment/:${id}`)
@@ -172,21 +174,25 @@ export default function RoomDetails() {
                 Home <ArrowRight/>
               </Link>
             </Typography>
+            {roomInfo?.images?
             <Grid container   justifyContent={"center"} gap={3} my={5}>
-              {roomInfo?.images?.map((image, index) => (
-                <Grid  key={index} xs={12} sm={5} >
-                  <Card >
-                    <CardMedia
-                    sx={{}}
-                      component="img"
-                      alt={image.alt}
-                      height={350}
-                      image={image} // image.url should be the URL of the image
-                    />
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            {roomInfo?.images?.map((image, index) => (
+              <Grid  key={index} xs={12} sm={5} >
+                <Card >
+                  <CardMedia
+                  sx={{}}
+                    component="img"
+                    alt={image.alt}
+                    height={350}
+                    image={image} // image.url should be the URL of the image
+                  />
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          :
+          <Loading/>
+          }
 
             <Grid
             justifyContent={"space-between"}
@@ -343,14 +349,14 @@ export default function RoomDetails() {
                       pick a date
                     </Typography>
 
-                    <Typography p={1} color="text.secondary">
-                      you will pay {roomInfo.price * roomInfo.capacity} $ per{" "}
-                      {roomInfo.capacity} person
-                    </Typography>
-
                     <Calendar
                       {...{ selectedDateRange, setSelectedDateRange }}
                     /> 
+
+                    <Typography p={1} mt={2} color="text.secondary">
+                      you will pay {roomInfo.price * roomInfo.capacity} $ per{" "}
+                      {roomInfo.capacity} person
+                    </Typography>
                     <Box
                       sx={{
                         display: "flex",
