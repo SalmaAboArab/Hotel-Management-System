@@ -13,6 +13,7 @@ import { SectionLabel } from "./LandingSharedModules";
 import Houses from "./Houses";
 import Hotels from "./Hotels";
 import Reviews from "./Reviews";
+// import Payment from "../../../AdminModule/Components/Payment/Payment";
 
 export default function LandingPage() {
   const [ads, setAds] = React.useState([]);
@@ -56,6 +57,7 @@ export default function LandingPage() {
 
         {/* Ads */}
         <Box>
+          {/* <Payment/> */}
           <SectionLabel label="Most popular ads" />
           {isLoading ? (
             <Loading />

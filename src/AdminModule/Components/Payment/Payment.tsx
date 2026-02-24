@@ -28,6 +28,7 @@ const Payment = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const { id } = useParams();
+  // const id = '84848'
   const stepStyle = {
     boxShadow: 2,
     backgroundColor: "rgba(0,0,0,0.1)",

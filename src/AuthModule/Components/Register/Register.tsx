@@ -23,10 +23,10 @@ import {
   phoneNumberValidation,
   userNameValidation,
 } from "../Validators/Validators";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import avatar from "../../../assets/avatar2.jpg";
 import { ThreeDots } from "react-loader-spinner";
-
+import defaultAvatar from "../../../assets/Avatar.png";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -39,6 +39,18 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
+type RegisterData = {
+  userName: string;
+  phoneNumber: string;
+  country: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+  profileImage: string;
+};
+
 export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -66,23 +78,14 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm<RegisterData>();
   const confirmPassword = watch("password");
 
   const [userImage, setUserImage] = useState(avatar);
 
-  type RegisterData = {
-    userName: string;
-    phoneNumber: string;
-    country: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    role: string;
-    profileImage: string;
-  };
+  const appendRegisterFormData = async (data: RegisterData) => {
+    console.log("data", data);
 
-  const appendRegisterFormData = (data: RegisterData) => {
     let formData = new FormData();
     formData.append("userName", data.userName);
     formData.append("phoneNumber", data.phoneNumber);
@@ -91,27 +94,34 @@ export default function Register() {
     formData.append("password", data.password);
     formData.append("confirmPassword", data.confirmPassword);
     formData.append("role", "user");
-    formData.append("profileImage", data.profileImage[0]);
+    // formData.append("profileImage", data.profileImage[0]);
+    if (data.profileImage?.length > 0) {
+      formData.append("profileImage", data.profileImage[0]);
+    } else {
+      const response = await fetch(defaultAvatar);
+      const blob = await response.blob();
+      formData.append("profileImage", blob, defaultAvatar);
+    }
     return formData;
   };
   async function handleRegister(data: RegisterData) {
     // console.log(data);
-    let registerDataForm = appendRegisterFormData(data);
     setIsLoading(true);
     try {
+      let registerDataForm = await appendRegisterFormData(data);
       const response = await axios.post(
         `${baseUrl}/admin/users`,
-        registerDataForm
+        registerDataForm,
       );
       // console.log(response);
       toast.success("Account Created Succefully");
       navigate("/Authentication");
     } catch (error) {
       // console.log(error);
-      toast.error(error?.response?.data?.message || "Somthing went wrong!");
+      const err = error as AxiosError<{ message?: string }>;
+      toast.error(err?.response?.data?.message || "Somthing went wrong!");
     }
     setIsLoading(false);
-
   }
   return (
     <>
@@ -228,11 +238,15 @@ export default function Register() {
                       <VisuallyHiddenInput
                         type="file"
                         {...register("profileImage", {
-                          required: "Image is required",
+                          // required: "Image is required",
                         })}
-                        onChange={(e) =>
-                          setUserImage(URL.createObjectURL(e?.target?.files[0]))
-                        }
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          // setUserImage(URL.createObjectURL(e?.target?.files[0]))
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setUserImage(URL.createObjectURL(file));
+                          }
+                        }}
                       />
                     </Button>
                     {errors.profileImage && (
@@ -252,15 +266,15 @@ export default function Register() {
                       margin="normal"
                       fullWidth
                       id="userName"
-                      
+                      type="text"
                       // label="Email Address"
-                      autoComplete="username"
-                      autoFocus
+                      autoComplete="userName"
+                      // autoFocus
                       {...register("userName", userNameValidation)}
                     />
-                    {errors.username && (
+                    {errors.userName && (
                       <Typography variant="body2" sx={{ color: "error.light" }}>
-                        {errors?.username?.message}
+                        {errors?.userName?.message}
                       </Typography>
                     )}
                   </Box>
@@ -385,25 +399,29 @@ export default function Register() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 5, mb: 2, bgcolor: "primary", py: 2,height:"50px" }}
+                    sx={{
+                      mt: 5,
+                      mb: 2,
+                      bgcolor: "primary",
+                      py: 2,
+                      height: "50px",
+                    }}
                     disabled={isLoading}
                   >
-                     {isLoading ? (
-                  
-                  <ThreeDots
-                   visible={true}
-                   height="80"
-                   width="80"
-                   color="#1966d2"
-                   radius="9"
-                   ariaLabel="three-dots-loading"
-                   wrapperStyle={{}}
-                   wrapperClass=""
-                   />  
-                               
-                                 ) : (
-                                   "Sign up"
-                                 )}
+                    {isLoading ? (
+                      <ThreeDots
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color="#1966d2"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    ) : (
+                      "Sign up"
+                    )}
                   </Button>
                   {/* <Button
                     type="submit"
@@ -413,9 +431,6 @@ export default function Register() {
                   >
                     Sign up
                   </Button> */}
-
-                 
-             
                 </Box>
               </Container>
             </Box>
