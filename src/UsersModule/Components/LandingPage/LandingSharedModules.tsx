@@ -16,8 +16,8 @@ type adsImg = {
     image1: File;
     image2: File;
     goToRoom: Function;
-    firstAd: {};
-    secondAd: {};
+    firstAd: {room:{_id:string, price:number}};
+    secondAd: {room:{_id:string, price:number}};
     addfav: Function;
     index: number[];
   };
@@ -201,7 +201,7 @@ type adsImg = {
     hight: string;
     bottom: string;
     goToRoom: Function;
-    curruntAd: {};
+    curruntAd: {room?:{_id:string}};
     addfav: Function;
   };
   

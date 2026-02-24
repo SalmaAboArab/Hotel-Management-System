@@ -14,7 +14,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 
 type AdsProps = {
-  fiveAds: Array<object>;
+  fiveAds: {room: {price: number; images: any[], _id: string}}[];
   openAnonymousAlert: Function;
 };
 
